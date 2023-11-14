@@ -1,0 +1,14 @@
+# Output
+
+Output of the task
+
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `upload`                                                                                       | [Optional[components.TaskUploadOutput]](../../models/components/taskuploadoutput.md)           | :heavy_minus_sign:                                                                             | Output of the upload task                                                                      |
+| `import_`                                                                                      | [Optional[components.UploadOutput]](../../models/components/uploadoutput.md)                   | :heavy_minus_sign:                                                                             | Output of the upload task                                                                      |
+| `export`                                                                                       | [Optional[components.Export]](../../models/components/export.md)                               | :heavy_minus_sign:                                                                             | Output of the export task                                                                      |
+| `export_data`                                                                                  | [Optional[components.TaskSchemasExportData]](../../models/components/taskschemasexportdata.md) | :heavy_minus_sign:                                                                             | Output of the export data task                                                                 |
+| `transcode`                                                                                    | [Optional[components.TaskTranscode]](../../models/components/tasktranscode.md)                 | :heavy_minus_sign:                                                                             | N/A                                                                                            |

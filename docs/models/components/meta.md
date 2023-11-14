@@ -1,0 +1,11 @@
+# Meta
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `live`                                                                               | *Optional[float]*                                                                    | :heavy_minus_sign:                                                                   | N/A                                                                                  |
+| `playback_policy`                                                                    | [Optional[components.PlaybackPolicy]](../../models/components/playbackpolicy.md)     | :heavy_minus_sign:                                                                   | Whether the playback policy for a asset or stream is public or signed                |
+| `source`                                                                             | List[[components.PlaybackInfoSource](../../models/components/playbackinfosource.md)] | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `attestation`                                                                        | [Optional[components.Attestation]](../../models/components/attestation.md)           | :heavy_minus_sign:                                                                   | N/A                                                                                  |
