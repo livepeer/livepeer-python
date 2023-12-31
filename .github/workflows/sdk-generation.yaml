@@ -13,8 +13,7 @@ jobs:
     uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-generation.yaml@v14 
     with:
       speakeasy_version: latest
-      openapi_docs: |
-        - location: https://raw.githubusercontent.com/livepeer/studio/master/packages/api/src/schema/api-schema.yaml
+      openapi_docs: "https://raw.githubusercontent.com/livepeer/studio/master/packages/api/src/schema/api-schema.yaml"
       languages: |-
         - python
       publish_python: true # Tells the generation action to generate artifacts for publishing to PyPI
