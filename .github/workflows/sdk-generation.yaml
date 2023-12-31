@@ -22,6 +22,6 @@ jobs:
       force: ${{ github.event.inputs.force }}
     secrets:
       speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}
-      github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      github_access_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       pypi_token: ${{ secrets.PYPI_TOKEN }}
 
