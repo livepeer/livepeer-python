@@ -5,6 +5,7 @@ import dataclasses
 from .creator_id import CreatorID
 from .ffmpeg_profile import FfmpegProfile
 from .playback_policy import PlaybackPolicy
+from .target_output import TargetOutput
 from dataclasses_json import Undefined, dataclass_json
 from sdk import utils
 from typing import List, Optional, Union
@@ -12,25 +13,8 @@ from typing import List, Optional, Union
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class StreamTargets:
-    profile: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profile') }})
-    r"""Name of the transcoding profile that should be sent. Use
-    \"source\" for pushing the source stream data
-    """
-    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
-    r"""ID of the multistream target object where to push this stream"""
-    video_only: Optional[bool] = dataclasses.field(default=False, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('videoOnly'), 'exclude': lambda f: f is None }})
-    r"""If true, the stream audio will be muted, and only silent
-    video will be pushed to the target.
-    """
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
 class StreamMultistream:
-    targets: Optional[List[StreamTargets]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('targets'), 'exclude': lambda f: f is None }})
+    targets: Optional[List[TargetOutput]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('targets'), 'exclude': lambda f: f is None }})
     r"""References to targets where this stream will be simultaneously
     streamed to
     """
@@ -43,7 +27,7 @@ class StreamMultistream:
 class Stream:
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     created_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('createdAt'), 'exclude': lambda f: f is None }})
-    r"""Timestamp (in milliseconds) at which the stream object was created"""
+    r"""Timestamp (in milliseconds) at which stream object was created"""
     created_by_token_name: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('createdByTokenName'), 'exclude': lambda f: f is None }})
     r"""Name of the token used to create this object"""
     creator_id: Optional[Union[CreatorID1]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
@@ -63,7 +47,7 @@ class Stream:
     outgoing_rate: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outgoingRate'), 'exclude': lambda f: f is None }})
     r"""Rate at which transcodedBytes increases (bytes/second)"""
     parent_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('parentId'), 'exclude': lambda f: f is None }})
-    r"""Points to the parent stream object"""
+    r"""Points to parent stream object"""
     playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
     r"""Used to form playback URL"""
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
@@ -78,7 +62,7 @@ class Stream:
     source_segments_duration: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('sourceSegmentsDuration'), 'exclude': lambda f: f is None }})
     r"""Duration of all the source segments, sec"""
     stream_key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('streamKey'), 'exclude': lambda f: f is None }})
-    r"""Used to form the RTMP ingest URL"""
+    r"""Used to form RTMP ingest URL"""
     suspended: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('suspended'), 'exclude': lambda f: f is None }})
     r"""If currently suspended"""
     transcoded_bytes: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcodedBytes'), 'exclude': lambda f: f is None }})

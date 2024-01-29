@@ -2,19 +2,13 @@
 
 from __future__ import annotations
 import dataclasses
-from .asset import Asset, AssetInput
+from .asset import Asset
 from .creator_id import CreatorID
 from .encryption import Encryption
-from .encryption_output import EncryptionOutput
-from .export_task_params import ExportTaskParams, ExportTaskParams1
-from .ffmpeg_profile import FfmpegProfile
+from .export_task_params import ExportTaskParams
 from .input_creator_id import InputCreatorID
 from .ipfs_export_params import IpfsExportParams
-from .ipfs_export_params1 import IpfsExportParams1
-from .upload import Upload
-from .upload_input import UploadInput
-from .upload_output import UploadOutput
-from .upload_output1 import UploadOutput1
+from .transcode_profile import TranscodeProfile
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from sdk import utils
@@ -23,23 +17,19 @@ from typing import Any, Dict, List, Optional, Union
 class TaskType(str, Enum):
     r"""Type of the task"""
     UPLOAD = 'upload'
-    IMPORT = 'import'
     EXPORT = 'export'
     EXPORT_DATA = 'export-data'
-    TRANSCODE = 'transcode'
     TRANSCODE_FILE = 'transcode-file'
     CLIP = 'clip'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class TaskSchemasUploadOutput:
+class Upload:
     r"""Parameters for the upload task"""
-    encryption: Optional[EncryptionOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
-    recorded_session_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordedSessionId'), 'exclude': lambda f: f is None }})
-    r"""ID of the original recorded session to avoid re-transcoding
-    of the same content. Only used for import task.
-    """
+    c2pa: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('c2pa'), 'exclude': lambda f: f is None }})
+    r"""Decides if the output video should include C2PA signature"""
+    encryption: Optional[Encryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
     url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url'), 'exclude': lambda f: f is None }})
     r"""URL of the asset to \\"upload\\" """
     
@@ -70,17 +60,7 @@ class ExportData:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Transcode:
-    r"""Parameters for the transcode task"""
-    profile: Optional[FfmpegProfile] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profile'), 'exclude': lambda f: f is None }})
-    r"""LMPS ffmpeg profile"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class Input:
+class TaskInput:
     r"""Input video file to transcode"""
     url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url'), 'exclude': lambda f: f is None }})
     r"""URL of a video to transcode, accepts object-store format
@@ -104,7 +84,7 @@ class TaskStorage:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Hls:
+class TaskHls:
     r"""HLS output format"""
     path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('path'), 'exclude': lambda f: f is None }})
     r"""Path for the HLS output"""
@@ -114,7 +94,7 @@ class Hls:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Mp4:
+class TaskMp4:
     r"""MP4 output format"""
     path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('path'), 'exclude': lambda f: f is None }})
     r"""Path for the MP4 output"""
@@ -124,11 +104,11 @@ class Mp4:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Outputs:
+class TaskOutputs:
     r"""Output formats"""
-    hls: Optional[Hls] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hls'), 'exclude': lambda f: f is None }})
+    hls: Optional[TaskHls] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hls'), 'exclude': lambda f: f is None }})
     r"""HLS output format"""
-    mp4: Optional[Mp4] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('mp4'), 'exclude': lambda f: f is None }})
+    mp4: Optional[TaskMp4] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('mp4'), 'exclude': lambda f: f is None }})
     r"""MP4 output format"""
     
 
@@ -138,38 +118,20 @@ class Outputs:
 @dataclasses.dataclass
 class TranscodeFile:
     r"""Parameters for the transcode-file task"""
+    c2pa: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('c2pa'), 'exclude': lambda f: f is None }})
+    r"""Decides if the output video should include C2PA signature"""
     creator_id: Optional[Union[Union[CreatorID1], str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
-    input: Optional[Input] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('input'), 'exclude': lambda f: f is None }})
+    input: Optional[TaskInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('input'), 'exclude': lambda f: f is None }})
     r"""Input video file to transcode"""
-    outputs: Optional[Outputs] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outputs'), 'exclude': lambda f: f is None }})
+    outputs: Optional[TaskOutputs] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outputs'), 'exclude': lambda f: f is None }})
     r"""Output formats"""
-    profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
+    profiles: Optional[List[TranscodeProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
     storage: Optional[TaskStorage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     r"""Storage for the output files"""
     target_segment_size_secs: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('targetSegmentSizeSecs'), 'exclude': lambda f: f is None }})
     r"""How many seconds the duration of each output segment should
     be
     """
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskParams:
-    r"""Parameters of the task"""
-    export: Optional[Union[ExportTaskParamsSchemas1, ExportTaskParams2]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('export'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the export task"""
-    export_data: Optional[ExportData] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exportData'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the export-data task"""
-    import_: Optional[UploadOutput1] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('import'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the upload task"""
-    transcode: Optional[Transcode] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcode'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the transcode task"""
-    transcode_file: Optional[TranscodeFile] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcode-file'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the transcode-file task"""
-    upload: Optional[TaskSchemasUploadOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('upload'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the upload task"""
     
 
 
@@ -213,6 +175,23 @@ class Clip:
     
 
 
+
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
+class Params:
+    r"""Parameters of the task"""
+    clip: Optional[Clip] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('clip'), 'exclude': lambda f: f is None }})
+    export: Optional[Union[ExportTaskParams1, ExportTaskParams2]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('export'), 'exclude': lambda f: f is None }})
+    r"""Parameters for the export task"""
+    export_data: Optional[ExportData] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exportData'), 'exclude': lambda f: f is None }})
+    r"""Parameters for the export-data task"""
+    transcode_file: Optional[TranscodeFile] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcode-file'), 'exclude': lambda f: f is None }})
+    r"""Parameters for the transcode-file task"""
+    upload: Optional[Upload] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('upload'), 'exclude': lambda f: f is None }})
+    r"""Parameters for the upload task"""
+    
+
+
 class TaskPhase(str, Enum):
     r"""Phase of the task"""
     PENDING = 'pending'
@@ -243,7 +222,7 @@ class TaskStatus:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class TaskUploadOutput:
+class TaskUpload:
     r"""Output of the upload task"""
     additional_properties: Optional[Dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'exclude': lambda f: f is None }})
     asset_spec: Optional[Asset] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('assetSpec'), 'exclude': lambda f: f is None }})
@@ -292,28 +271,9 @@ class TaskSchemasIpfs:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class TaskSchemasExportData:
+class TaskExportData:
     r"""Output of the export data task"""
     ipfs: Optional[TaskSchemasIpfs] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskAsset:
-    additional_properties: Optional[Dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'exclude': lambda f: f is None }})
-    asset_spec: Optional[Asset] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('assetSpec'), 'exclude': lambda f: f is None }})
-    metadata_file_path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadataFilePath'), 'exclude': lambda f: f is None }})
-    video_file_path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('videoFilePath'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskTranscode:
-    asset: Optional[TaskAsset] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('asset'), 'exclude': lambda f: f is None }})
     
 
 
@@ -324,12 +284,9 @@ class Output:
     r"""Output of the task"""
     export: Optional[Export] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('export'), 'exclude': lambda f: f is None }})
     r"""Output of the export task"""
-    export_data: Optional[TaskSchemasExportData] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exportData'), 'exclude': lambda f: f is None }})
+    export_data: Optional[TaskExportData] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exportData'), 'exclude': lambda f: f is None }})
     r"""Output of the export data task"""
-    import_: Optional[UploadOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('import'), 'exclude': lambda f: f is None }})
-    r"""Output of the upload task"""
-    transcode: Optional[TaskTranscode] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcode'), 'exclude': lambda f: f is None }})
-    upload: Optional[TaskUploadOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('upload'), 'exclude': lambda f: f is None }})
+    upload: Optional[TaskUpload] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('upload'), 'exclude': lambda f: f is None }})
     r"""Output of the upload task"""
     
 
@@ -338,7 +295,6 @@ class Output:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class Task:
-    clip: Optional[Clip] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('clip'), 'exclude': lambda f: f is None }})
     created_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('createdAt'), 'exclude': lambda f: f is None }})
     r"""Timestamp (in milliseconds) at which task was created"""
     id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
@@ -349,150 +305,16 @@ class Task:
     r"""Output of the task"""
     output_asset_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outputAssetId'), 'exclude': lambda f: f is None }})
     r"""ID of the output asset"""
-    params: Optional[TaskParams] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('params'), 'exclude': lambda f: f is None }})
+    params: Optional[Params] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('params'), 'exclude': lambda f: f is None }})
     r"""Parameters of the task"""
+    requester_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('requesterId'), 'exclude': lambda f: f is None }})
+    r"""ID of the requester hash(IP + SALT + PlaybackId)"""
     scheduled_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('scheduledAt'), 'exclude': lambda f: f is None }})
     r"""Timestamp (in milliseconds) at which the task was scheduled for
     execution (e.g. after file upload finished).
     """
     status: Optional[TaskStatus] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
     r"""Status of the task"""
-    type: Optional[TaskType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
-    r"""Type of the task"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskUpload:
-    r"""Parameters for the upload task"""
-    encryption: Optional[Encryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
-    recorded_session_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordedSessionId'), 'exclude': lambda f: f is None }})
-    r"""ID of the original recorded session to avoid re-transcoding
-    of the same content. Only used for import task.
-    """
-    url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url'), 'exclude': lambda f: f is None }})
-    r"""URL of the asset to \\"upload\\" """
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskExportData:
-    r"""Parameters for the export-data task"""
-    content: Content = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('content') }})
-    r"""File content to store into IPFS"""
-    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
-    r"""Optional ID of the content"""
-    ipfs: Optional[IpfsExportParams1] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is None }})
-    type: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
-    r"""Optional type of content"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class Params:
-    r"""Parameters of the task"""
-    export: Optional[Union[ExportTaskParamsSchemas1, ExportTaskParamsSchemas2]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('export'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the export task"""
-    export_data: Optional[TaskExportData] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exportData'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the export-data task"""
-    import_: Optional[Upload] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('import'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the upload task"""
-    transcode: Optional[Transcode] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcode'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the transcode task"""
-    transcode_file: Optional[TranscodeFile] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcode-file'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the transcode-file task"""
-    upload: Optional[TaskUpload] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('upload'), 'exclude': lambda f: f is None }})
-    r"""Parameters for the upload task"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskUploadInput:
-    r"""Output of the upload task"""
-    additional_properties: Optional[Dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'exclude': lambda f: f is None }})
-    asset_spec: Optional[AssetInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('assetSpec'), 'exclude': lambda f: f is None }})
-    metadata_file_path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadataFilePath'), 'exclude': lambda f: f is None }})
-    video_file_path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('videoFilePath'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskIpfsInput:
-    video_file_cid: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('videoFileCid') }})
-    r"""IPFS CID of the exported video file"""
-    nft_metadata_cid: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('nftMetadataCid'), 'exclude': lambda f: f is None }})
-    r"""IPFS CID of the default metadata exported for the video"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskExport:
-    r"""Output of the export task"""
-    ipfs: Optional[TaskIpfsInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskAssetInput:
-    additional_properties: Optional[Dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'exclude': lambda f: f is None }})
-    asset_spec: Optional[AssetInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('assetSpec'), 'exclude': lambda f: f is None }})
-    metadata_file_path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadataFilePath'), 'exclude': lambda f: f is None }})
-    video_file_path: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('videoFilePath'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskTranscodeInput:
-    asset: Optional[TaskAssetInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('asset'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskOutput:
-    r"""Output of the task"""
-    export: Optional[TaskExport] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('export'), 'exclude': lambda f: f is None }})
-    r"""Output of the export task"""
-    export_data: Optional[TaskSchemasExportData] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exportData'), 'exclude': lambda f: f is None }})
-    r"""Output of the export data task"""
-    import_: Optional[UploadInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('import'), 'exclude': lambda f: f is None }})
-    r"""Output of the upload task"""
-    transcode: Optional[TaskTranscodeInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('transcode'), 'exclude': lambda f: f is None }})
-    upload: Optional[TaskUploadInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('upload'), 'exclude': lambda f: f is None }})
-    r"""Output of the upload task"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class TaskInput:
-    clip: Optional[Clip] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('clip'), 'exclude': lambda f: f is None }})
-    input_asset_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('inputAssetId'), 'exclude': lambda f: f is None }})
-    r"""ID of the input asset"""
-    output: Optional[TaskOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('output'), 'exclude': lambda f: f is None }})
-    r"""Output of the task"""
-    output_asset_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outputAssetId'), 'exclude': lambda f: f is None }})
-    r"""ID of the output asset"""
-    params: Optional[Params] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('params'), 'exclude': lambda f: f is None }})
-    r"""Parameters of the task"""
     type: Optional[TaskType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
     r"""Type of the task"""
     

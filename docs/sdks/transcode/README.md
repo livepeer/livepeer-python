@@ -7,7 +7,128 @@
 
 ## create
 
-Transcode a video
+`POST /transcode` transcodes a video file and uploads the results to the
+specified storage service. 
+\
+\
+Transcoding is asynchronous so you will need to check the status of the
+task in order to determine when transcoding is complete. The `id` field
+in the response is the unique ID for the transcoding `Task`. The task
+status can be queried using the [GET tasks
+endpoint](https://docs.livepeer.org/reference/api/get-tasks):
+\
+\
+When `status.phase` is `completed`,  transcoding will be complete and
+the results will be stored in the storage service and the specified
+output location.
+\
+\
+The results will be available under `params.outputs.hls.path` and
+`params.outputs.mp4.path` in the specified storage service.
+## Input
+\
+This endpoint currently supports the following inputs:
+- HTTP
+- S3 API Compatible Service
+\
+\
+**HTTP**
+\
+A public HTTP URL can be used to read a video file.
+```json
+{
+    "url": "https://www.example.com/video.mp4"
+}
+```
+| Name | Type   | Description                          |
+| ---- | ------ | ------------------------------------ |
+| url  | string | A public HTTP URL for the video file. |
+
+Note: For IPFS HTTP gateway URLs, the API currently only supports “path
+style” URLs and does not support “subdomain style” URLs. The API will
+support both styles of URLs in a future update.
+\
+\
+**S3 API Compatible Service**
+\
+\
+S3 credentials can be used to authenticate with a S3 API compatible
+service to read a video file.
+
+```json
+{
+    "type": "s3",
+    "endpoint": "https://gateway.storjshare.io",
+    "credentials": {
+        "accessKeyId": "$ACCESS_KEY_ID",
+        "secretAccessKey": "$SECRET_ACCESS_KEY"
+    },
+    "bucket": "inbucket",
+    "path": "/video/source.mp4"
+}
+```
+
+
+## Storage
+\
+This endpoint currently supports the following storage services:
+- S3 API Compatible Service
+- Web3 Storage
+\
+\
+**S3 API Compatible Service**
+```json
+{
+  "type": "s3",
+    "endpoint": "https://gateway.storjshare.io",
+    "credentials": {
+        "accessKeyId": "$ACCESS_KEY_ID",
+        "secretAccessKey": "$SECRET_ACCESS_KEY"
+    },
+    "bucket": "mybucket"
+}
+```
+
+**Web3 Storage**
+
+```json
+{
+  "type": "web3.storage",
+    "credentials": {
+        "proof": "$UCAN_DELEGATION_PROOF",
+    }
+}
+```
+
+
+
+## Outputs
+\
+This endpoint currently supports the following output types:
+- HLS
+- MP4
+
+**HLS**
+
+```json
+{
+  "hls": {
+        "path": "/samplevideo/hls"
+    }
+}
+```
+
+
+**MP4**
+
+```json
+{
+  "mp4": {
+        "path": "/samplevideo/mp4"
+    }
+}
+```
+
 
 ### Example Usage
 
@@ -19,240 +140,37 @@ s = sdk.SDK(
     api_key="",
 )
 
-req = components.TaskInput(
-    input_asset_id='09F8B46C-61A0-4254-9875-F71F4C605BC7',
-    output_asset_id='09F8B46C-61A0-4254-9875-F71F4C605BC7',
-    params=components.Params(
-        upload=components.TaskUpload(
-            url='https://cdn.livepeer.com/ABC123/filename.mp4',
-            encryption=components.Encryption(
-                encrypted_key='string',
-            ),
-            recorded_session_id='78df0075-b5f3-4683-a618-1086faca35dc',
-        ),
-        import_=components.Upload(
-            url='https://cdn.livepeer.com/ABC123/filename.mp4',
-            encryption=components.Encryption(
-                encrypted_key='string',
-            ),
-            recorded_session_id='78df0075-b5f3-4683-a618-1086faca35dc',
-        ),
-        components.ExportTaskParamsSchemas1(
-            custom=components.Custom(
-                url='https://s3.amazonaws.com/my-bucket/path/filename.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LLMMB',
-                headers={
-                    "key": 'string',
-                },
-            ),
-        ),
-        export_data=components.TaskExportData(
-            content=components.Content(),
-            ipfs=components.IpfsExportParams1(
-                nft_metadata=components.NftMetadata(),
-                components.IpfsExportParamsSchemas1(
-                    jwt='string',
-                ),
-            ),
-        ),
-        transcode=components.Transcode(
-            profile=components.FfmpegProfile(
-                width=1280,
-                name='720p',
-                height=720,
-                bitrate=4000,
-                fps=30,
-                fps_den=1,
-                gop='60',
-                profile=components.Profile.H264_HIGH,
-                encoder=components.Encoder.H264,
-            ),
-        ),
-        transcode_file=components.TranscodeFile(
-            input=components.Input(
-                url='https://cdn.livepeer.com/ABC123/filename.mp4',
-            ),
-            storage=components.TaskStorage(
-                url='s3+https://accessKeyId:secretAccessKey@s3Endpoint/bucket',
-            ),
-            outputs=components.Outputs(
-                hls=components.Hls(
-                    path='/samplevideo/hls',
-                ),
-                mp4=components.Mp4(
-                    path='/samplevideo/mp4',
-                ),
-            ),
-            profiles=[
-                components.FfmpegProfile(
-                    width=1280,
-                    name='720p',
-                    height=720,
-                    bitrate=4000,
-                    fps=30,
-                    fps_den=1,
-                    gop='60',
-                    profile=components.Profile.H264_HIGH,
-                    encoder=components.Encoder.H264,
-                ),
-            ],
-            components.CreatorID1(
-                type=components.CreatorIDType.UNVERIFIED,
-                value='string',
-            ),
+req = components.TranscodePayload(
+    components.TranscodePayload1(
+        url='https://s3.amazonaws.com/bucket/file.mp4',
+    ),
+    components.TranscodePayloadSchemas1(
+        type=components.TranscodePayloadSchemasType.S3,
+        endpoint='https://gateway.storjshare.io',
+        bucket='outputbucket',
+        credentials=components.TranscodePayloadCredentials(
+            access_key_id='AKIAIOSFODNN7EXAMPLE',
+            secret_access_key='wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
         ),
     ),
-    clip=components.Clip(
-        clip_strategy=components.ClipStrategy(),
-    ),
-    output=components.TaskOutput(
-        upload=components.TaskUploadInput(
-            asset_spec=components.AssetInput(
-                type=components.AssetType.VIDEO,
-                playback_id='eaw4nk06ts2d0mzb',
-                playback_policy=components.PlaybackPolicy(
-                    type=components.Type.JWT,
-                    webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
-                    webhook_context={
-                        "foo": 'string',
-                    },
-                ),
-                components.Asset1(
-                    type=components.AssetSchemasType.URL,
-                    url='https://impartial-dump.com',
-                    encryption=components.Encryption(
-                        encrypted_key='string',
-                    ),
-                ),
-                components.CreatorID1(
-                    type=components.CreatorIDType.UNVERIFIED,
-                    value='string',
-                ),
-                storage=components.AssetStorageInput(
-                    ipfs=components.AssetIpfsInput(
-                        spec=components.AssetSpec(
-                            nft_metadata=components.AssetNftMetadata(),
-                        ),
-                        cid='bafybeihoqtemwitqajy6d654tmghqqvxmzgblddj2egst6yilplr5num6u',
-                        nft_metadata=components.IpfsFileInfoInput(
-                            cid='bafybeihoqtemwitqajy6d654tmghqqvxmzgblddj2egst6yilplr5num6u',
-                        ),
-                    ),
-                ),
-                name='filename.mp4',
-                hash=[
-                    components.Hash(
-                        hash='9b560b28b85378a5004117539196ab24e21bbd75b0e9eb1a8bc7c5fd80dc5b57',
-                        algorithm='sha256',
-                    ),
-                ],
-            ),
-            additional_properties={
-                "key": 'string',
-            },
+    outputs=components.Outputs(
+        hls=components.Hls(
+            path='/samplevideo/hls',
         ),
-        import_=components.UploadInput(
-            asset_spec=components.AssetInput(
-                type=components.AssetType.VIDEO,
-                playback_id='eaw4nk06ts2d0mzb',
-                playback_policy=components.PlaybackPolicy(
-                    type=components.Type.WEBHOOK,
-                    webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
-                    webhook_context={
-                        "foo": 'string',
-                    },
-                ),
-                components.Asset1(
-                    type=components.AssetSchemasType.URL,
-                    url='http://yummy-shift.info',
-                    encryption=components.Encryption(
-                        encrypted_key='string',
-                    ),
-                ),
-                components.CreatorID1(
-                    type=components.CreatorIDType.UNVERIFIED,
-                    value='string',
-                ),
-                storage=components.AssetStorageInput(
-                    ipfs=components.AssetIpfsInput(
-                        spec=components.AssetSpec(
-                            nft_metadata=components.AssetNftMetadata(),
-                        ),
-                        cid='bafybeihoqtemwitqajy6d654tmghqqvxmzgblddj2egst6yilplr5num6u',
-                        nft_metadata=components.IpfsFileInfoInput(
-                            cid='bafybeihoqtemwitqajy6d654tmghqqvxmzgblddj2egst6yilplr5num6u',
-                        ),
-                    ),
-                ),
-                name='filename.mp4',
-                hash=[
-                    components.Hash(
-                        hash='9b560b28b85378a5004117539196ab24e21bbd75b0e9eb1a8bc7c5fd80dc5b57',
-                        algorithm='sha256',
-                    ),
-                ],
-            ),
-            additional_properties={
-                "key": 'string',
-            },
+        mp4=components.Mp4(
+            path='/samplevideo/mp4',
         ),
-        export=components.TaskExport(
-            ipfs=components.TaskIpfsInput(
-                video_file_cid='string',
-            ),
-        ),
-        export_data=components.TaskSchemasExportData(
-            ipfs=components.TaskSchemasIpfs(
-                cid='string',
-            ),
-        ),
-        transcode=components.TaskTranscodeInput(
-            asset=components.TaskAssetInput(
-                asset_spec=components.AssetInput(
-                    type=components.AssetType.VIDEO,
-                    playback_id='eaw4nk06ts2d0mzb',
-                    playback_policy=components.PlaybackPolicy(
-                        type=components.Type.WEBHOOK,
-                        webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
-                        webhook_context={
-                            "foo": 'string',
-                        },
-                    ),
-                    components.Asset1(
-                        type=components.AssetSchemasType.URL,
-                        url='https://abandoned-incident.biz',
-                        encryption=components.Encryption(
-                            encrypted_key='string',
-                        ),
-                    ),
-                    components.CreatorID1(
-                        type=components.CreatorIDType.UNVERIFIED,
-                        value='string',
-                    ),
-                    storage=components.AssetStorageInput(
-                        ipfs=components.AssetIpfsInput(
-                            spec=components.AssetSpec(
-                                nft_metadata=components.AssetNftMetadata(),
-                            ),
-                            cid='bafybeihoqtemwitqajy6d654tmghqqvxmzgblddj2egst6yilplr5num6u',
-                            nft_metadata=components.IpfsFileInfoInput(
-                                cid='bafybeihoqtemwitqajy6d654tmghqqvxmzgblddj2egst6yilplr5num6u',
-                            ),
-                        ),
-                    ),
-                    name='filename.mp4',
-                    hash=[
-                        components.Hash(
-                            hash='9b560b28b85378a5004117539196ab24e21bbd75b0e9eb1a8bc7c5fd80dc5b57',
-                            algorithm='sha256',
-                        ),
-                    ],
-                ),
-                additional_properties={
-                    "key": 'string',
-                },
-            ),
+        fmp4=components.Fmp4(
+            path='/samplevideo/fmp4',
         ),
     ),
+    profiles=[
+        components.TranscodeProfile(
+            name='720p',
+            bitrate=638424,
+        ),
+    ],
+'string',
 )
 
 res = s.transcode.create(req)
@@ -264,9 +182,9 @@ if res.task is not None:
 
 ### Parameters
 
-| Parameter                                                    | Type                                                         | Required                                                     | Description                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `request`                                                    | [components.TaskInput](../../models/components/taskinput.md) | :heavy_check_mark:                                           | The request object to use for the request.                   |
+| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `request`                                                                  | [components.TranscodePayload](../../models/components/transcodepayload.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
 
 
 ### Response

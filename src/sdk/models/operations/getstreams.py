@@ -10,7 +10,6 @@ from typing import List, Optional
 @dataclasses.dataclass
 class GetStreamsRequest:
     streamsonly: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'streamsonly', 'style': 'form', 'explode': True }})
-    r"""Filter the API response and retrieve a specific subset of stream objects based on certain criteria"""
     
 
 
@@ -21,7 +20,7 @@ class GetStreamsResponse:
     r"""HTTP response content type for this operation"""
     status_code: int = dataclasses.field()
     r"""HTTP response status code for this operation"""
-    data: Optional[List[components_stream.Stream]] = dataclasses.field(default=None)
+    classes: Optional[List[components_stream.Stream]] = dataclasses.field(default=None)
     r"""Success"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     r"""Raw HTTP response; suitable for custom response parsing"""

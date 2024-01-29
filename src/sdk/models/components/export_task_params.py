@@ -3,7 +3,6 @@
 from __future__ import annotations
 import dataclasses
 from .ipfs_export_params import IpfsExportParams
-from .ipfs_export_params1 import IpfsExportParams1
 from dataclasses_json import Undefined, dataclass_json
 from sdk import utils
 from typing import Dict, Optional
@@ -34,18 +33,9 @@ class Custom:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class ExportTaskParamsSchemas1:
+class ExportTaskParams1:
     r"""Parameters for the export task"""
     custom: Custom = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('custom') }})
     r"""custom URL parameters for the export task"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class ExportTaskParamsSchemas2:
-    r"""Parameters for the export task"""
-    ipfs: IpfsExportParams1 = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs') }})
     
 

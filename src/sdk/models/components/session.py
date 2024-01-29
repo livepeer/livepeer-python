@@ -20,7 +20,7 @@ class RecordingStatus(str, Enum):
 class Session:
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     created_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('createdAt'), 'exclude': lambda f: f is None }})
-    r"""Timestamp (in milliseconds) at which the stream object was created"""
+    r"""Timestamp (in milliseconds) at which stream object was created"""
     id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
     ingest_rate: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ingestRate'), 'exclude': lambda f: f is None }})
     r"""Rate at which sourceBytes increases (bytes/second)"""
@@ -36,9 +36,9 @@ class Session:
     outgoing_rate: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outgoingRate'), 'exclude': lambda f: f is None }})
     r"""Rate at which transcodedBytes increases (bytes/second)"""
     parent_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('parentId'), 'exclude': lambda f: f is None }})
-    r"""Points to the parent stream object"""
+    r"""Points to parent stream object"""
     playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
-    r"""Used to form the playback URL"""
+    r"""Used to form playback URL"""
     profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
     record: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('record'), 'exclude': lambda f: f is None }})
     r"""Should this stream be recorded? Uses default settings. For more

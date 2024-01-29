@@ -8,7 +8,7 @@
 * [create_via_url](#create_via_url) - Upload asset via URL
 * [delete](#delete) - Delete an asset
 * [get](#get) - Retrieves an asset
-* [update](#update) - Update an asset
+* [update](#update) - Patch an asset
 
 ## get_all
 
@@ -26,7 +26,7 @@ s = sdk.SDK(
 
 res = s.asset.get_all()
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -43,7 +43,78 @@ if res.data is not None:
 
 ## create
 
-Upload an asset
+To upload an asset, your first need to request for a direct upload URL
+and only then actually upload the contents of the asset.
+\
+\
+Once you created a upload link, you have 2 options, resumable or direct
+upload. For a more reliable experience, you should use resumable uploads
+which will work better for users with unreliable or slow network
+connections. If you want a simpler implementation though, you should
+just use a direct upload.
+
+
+## Direct Upload
+For a direct upload, make a PUT request to the URL received in the url
+field of the response above, with the raw video file as the request
+body. response above:
+
+
+## Resumable Upload
+Livepeer supports resumable uploads via Tus. This section provides a
+simple example of how to use tus-js-client to upload a video file.
+\
+\
+From the previous section, we generated a URL to upload a video file to
+Livepeer on POST /api/asset/request-upload. You should use the
+tusEndpoint field of the response to upload the video file and track the
+progress:
+
+``` 
+# This assumes there is an `input` element of `type="file"` with id
+`fileInput` in the HTML
+
+
+const input = document.getElementById('fileInput');
+
+const file = input.files[0];
+
+const upload = new tus.Upload(file, {
+  endpoint: tusEndpoint, // URL from `tusEndpoint` field in the
+`/request-upload` response
+  metadata: {
+    filename,
+    filetype: 'video/mp4',
+  },
+  uploadSize: file.size,
+  onError(err) {
+    console.error('Error uploading file:', err);
+  },
+  onProgress(bytesUploaded, bytesTotal) {
+    const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+    console.log('Uploaded ' + percentage + '%');
+  },
+  onSuccess() {
+    console.log('Upload finished:', upload.url);
+  },
+});
+
+const previousUploads = await upload.findPreviousUploads();
+
+if (previousUploads.length > 0) {
+  upload.resumeFromPreviousUpload(previousUploads[0]);
+}
+
+upload.start();
+
+```
+
+> Note: If you are using tus from node.js, you need to add a custom URL
+storage to enable resuming from previous uploads. On the browser, this
+is enabled by default using local storage. In node.js, add urlStorage:
+new tus.FileUrlStorage("path/to/tmp/file"), to the UploadFile object
+definition above.
+
 
 ### Example Usage
 
@@ -60,9 +131,8 @@ req = components.NewAssetPayload(
     static_mp4=True,
     playback_policy=components.PlaybackPolicy(
         type=components.Type.JWT,
-        webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
         webhook_context={
-            "foo": 'string',
+            "key": 'string',
         },
     ),
     components.CreatorID1(
@@ -80,7 +150,7 @@ req = components.NewAssetPayload(
 
 res = s.asset.create(req)
 
-if res.data is not None:
+if res.object is not None:
     # handle response
     pass
 ```
@@ -120,16 +190,15 @@ req = components.NewAssetPayload(
     static_mp4=True,
     playback_policy=components.PlaybackPolicy(
         type=components.Type.WEBHOOK,
-        webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
         webhook_context={
-            "foo": 'string',
+            "key": 'string',
         },
     ),
 'string',
     storage=components.NewAssetPayloadStorage(
         components.NewAssetPayload1(
             spec=components.Spec(
-                nft_metadata=components.SpecNftMetadata(),
+                nft_metadata=components.NftMetadata(),
             ),
         ),
     ),
@@ -141,7 +210,7 @@ req = components.NewAssetPayload(
 
 res = s.asset.create_via_url(req)
 
-if res.data is not None:
+if res.object is not None:
     # handle response
     pass
 ```
@@ -240,7 +309,7 @@ if res.asset is not None:
 
 ## update
 
-Update an asset
+Patch an asset
 
 ### Example Usage
 
@@ -258,9 +327,8 @@ res = s.asset.update(asset_id='string', asset_patch_payload=components.AssetPatc
 'string',
     playback_policy=components.PlaybackPolicy(
         type=components.Type.PUBLIC,
-        webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
         webhook_context={
-            "foo": 'string',
+            "key": 'string',
         },
     ),
     storage=components.Storage(
@@ -283,7 +351,7 @@ if res.asset is not None:
 
 ### Response
 
-**[operations.PatchAssetAssetIDResponse](../../models/operations/patchassetassetidresponse.md)**
+**[operations.UpdateAssetResponse](../../models/operations/updateassetresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

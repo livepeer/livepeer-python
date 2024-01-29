@@ -10,7 +10,8 @@
 
 ## get_viewership
 
-Query viewership metrics
+Requires a private (non-CORS) API key to be used.
+
 
 ### Example Usage
 
@@ -32,7 +33,7 @@ req = operations.GetViewershipsMetricsRequest(
 
 res = s.metrics.get_viewership(req)
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -55,7 +56,8 @@ if res.data is not None:
 
 ## get_creator_viewership
 
-Query creator viewership metrics
+Requires a proof of ownership to be sent in the request, which for now is just the assetId or streamId parameters (1 of those must be in the query-string).
+
 
 ### Example Usage
 
@@ -68,7 +70,7 @@ s = sdk.SDK(
 )
 
 req = operations.GetCreatorMetricsRequest(
-dateutil.parser.isoparse('2021-06-16T23:48:30.007Z'),
+dateutil.parser.isoparse('2022-06-17T03:28:06.363Z'),
 702371,
     breakdown_by=[
         operations.QueryParamBreakdownBy.DEVICE_TYPE,
@@ -77,7 +79,7 @@ dateutil.parser.isoparse('2021-06-16T23:48:30.007Z'),
 
 res = s.metrics.get_creator_viewership(req)
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -100,7 +102,10 @@ if res.data is not None:
 
 ## get_public_total_views
 
-Query public total views metrics
+Allows querying for the public metrics for viewership about a video.
+This can be called from the frontend with a CORS key, or even
+unauthenticated.
+
 
 ### Example Usage
 
@@ -115,7 +120,7 @@ s = sdk.SDK(
 
 res = s.metrics.get_public_total_views(playback_id='string')
 
-if res.data is not None:
+if res.object is not None:
     # handle response
     pass
 ```

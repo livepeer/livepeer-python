@@ -51,6 +51,8 @@ class NewAssetPayload:
     r"""Name of the asset. This is not necessarily the filename, can be a
     custom name or title
     """
+    c2pa: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('c2pa'), 'exclude': lambda f: f is None }})
+    r"""Decides if the output video should include C2PA signature"""
     creator_id: Optional[Union[Union[CreatorID1], str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     encryption: Optional[NewAssetPayloadEncryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
@@ -60,7 +62,9 @@ class NewAssetPayload:
     storage: Optional[NewAssetPayloadStorage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url'), 'exclude': lambda f: f is None }})
     r"""URL where the asset contents can be retrieved. Only allowed (and
-    also required) in the upload asset via URL endpoint.
+    also required) in the upload asset via URL endpoint. For an IPFS
+    source, this should be similar to: `ipfs://{CID}`. For an Arweave
+    source: `ar://{CID}`.
     """
     
 

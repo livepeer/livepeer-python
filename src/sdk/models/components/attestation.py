@@ -6,7 +6,7 @@ from .storage_status import StorageStatus
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from sdk import utils
-from typing import List, Optional
+from typing import Any, List, Optional
 
 class PrimaryType(str, Enum):
     r"""Video Metadata EIP-712 primaryType"""
@@ -57,14 +57,9 @@ class SignatureType(str, Enum):
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class AttestationIpfs:
-    cid: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cid'), 'exclude': lambda f: f is None }})
-    r"""CID of the file on IPFS"""
-    gateway_url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('gatewayUrl'), 'exclude': lambda f: f is None }})
-    r"""URL to access file via HTTP through an IPFS gateway"""
+    dollar_ref: Optional[Any] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('$ref'), 'exclude': lambda f: f is None }})
     updated_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('updatedAt'), 'exclude': lambda f: f is None }})
     r"""Timestamp (in milliseconds) at which IPFS export task was updated"""
-    url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url'), 'exclude': lambda f: f is None }})
-    r"""URL with IPFS scheme for the file"""
     
 
 

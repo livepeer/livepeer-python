@@ -35,7 +35,7 @@ class Webhook:
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.Webhook]])
-                res.data = out
+                res.classes = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
@@ -46,7 +46,9 @@ class Webhook:
     
     
     def create(self) -> operations.CreateWebhookResponse:
-        r"""Create a webhook"""
+        r"""Create a webhook
+        To create a new webhook, you need to make an API call with the events you want to listen for and the URL that will be called when those events occur.
+        """
         base_url = utils.template_url(*self.sdk_configuration.get_server_details())
         
         url = base_url + '/webhook'

@@ -11,7 +11,9 @@ from typing import Optional
 @dataclasses.dataclass
 class MultistreamTarget:
     created_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('createdAt'), 'exclude': lambda f: f is None }})
-    r"""Timestamp (in milliseconds) at which multistream target object was created"""
+    r"""Timestamp (in milliseconds) at which multistream target object was
+    created
+    """
     disabled: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('disabled'), 'exclude': lambda f: f is None }})
     r"""If true then this multistream target will not be used for pushing
     even if it is configured in a stream object.

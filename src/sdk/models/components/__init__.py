@@ -6,39 +6,34 @@ from .attestation import *
 from .clip_payload import *
 from .creator_id import *
 from .encryption import *
-from .encryption_output import *
 from .export_task_params import *
 from .ffmpeg_profile import *
 from .ipfs_export_params import *
-from .ipfs_export_params1 import *
 from .ipfs_file_info import *
-from .ipfs_file_info_input import *
 from .multistream import *
 from .multistream_target import *
 from .multistream_target_input import *
 from .multistream_target_patch_payload import *
 from .new_asset_payload import *
 from .new_stream_payload import *
-from .nftmetadata import *
-from .nftmetadatatemplate import *
 from .playback_info import *
 from .playback_policy import *
 from .security import *
 from .session import *
 from .signing_key import *
-from .signing_key_response_payload import *
 from .spec import *
 from .storage import *
 from .storage_status import *
 from .stream import *
 from .stream_patch_payload import *
+from .target import *
+from .target_add_payload import *
+from .target_output import *
 from .task import *
-from .upload import *
-from .upload_input import *
-from .upload_output import *
-from .upload_output1 import *
+from .transcode_payload import *
+from .transcode_profile import *
 from .usage_metric import *
 from .viewership_metric import *
 from .webhook import *
 
-__all__ = ["Asset","Asset1","Asset1Output","Asset3","AssetInput","AssetIpfs","AssetIpfsInput","AssetNftMetadata","AssetNftMetadataTemplate","AssetPatchPayload","AssetPhase","AssetSchemasSource3Type","AssetSchemasSourceType","AssetSchemasType","AssetSchemasVideoSpecType","AssetSpec","AssetStatus","AssetStorage","AssetStorageInput","AssetType","Attestation","AttestationIpfs","AttestationStorage","Attestations","CatalystPipelineStrategy","Clip","ClipPayload","ClipStrategy","Content","CreatorID1","CreatorIDType","Custom","Domain","Encoder","Encryption","EncryptionOutput","Events","Export","ExportData","ExportTaskParams2","ExportTaskParamsSchemas1","ExportTaskParamsSchemas2","FfmpegProfile","Hash","Hls","Hrn","Input","IpfsExportParams","IpfsExportParams1","IpfsExportParams1Output","IpfsExportParams2","IpfsExportParams2Output","IpfsExportParamsSchemas1","IpfsFileInfo","IpfsFileInfoInput","LastFailure","Message","Meta","Mp4","Multistream","MultistreamSpec","MultistreamTarget","MultistreamTargetInput","MultistreamTargetPatchPayload","Name","NewAssetPayload","NewAssetPayload1","NewAssetPayloadEncryption","NewAssetPayloadStorage","NewStreamPayload","NftMetadata","NftMetadataTemplate","One","Output","Outputs","Params","Phase","PlaybackInfo","PlaybackInfoSchemasType","PlaybackInfoSource","PlaybackInfoType","PlaybackPolicy","PrimaryType","Profile","RecordingStatus","Security","Session","SignatureType","SigningKey","SigningKeyResponsePayload","Spec","SpecNftMetadata","SpecNftMetadataTemplate","Status","Storage","StorageStatus","Stream","StreamMultistream","StreamPatchPayload","StreamTargets","Targets","Task","TaskAsset","TaskAssetInput","TaskExport","TaskExportData","TaskInput","TaskIpfs","TaskIpfsInput","TaskOutput","TaskParams","TaskPhase","TaskSchemasExportData","TaskSchemasIpfs","TaskSchemasUploadOutput","TaskStatus","TaskStorage","TaskTranscode","TaskTranscodeInput","TaskType","TaskUpload","TaskUploadInput","TaskUploadOutput","Tasks","Three","Tracks","Transcode","TranscodeFile","Two","Type","Upload","UploadInput","UploadOutput","UploadOutput1","UsageMetric","Version","VideoSpec","ViewershipMetric","Webhook"]
+__all__ = ["Asset","Asset1","AssetIpfs","AssetNftMetadata","AssetNftMetadataTemplate","AssetPatchPayload","AssetPhase","AssetSchemasSource3Type","AssetSchemasSourceType","AssetSchemasType","AssetSchemasVideoSpecType","AssetSpec","AssetStatus","AssetStorage","AssetType","Attestation","AttestationIpfs","AttestationStorage","Attestations","CatalystPipelineStrategy","Clip","ClipPayload","ClipStrategy","Content","CreatorID1","CreatorIDType","Credentials","Custom","Domain","DvrPlayback","Encoder","Encryption","Events","Export","ExportData","ExportTaskParams1","ExportTaskParams2","FfmpegProfile","Fmp4","Hash","Hls","Hrn","IpfsExportParams","IpfsExportParams1","IpfsExportParams2","IpfsFileInfo","LastFailure","Message","Meta","Mp4","Multistream","MultistreamTarget","MultistreamTargetInput","MultistreamTargetPatchPayload","Name","NewAssetPayload","NewAssetPayload1","NewAssetPayloadEncryption","NewAssetPayloadStorage","NewStreamPayload","NftMetadata","NftMetadataTemplate","One","Output","Outputs","Params","Phase","PlaybackInfo","PlaybackInfoHrn","PlaybackInfoSchemasMetaType","PlaybackInfoSchemasType","PlaybackInfoSource","PlaybackInfoType","PlaybackPolicy","PrimaryType","Profile","RecordingStatus","Security","Session","SignatureType","SigningKey","Spec","Status","Storage","StorageStatus","Stream","StreamMultistream","StreamPatchPayload","Target","TargetAddPayload","TargetAddPayloadSpec","TargetOutput","TargetSpec","Task","TaskExportData","TaskHls","TaskInput","TaskIpfs","TaskMp4","TaskOutputs","TaskPhase","TaskSchemasIpfs","TaskStatus","TaskStorage","TaskType","TaskUpload","Tasks","Three","Tracks","TranscodeFile","TranscodePayload","TranscodePayload1","TranscodePayload2","TranscodePayloadCredentials","TranscodePayloadSchemas1","TranscodePayloadSchemas2","TranscodePayloadSchemasCredentials","TranscodePayloadSchemasStorageType","TranscodePayloadSchemasType","TranscodePayloadType","TranscodeProfile","TranscodeProfileEncoder","TranscodeProfileProfile","Two","Type","Upload","UsageMetric","Version","VideoSpec","ViewershipMetric","Webhook"]

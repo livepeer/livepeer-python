@@ -25,7 +25,7 @@ s = sdk.SDK(
 
 res = s.webhook.get_all()
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -42,7 +42,8 @@ if res.data is not None:
 
 ## create
 
-Create a webhook
+To create a new webhook, you need to make an API call with the events you want to listen for and the URL that will be called when those events occur.
+
 
 ### Example Usage
 
@@ -97,7 +98,7 @@ if res.webhook is not None:
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the webhook  |
+| `id`               | *str*              | :heavy_check_mark: | N/A                |
 
 
 ### Response
@@ -135,7 +136,7 @@ if res.webhook is not None:
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the webhook  |
+| `id`               | *str*              | :heavy_check_mark: | N/A                |
 
 
 ### Response
@@ -173,7 +174,7 @@ if res.webhook is not None:
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the webhook  |
+| `id`               | *str*              | :heavy_check_mark: | N/A                |
 
 
 ### Response

@@ -15,20 +15,26 @@ class PlaybackInfoType(str, Enum):
     RECORDING = 'recording'
 
 class Hrn(str, Enum):
+    r"""Human Readable Name"""
     HLS_TS_ = 'HLS (TS)'
     MP4 = 'MP4'
     WEB_RTC_H264_ = 'WebRTC (H264)'
+    THUMBNAIL_JPEG_ = 'Thumbnail (JPEG)'
+    THUMBNAILS = 'Thumbnails'
 
 class PlaybackInfoSchemasType(str, Enum):
     HTML5_APPLICATION_VND_APPLE_MPEGURL = 'html5/application/vnd.apple.mpegurl'
     HTML5_VIDEO_MP4 = 'html5/video/mp4'
     HTML5_VIDEO_H264 = 'html5/video/h264'
+    IMAGE_JPEG = 'image/jpeg'
+    TEXT_VTT = 'text/vtt'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class PlaybackInfoSource:
     hrn: Hrn = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hrn') }})
+    r"""Human Readable Name"""
     type: PlaybackInfoSchemasType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     url: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url') }})
     bitrate: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bitrate'), 'exclude': lambda f: f is None }})
@@ -38,12 +44,30 @@ class PlaybackInfoSource:
     
 
 
+class PlaybackInfoHrn(str, Enum):
+    HLS_TS_ = 'HLS (TS)'
+
+class PlaybackInfoSchemasMetaType(str, Enum):
+    HTML5_APPLICATION_VND_APPLE_MPEGURL = 'html5/application/vnd.apple.mpegurl'
+
+
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
+class DvrPlayback:
+    error: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('error'), 'exclude': lambda f: f is None }})
+    hrn: Optional[PlaybackInfoHrn] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hrn'), 'exclude': lambda f: f is None }})
+    type: Optional[PlaybackInfoSchemasMetaType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
+    url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url'), 'exclude': lambda f: f is None }})
+    
+
+
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class Meta:
     source: List[PlaybackInfoSource] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
     attestation: Optional[Attestation] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('attestation'), 'exclude': lambda f: f is None }})
+    dvr_playback: Optional[List[DvrPlayback]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dvrPlayback'), 'exclude': lambda f: f is None }})
     live: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('live'), 'exclude': lambda f: f is None }})
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
     r"""Whether the playback policy for a asset or stream is public or signed"""

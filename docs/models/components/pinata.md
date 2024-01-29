@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### IpfsExportParamsSchemas1
+### IpfsExportParams1
 
 ```python
-pinata: components.IpfsExportParamsSchemas1 = /* values here */
+pinata: components.IpfsExportParams1 = /* values here */
 ```
 
 ### IpfsExportParams2

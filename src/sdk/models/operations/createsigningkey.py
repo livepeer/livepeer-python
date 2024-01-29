@@ -3,7 +3,7 @@
 from __future__ import annotations
 import dataclasses
 import requests as requests_http
-from ...models.components import signing_key_response_payload as components_signing_key_response_payload
+from ...models.components import signing_key as components_signing_key
 from typing import Optional
 
 
@@ -15,7 +15,7 @@ class CreateSigningKeyResponse:
     r"""HTTP response status code for this operation"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     r"""Raw HTTP response; suitable for custom response parsing"""
-    signing_key_response_payload: Optional[components_signing_key_response_payload.SigningKeyResponsePayload] = dataclasses.field(default=None)
+    signing_key: Optional[components_signing_key.SigningKey] = dataclasses.field(default=None)
     r"""Success"""
     
 

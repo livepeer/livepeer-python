@@ -19,7 +19,7 @@ class Task:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class RequestUploadData:
+class RequestUploadResponseBody:
     r"""Success"""
     asset: components_asset.Asset = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('asset') }})
     task: Task = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('task') }})
@@ -35,7 +35,7 @@ class RequestUploadResponse:
     r"""HTTP response content type for this operation"""
     status_code: int = dataclasses.field()
     r"""HTTP response status code for this operation"""
-    data: Optional[RequestUploadData] = dataclasses.field(default=None)
+    object: Optional[RequestUploadResponseBody] = dataclasses.field(default=None)
     r"""Success"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     r"""Raw HTTP response; suitable for custom response parsing"""

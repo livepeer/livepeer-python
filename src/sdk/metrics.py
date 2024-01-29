@@ -14,7 +14,9 @@ class Metrics:
     
     
     def get_viewership(self, request: operations.GetViewershipsMetricsRequest) -> operations.GetViewershipsMetricsResponse:
-        r"""Query viewership metrics"""
+        r"""Query viewership metrics
+        Requires a private (non-CORS) API key to be used.
+        """
         base_url = utils.template_url(*self.sdk_configuration.get_server_details())
         
         url = base_url + '/data/views/query'
@@ -36,7 +38,7 @@ class Metrics:
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.ViewershipMetric]])
-                res.data = out
+                res.classes = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
@@ -47,7 +49,9 @@ class Metrics:
     
     
     def get_creator_viewership(self, request: operations.GetCreatorMetricsRequest) -> operations.GetCreatorMetricsResponse:
-        r"""Query creator viewership metrics"""
+        r"""Query creator viewership metrics
+        Requires a proof of ownership to be sent in the request, which for now is just the assetId or streamId parameters (1 of those must be in the query-string).
+        """
         base_url = utils.template_url(*self.sdk_configuration.get_server_details())
         
         url = base_url + '/data/views/query/creator'
@@ -69,7 +73,7 @@ class Metrics:
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.ViewershipMetric]])
-                res.data = out
+                res.classes = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
@@ -80,7 +84,11 @@ class Metrics:
     
     
     def get_public_total_views(self, playback_id: str) -> operations.GetPublicTotalViewsMetricsResponse:
-        r"""Query public total views metrics"""
+        r"""Query public total views metrics
+        Allows querying for the public metrics for viewership about a video.
+        This can be called from the frontend with a CORS key, or even
+        unauthenticated.
+        """
         request = operations.GetPublicTotalViewsMetricsRequest(
             playback_id=playback_id,
         )
@@ -104,8 +112,8 @@ class Metrics:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.GetPublicTotalViewsMetricsData])
-                res.data = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.GetPublicTotalViewsMetricsResponseBody])
+                res.object = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:

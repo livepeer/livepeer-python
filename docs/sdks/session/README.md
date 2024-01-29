@@ -3,10 +3,48 @@
 
 ### Available Operations
 
+* [get_all_clips](#get_all_clips) - Retrieve clips of a session
 * [get_all](#get_all) - Retrieve sessions
 * [get](#get) - Retrieve a session
 * [get_recorded](#get_recorded) - Retrieve Recorded Sessions
-* [get_all_clips](#get_all_clips) - Retrieve clips of a session
+
+## get_all_clips
+
+Retrieve clips of a session
+
+### Example Usage
+
+```python
+import sdk
+from sdk.models import operations
+
+s = sdk.SDK(
+    api_key="",
+)
+
+
+res = s.session.get_all_clips(id='string')
+
+if res.classes is not None:
+    # handle response
+    pass
+```
+
+### Parameters
+
+| Parameter                | Type                     | Required                 | Description              |
+| ------------------------ | ------------------------ | ------------------------ | ------------------------ |
+| `id`                     | *str*                    | :heavy_check_mark:       | ID of the parent session |
+
+
+### Response
+
+**[operations.GetSessionIDClipsResponse](../../models/operations/getsessionidclipsresponse.md)**
+### Errors
+
+| Error Object    | Status Code     | Content Type    |
+| --------------- | --------------- | --------------- |
+| errors.SDKError | 400-600         | */*             |
 
 ## get_all
 
@@ -24,7 +62,7 @@ s = sdk.SDK(
 
 res = s.session.get_all()
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -94,7 +132,7 @@ s = sdk.SDK(
 
 res = s.session.get_recorded(parent_id='string', record=1)
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -110,44 +148,6 @@ if res.data is not None:
 ### Response
 
 **[operations.GetRecordedSessionsResponse](../../models/operations/getrecordedsessionsresponse.md)**
-### Errors
-
-| Error Object    | Status Code     | Content Type    |
-| --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
-
-## get_all_clips
-
-Retrieve clips of a session
-
-### Example Usage
-
-```python
-import sdk
-from sdk.models import operations
-
-s = sdk.SDK(
-    api_key="",
-)
-
-
-res = s.session.get_all_clips(id='string')
-
-if res.data is not None:
-    # handle response
-    pass
-```
-
-### Parameters
-
-| Parameter                | Type                     | Required                 | Description              |
-| ------------------------ | ------------------------ | ------------------------ | ------------------------ |
-| `id`                     | *str*                    | :heavy_check_mark:       | ID of the parent session |
-
-
-### Response
-
-**[operations.GetSessionIDClipsResponse](../../models/operations/getsessionidclipsresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

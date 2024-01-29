@@ -1,17 +1,10 @@
 # ExportTaskParams1
 
+Parameters for the export task
 
-## Supported Types
 
-### ExportTaskParamsSchemas1
+## Fields
 
-```python
-exportTaskParams1: components.ExportTaskParamsSchemas1 = /* values here */
-```
-
-### ExportTaskParamsSchemas2
-
-```python
-exportTaskParams1: components.ExportTaskParamsSchemas2 = /* values here */
-```
-
+| Field                                                  | Type                                                   | Required                                               | Description                                            |
+| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
+| `custom`                                               | [components.Custom](../../models/components/custom.md) | :heavy_check_mark:                                     | custom URL parameters for the export task              |

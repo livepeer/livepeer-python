@@ -33,5 +33,7 @@ class FfmpegProfile:
     fps_den: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('fpsDen'), 'exclude': lambda f: f is None }})
     gop: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('gop'), 'exclude': lambda f: f is None }})
     profile: Optional[Profile] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profile'), 'exclude': lambda f: f is None }})
+    quality: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quality'), 'exclude': lambda f: f is None }})
+    r"""Restricts the size of the output video using the constant quality feature. Increasing this value will result in a lower quality video. Note that this parameter might not work if the transcoder lacks support for it."""
     
 

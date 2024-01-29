@@ -40,7 +40,7 @@ class Stream:
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.Stream]])
-                res.data = out
+                res.classes = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
@@ -51,7 +51,21 @@ class Stream:
     
     
     def create(self, request: components.NewStreamPayload) -> operations.CreateStreamResponse:
-        r"""Create a stream"""
+        r"""Create a stream
+        The only parameter you are required to set is the name of your stream,
+        but we also highly recommend that you define transcoding profiles
+        parameter that suits your specific broadcasting configuration.
+        \
+        \
+        If you do not define transcoding rendition profiles when creating the
+        stream, a default set of profiles will be used. These profiles include
+        240p,  360p, 480p and 720p.
+        \
+        \
+        The playback policy is set to public by default for new streams. It can
+        also be added upon the creation of a new stream by adding
+        `\"playbackPolicy\": {\"type\": \"jwt\"}`
+        """
         base_url = utils.template_url(*self.sdk_configuration.get_server_details())
         
         url = base_url + '/stream'
@@ -77,7 +91,7 @@ class Stream:
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.Stream]])
-                res.data = out
+                res.classes = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
@@ -88,7 +102,12 @@ class Stream:
     
     
     def delete(self, id: str) -> operations.DeleteStreamResponse:
-        r"""Delete a stream"""
+        r"""Delete a stream
+        This will also suspend any active stream sessions, so make sure to wait
+        until the stream has finished. To explicitly interrupt an active
+        session, consider instead updating the suspended field in the stream
+        using the PATCH stream API.
+        """
         request = operations.DeleteStreamRequest(
             id=id,
         )
@@ -193,10 +212,49 @@ class Stream:
 
     
     
-    def create_clip(self, request: components.ClipPayload) -> operations.PostClipResponse:
-        r"""Create a clip
-        Create a clip from a livestream
+    def terminate(self, id: str) -> operations.TerminateStreamResponse:
+        r"""Terminates a live stream
+        `DELETE /stream/{id}/terminate` can be used to terminate an ongoing
+        session on a live stream. Unlike suspending the stream, it allows the
+        streamer to restart streaming even immediately, but it will force
+        terminate the current session and stop the recording.
+        \
+        \
+        A 204 No Content status response indicates the stream was successfully
+        terminated.
         """
+        request = operations.TerminateStreamRequest(
+            id=id,
+        )
+        
+        base_url = utils.template_url(*self.sdk_configuration.get_server_details())
+        
+        url = utils.generate_url(operations.TerminateStreamRequest, base_url, '/stream/{id}/terminate', request)
+        headers = {}
+        headers['Accept'] = '*/*'
+        headers['user-agent'] = self.sdk_configuration.user_agent
+        
+        if callable(self.sdk_configuration.security):
+            client = utils.configure_security_client(self.sdk_configuration.client, self.sdk_configuration.security())
+        else:
+            client = utils.configure_security_client(self.sdk_configuration.client, self.sdk_configuration.security)
+        
+        http_res = client.request('DELETE', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.TerminateStreamResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 204:
+            pass
+        elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
+            raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
+
+        return res
+
+    
+    
+    def create_clip(self, request: components.ClipPayload) -> operations.PostClipResponse:
+        r"""Create a clip"""
         base_url = utils.template_url(*self.sdk_configuration.get_server_details())
         
         url = base_url + '/clip'
@@ -221,8 +279,8 @@ class Stream:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PostClipData])
-                res.data = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.PostClipResponseBody])
+                res.object = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
@@ -258,9 +316,80 @@ class Stream:
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.Asset]])
-                res.data = out
+                res.classes = out
             else:
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
+        elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
+            raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
+
+        return res
+
+    
+    
+    def create_multistream_target(self, id: str, target_add_payload: components.TargetAddPayload) -> operations.AddMultistreamTargetResponse:
+        r"""Add a multistream target"""
+        request = operations.AddMultistreamTargetRequest(
+            id=id,
+            target_add_payload=target_add_payload,
+        )
+        
+        base_url = utils.template_url(*self.sdk_configuration.get_server_details())
+        
+        url = utils.generate_url(operations.AddMultistreamTargetRequest, base_url, '/stream/{id}/create-multistream-target', request)
+        headers = {}
+        req_content_type, data, form = utils.serialize_request_body(request, "target_add_payload", False, False, 'json')
+        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
+            headers['content-type'] = req_content_type
+        if data is None and form is None:
+            raise Exception('request body is required')
+        headers['Accept'] = '*/*'
+        headers['user-agent'] = self.sdk_configuration.user_agent
+        
+        if callable(self.sdk_configuration.security):
+            client = utils.configure_security_client(self.sdk_configuration.client, self.sdk_configuration.security())
+        else:
+            client = utils.configure_security_client(self.sdk_configuration.client, self.sdk_configuration.security)
+        
+        http_res = client.request('POST', url, data=data, files=form, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.AddMultistreamTargetResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 204:
+            pass
+        elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
+            raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
+
+        return res
+
+    
+    
+    def delete_multistream_target(self, id: str, target_id: str) -> operations.RemoveMultistreamTargetResponse:
+        r"""Remove a multistream target"""
+        request = operations.RemoveMultistreamTargetRequest(
+            id=id,
+            target_id=target_id,
+        )
+        
+        base_url = utils.template_url(*self.sdk_configuration.get_server_details())
+        
+        url = utils.generate_url(operations.RemoveMultistreamTargetRequest, base_url, '/stream/{id}/multistream/{targetId}', request)
+        headers = {}
+        headers['Accept'] = '*/*'
+        headers['user-agent'] = self.sdk_configuration.user_agent
+        
+        if callable(self.sdk_configuration.security):
+            client = utils.configure_security_client(self.sdk_configuration.client, self.sdk_configuration.security())
+        else:
+            client = utils.configure_security_client(self.sdk_configuration.client, self.sdk_configuration.security)
+        
+        http_res = client.request('DELETE', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.RemoveMultistreamTargetResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 204:
+            pass
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
             raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
 

@@ -21,7 +21,7 @@ class GetPublicTotalViewsMetricsRequest:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class GetPublicTotalViewsMetricsData:
+class GetPublicTotalViewsMetricsResponseBody:
     r"""A simplified metric object about aggregate viewership of an
     asset. Either playbackId or dStorageUrl will be set.
     """
@@ -43,7 +43,7 @@ class GetPublicTotalViewsMetricsResponse:
     r"""HTTP response content type for this operation"""
     status_code: int = dataclasses.field()
     r"""HTTP response status code for this operation"""
-    data: Optional[GetPublicTotalViewsMetricsData] = dataclasses.field(default=None)
+    object: Optional[GetPublicTotalViewsMetricsResponseBody] = dataclasses.field(default=None)
     r"""A single Metric object with the viewCount and playtimeMins metrics."""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     r"""Raw HTTP response; suitable for custom response parsing"""

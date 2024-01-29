@@ -4,15 +4,13 @@ from __future__ import annotations
 import dataclasses
 from .creator_id import CreatorID
 from .encryption import Encryption
-from .encryption_output import EncryptionOutput
 from .ipfs_file_info import IpfsFileInfo
-from .ipfs_file_info_input import IpfsFileInfoInput
 from .playback_policy import PlaybackPolicy
 from .storage_status import StorageStatus
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from sdk import utils
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Union
 
 class AssetType(str, Enum):
     r"""Type of the asset."""
@@ -26,9 +24,19 @@ class AssetSchemasSource3Type(str, Enum):
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Asset3:
+class Three:
     type: AssetSchemasSource3Type = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
-    encryption: Optional[EncryptionOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
+    asset_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('assetId'), 'exclude': lambda f: f is None }})
+    r"""ID of the asset from which this asset was created"""
+    encryption: Optional[Encryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
+    playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
+    r"""Playback ID of the asset or stream from which this asset was created"""
+    requester_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('requesterId'), 'exclude': lambda f: f is None }})
+    r"""ID of the requester from which this asset was created"""
+    session_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('sessionId'), 'exclude': lambda f: f is None }})
+    r"""ID of the session from which this asset was created"""
+    source_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('sourceId'), 'exclude': lambda f: f is None }})
+    r"""ID of the asset or stream from which this asset was created"""
     
 
 
@@ -51,11 +59,11 @@ class AssetSchemasType(str, Enum):
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Asset1Output:
+class Asset1:
     type: AssetSchemasType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     url: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url') }})
     r"""URL from which the asset was uploaded"""
-    encryption: Optional[EncryptionOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
+    encryption: Optional[Encryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
     gateway_url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('gatewayUrl'), 'exclude': lambda f: f is None }})
     r"""Gateway URL from asset if parsed from provided URL on upload."""
     
@@ -100,18 +108,13 @@ class AssetSpec:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class AssetIpfs:
-    cid: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cid'), 'exclude': lambda f: f is None }})
-    r"""CID of the file on IPFS"""
-    gateway_url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('gatewayUrl'), 'exclude': lambda f: f is None }})
-    r"""URL to access file via HTTP through an IPFS gateway"""
+    dollar_ref: Optional[Any] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('$ref'), 'exclude': lambda f: f is None }})
     nft_metadata: Optional[IpfsFileInfo] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('nftMetadata'), 'exclude': lambda f: f is None }})
     spec: Optional[AssetSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('spec'), 'exclude': lambda f: f is None }})
     updated_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('updatedAt'), 'exclude': lambda f: f is None }})
     r"""Timestamp (in milliseconds) at which IPFS export task was
     updated
     """
-    url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url'), 'exclude': lambda f: f is None }})
-    r"""URL with IPFS scheme for the file"""
     
 
 
@@ -224,7 +227,7 @@ class Asset:
     r"""Name of the asset. This is not necessarily the filename, can be a
     custom name or title
     """
-    source: Union[Asset1Output, Two, Asset3] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
+    source: Union[Asset1, Two, Three] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
     created_at: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('createdAt'), 'exclude': lambda f: f is None }})
     r"""Timestamp (in milliseconds) at which asset was created"""
     creator_id: Optional[Union[CreatorID1]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
@@ -247,70 +250,5 @@ class Asset:
     r"""Type of the asset."""
     video_spec: Optional[VideoSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('videoSpec'), 'exclude': lambda f: f is None }})
     r"""Video metadata"""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class Three:
-    type: AssetSchemasSource3Type = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
-    encryption: Optional[Encryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class Asset1:
-    type: AssetSchemasType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
-    url: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url') }})
-    r"""URL from which the asset was uploaded"""
-    encryption: Optional[Encryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
-    gateway_url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('gatewayUrl'), 'exclude': lambda f: f is None }})
-    r"""Gateway URL from asset if parsed from provided URL on upload."""
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class AssetIpfsInput:
-    cid: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cid'), 'exclude': lambda f: f is None }})
-    r"""CID of the file on IPFS"""
-    nft_metadata: Optional[IpfsFileInfoInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('nftMetadata'), 'exclude': lambda f: f is None }})
-    spec: Optional[AssetSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('spec'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class AssetStorageInput:
-    ipfs: Optional[AssetIpfsInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is None }})
-    
-
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class AssetInput:
-    name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
-    r"""Name of the asset. This is not necessarily the filename, can be a
-    custom name or title
-    """
-    source: Union[Asset1, Two, Three] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
-    creator_id: Optional[Union[CreatorID1]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
-    hash: Optional[List[Hash]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hash'), 'exclude': lambda f: f is None }})
-    r"""Hash of the asset"""
-    playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
-    r"""Used to form playback URL and storage folder"""
-    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
-    r"""Whether the playback policy for a asset or stream is public or signed"""
-    static_mp4: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('staticMp4'), 'exclude': lambda f: f is None }})
-    r"""Whether to generate MP4s for the asset."""
-    storage: Optional[AssetStorageInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
-    type: Optional[AssetType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
-    r"""Type of the asset."""
     
 

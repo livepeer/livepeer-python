@@ -19,7 +19,7 @@ class UploadAssetViaURLTask:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class UploadAssetViaURLData:
+class UploadAssetViaURLResponseBody:
     r"""Success"""
     asset: components_asset.Asset = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('asset') }})
     task: UploadAssetViaURLTask = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('task') }})
@@ -33,7 +33,7 @@ class UploadAssetViaURLResponse:
     r"""HTTP response content type for this operation"""
     status_code: int = dataclasses.field()
     r"""HTTP response status code for this operation"""
-    data: Optional[UploadAssetViaURLData] = dataclasses.field(default=None)
+    object: Optional[UploadAssetViaURLResponseBody] = dataclasses.field(default=None)
     r"""Success"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     r"""Raw HTTP response; suitable for custom response parsing"""

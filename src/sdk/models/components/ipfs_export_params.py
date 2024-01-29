@@ -2,16 +2,14 @@
 
 from __future__ import annotations
 import dataclasses
-from .nftmetadata import NftMetadata
-from .nftmetadatatemplate import NftMetadataTemplate
 from dataclasses_json import Undefined, dataclass_json
 from sdk import utils
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class IpfsExportParams2Output:
+class IpfsExportParams2:
     r"""Custom credentials for the Piñata service. Must have either
     a JWT or an API key and an API secret.
     """
@@ -22,7 +20,7 @@ class IpfsExportParams2Output:
 
 
 @dataclasses.dataclass
-class IpfsExportParams1Output:
+class IpfsExportParams1:
     r"""Custom credentials for the Piñata service. Must have either
     a JWT or an API key and an API secret.
     """
@@ -33,17 +31,8 @@ class IpfsExportParams1Output:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class IpfsExportParams:
-    nft_metadata: Optional[NftMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('nftMetadata'), 'exclude': lambda f: f is None }})
-    r"""Additional data to add to the NFT metadata exported to
-    IPFS. Will be deep merged with the default metadata
-    exported.
-    """
-    nft_metadata_template: Optional[NftMetadataTemplate] = dataclasses.field(default=NftMetadataTemplate.FILE, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('nftMetadataTemplate'), 'exclude': lambda f: f is None }})
-    r"""Name of the NFT metadata template to export. 'player'
-    will embed the Livepeer Player on the NFT while 'file'
-    will reference only the immutable MP4 files.
-    """
-    pinata: Optional[Union[IpfsExportParams1Output, IpfsExportParams2Output]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pinata'), 'exclude': lambda f: f is None }})
+    dollar_ref: Optional[Any] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('$ref'), 'exclude': lambda f: f is None }})
+    pinata: Optional[Union[IpfsExportParams1, IpfsExportParams2]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pinata'), 'exclude': lambda f: f is None }})
     r"""Custom credentials for the Piñata service. Must have either
     a JWT or an API key and an API secret.
     """

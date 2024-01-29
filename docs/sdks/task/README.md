@@ -22,7 +22,7 @@ s = sdk.SDK(
 
 res = s.task.get_all()
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```

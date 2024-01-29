@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### ExportTaskParamsSchemas1
+### ExportTaskParams1
 
 ```python
-exportTaskParams: components.ExportTaskParamsSchemas1 = /* values here */
+exportTaskParams: components.ExportTaskParams1 = /* values here */
 ```
 
 ### ExportTaskParams2

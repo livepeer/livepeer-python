@@ -8,8 +8,11 @@
 * [delete](#delete) - Delete a stream
 * [get](#get) - Retrieve a stream
 * [update](#update) - Update a stream
+* [terminate](#terminate) - Terminates a live stream
 * [create_clip](#create_clip) - Create a clip
 * [get_all_clips](#get_all_clips) - Retrieve clips of a livestream
+* [create_multistream_target](#create_multistream_target) - Add a multistream target
+* [delete_multistream_target](#delete_multistream_target) - Remove a multistream target
 
 ## get_all
 
@@ -28,16 +31,16 @@ s = sdk.SDK(
 
 res = s.stream.get_all(streamsonly='string')
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
 
 ### Parameters
 
-| Parameter                                                                                          | Type                                                                                               | Required                                                                                           | Description                                                                                        |
-| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `streamsonly`                                                                                      | *Optional[str]*                                                                                    | :heavy_minus_sign:                                                                                 | Filter the API response and retrieve a specific subset of stream objects based on certain criteria |
+| Parameter          | Type               | Required           | Description        |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `streamsonly`      | *Optional[str]*    | :heavy_minus_sign: | N/A                |
 
 
 ### Response
@@ -51,7 +54,20 @@ if res.data is not None:
 
 ## create
 
-Create a stream
+The only parameter you are required to set is the name of your stream,
+but we also highly recommend that you define transcoding profiles
+parameter that suits your specific broadcasting configuration.
+\
+\
+If you do not define transcoding rendition profiles when creating the
+stream, a default set of profiles will be used. These profiles include
+240p,  360p, 480p and 720p.
+\
+\
+The playback policy is set to public by default for new streams. It can
+also be added upon the creation of a new stream by adding
+`"playbackPolicy": {"type": "jwt"}`
+
 
 ### Example Usage
 
@@ -71,30 +87,25 @@ req = components.NewStreamPayload(
     ),
     playback_policy=components.PlaybackPolicy(
         type=components.Type.JWT,
-        webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
         webhook_context={
-            "foo": 'string',
+            "key": 'string',
         },
     ),
     profiles=[
         components.FfmpegProfile(
-            width=1280,
+            width=638424,
             name='720p',
-            height=720,
-            bitrate=4000,
-            fps=30,
-            fps_den=1,
-            gop='60',
-            profile=components.Profile.H264_HIGH,
-            encoder=components.Encoder.H264,
+            height=859213,
+            bitrate=417458,
+            fps=288408,
         ),
     ],
     record=False,
     multistream=components.Multistream(
         targets=[
-            components.Targets(
+            components.Target(
                 profile='720p',
-                spec=components.MultistreamSpec(
+                spec=components.TargetSpec(
                     url='rtmps://live.my-service.tv/channel/secretKey',
                 ),
             ),
@@ -104,7 +115,7 @@ req = components.NewStreamPayload(
 
 res = s.stream.create(req)
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -127,7 +138,12 @@ if res.data is not None:
 
 ## delete
 
-Delete a stream
+
+This will also suspend any active stream sessions, so make sure to wait
+until the stream has finished. To explicitly interrupt an active
+session, consider instead updating the suspended field in the stream
+using the PATCH stream API.
+
 
 ### Example Usage
 
@@ -221,9 +237,9 @@ res = s.stream.update(id='string', stream_patch_payload=components.StreamPatchPa
     record=False,
     multistream=components.Multistream(
         targets=[
-            components.Targets(
+            components.Target(
                 profile='720p',
-                spec=components.MultistreamSpec(
+                spec=components.TargetSpec(
                     url='rtmps://live.my-service.tv/channel/secretKey',
                 ),
             ),
@@ -231,11 +247,19 @@ res = s.stream.update(id='string', stream_patch_payload=components.StreamPatchPa
     ),
     playback_policy=components.PlaybackPolicy(
         type=components.Type.PUBLIC,
-        webhook_id='3e02c844-d364-4d48-b401-24b2773b5d6c',
         webhook_context={
-            "foo": 'string',
+            "key": 'string',
         },
     ),
+    profiles=[
+        components.FfmpegProfile(
+            width=597129,
+            name='720p',
+            height=15652,
+            bitrate=344620,
+            fps=708455,
+        ),
+    ],
 ))
 
 if res.status_code == 200:
@@ -260,10 +284,55 @@ if res.status_code == 200:
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 400-600         | */*             |
 
+## terminate
+
+`DELETE /stream/{id}/terminate` can be used to terminate an ongoing
+session on a live stream. Unlike suspending the stream, it allows the
+streamer to restart streaming even immediately, but it will force
+terminate the current session and stop the recording.
+\
+\
+A 204 No Content status response indicates the stream was successfully
+terminated.
+
+
+### Example Usage
+
+```python
+import sdk
+from sdk.models import operations
+
+s = sdk.SDK(
+    api_key="",
+)
+
+
+res = s.stream.terminate(id='string')
+
+if res.status_code == 200:
+    # handle response
+    pass
+```
+
+### Parameters
+
+| Parameter          | Type               | Required           | Description        |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
+
+
+### Response
+
+**[operations.TerminateStreamResponse](../../models/operations/terminatestreamresponse.md)**
+### Errors
+
+| Error Object    | Status Code     | Content Type    |
+| --------------- | --------------- | --------------- |
+| errors.SDKError | 400-600         | */*             |
+
 ## create_clip
 
-Create a clip from a livestream
-
+Create a clip
 
 ### Example Usage
 
@@ -282,7 +351,7 @@ req = components.ClipPayload(
 
 res = s.stream.create_clip(req)
 
-if res.data is not None:
+if res.object is not None:
     # handle response
     pass
 ```
@@ -320,7 +389,7 @@ s = sdk.SDK(
 
 res = s.stream.get_all_clips(id='string')
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -335,6 +404,89 @@ if res.data is not None:
 ### Response
 
 **[operations.GetStreamIDClipsResponse](../../models/operations/getstreamidclipsresponse.md)**
+### Errors
+
+| Error Object    | Status Code     | Content Type    |
+| --------------- | --------------- | --------------- |
+| errors.SDKError | 400-600         | */*             |
+
+## create_multistream_target
+
+Add a multistream target
+
+### Example Usage
+
+```python
+import sdk
+from sdk.models import components, operations
+
+s = sdk.SDK(
+    api_key="",
+)
+
+
+res = s.stream.create_multistream_target(id='string', target_add_payload=components.TargetAddPayload(
+    profile='720p',
+    spec=components.TargetAddPayloadSpec(
+        url='rtmps://live.my-service.tv/channel/secretKey',
+    ),
+))
+
+if res.status_code == 200:
+    # handle response
+    pass
+```
+
+### Parameters
+
+| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `id`                                                                       | *str*                                                                      | :heavy_check_mark:                                                         | ID of the parent stream                                                    |
+| `target_add_payload`                                                       | [components.TargetAddPayload](../../models/components/targetaddpayload.md) | :heavy_check_mark:                                                         | N/A                                                                        |
+
+
+### Response
+
+**[operations.AddMultistreamTargetResponse](../../models/operations/addmultistreamtargetresponse.md)**
+### Errors
+
+| Error Object    | Status Code     | Content Type    |
+| --------------- | --------------- | --------------- |
+| errors.SDKError | 400-600         | */*             |
+
+## delete_multistream_target
+
+Remove a multistream target
+
+### Example Usage
+
+```python
+import sdk
+from sdk.models import operations
+
+s = sdk.SDK(
+    api_key="",
+)
+
+
+res = s.stream.delete_multistream_target(id='string', target_id='string')
+
+if res.status_code == 200:
+    # handle response
+    pass
+```
+
+### Parameters
+
+| Parameter                    | Type                         | Required                     | Description                  |
+| ---------------------------- | ---------------------------- | ---------------------------- | ---------------------------- |
+| `id`                         | *str*                        | :heavy_check_mark:           | ID of the parent stream      |
+| `target_id`                  | *str*                        | :heavy_check_mark:           | ID of the multistream target |
+
+
+### Response
+
+**[operations.RemoveMultistreamTargetResponse](../../models/operations/removemultistreamtargetresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

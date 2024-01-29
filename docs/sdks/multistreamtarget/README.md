@@ -25,7 +25,7 @@ s = sdk.SDK(
 
 res = s.multistream_target.get_all()
 
-if res.data is not None:
+if res.classes is not None:
     # handle response
     pass
 ```
@@ -55,7 +55,6 @@ s = sdk.SDK(
 )
 
 req = components.MultistreamTargetInput(
-    name='My Multistream Target',
     url='rtmps://live.my-service.tv/channel/secretKey',
 )
 
@@ -84,7 +83,9 @@ if res.classes is not None:
 
 ## delete
 
-Delete a multistream target
+Make sure to remove any references to the target on existing
+streams before actually deleting it from the API.
+
 
 ### Example Usage
 
@@ -174,7 +175,6 @@ s = sdk.SDK(
 
 
 res = s.multistream_target.update(id='string', multistream_target_patch_payload=components.MultistreamTargetPatchPayload(
-    name='My Multistream Target',
     url='rtmps://live.my-service.tv/channel/secretKey',
 ))
 

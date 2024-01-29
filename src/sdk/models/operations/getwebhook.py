@@ -10,7 +10,6 @@ from typing import Optional
 @dataclasses.dataclass
 class GetWebhookRequest:
     id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'id', 'style': 'simple', 'explode': False }})
-    r"""ID of the webhook"""
     
 
 
