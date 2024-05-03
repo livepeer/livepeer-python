@@ -1,0 +1,11 @@
+# Source1
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `type`                                                                               | [components.SourceType](../../models/components/sourcetype.md)                       | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `url`                                                                                | *str*                                                                                | :heavy_check_mark:                                                                   | URL from which the asset was uploaded.                                               |
+| `gateway_url`                                                                        | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | Gateway URL from asset if parsed from provided URL on upload.                        |
+| `encryption`                                                                         | [Optional[components.EncryptionOutput]](../../models/components/encryptionoutput.md) | :heavy_minus_sign:                                                                   | N/A                                                                                  |

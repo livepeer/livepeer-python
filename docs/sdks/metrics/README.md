@@ -1,11 +1,15 @@
 # Metrics
 (*metrics*)
 
+## Overview
+
+Operations related to metrics api
+
 ### Available Operations
 
 * [get_viewership](#get_viewership) - Query viewership metrics
 * [get_creator_viewership](#get_creator_viewership) - Query creator viewership metrics
-* [get_public_total_views](#get_public_total_views) - Query public total views metrics
+* [get_public_viewership](#get_public_viewership) - Query public total views metrics
 * [get_usage](#get_usage) - Query usage metrics
 
 ## get_viewership
@@ -16,43 +20,38 @@ Requires a private (non-CORS) API key to be used.
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import operations
+import livepeer
+from livepeer.models import operations
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = operations.GetViewershipsMetricsRequest(
-980301,
-366854,
-    breakdown_by=[
-        operations.BreakdownBy.PLAYBACK_ID,
-    ],
-)
+req = operations.GetViewershipMetricsRequest()
 
 res = s.metrics.get_viewership(req)
 
-if res.classes is not None:
+if res.data is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
 
-| Parameter                                                                                          | Type                                                                                               | Required                                                                                           | Description                                                                                        |
-| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `request`                                                                                          | [operations.GetViewershipsMetricsRequest](../../models/operations/getviewershipsmetricsrequest.md) | :heavy_check_mark:                                                                                 | The request object to use for the request.                                                         |
+| Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `request`                                                                                        | [operations.GetViewershipMetricsRequest](../../models/operations/getviewershipmetricsrequest.md) | :heavy_check_mark:                                                                               | The request object to use for the request.                                                       |
 
 
 ### Response
 
-**[operations.GetViewershipsMetricsResponse](../../models/operations/getviewershipsmetricsresponse.md)**
+**[operations.GetViewershipMetricsResponse](../../models/operations/getviewershipmetricsresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
 ## get_creator_viewership
 
@@ -62,45 +61,40 @@ Requires a proof of ownership to be sent in the request, which for now is just t
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import operations
+import livepeer
+from livepeer.models import operations
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = operations.GetCreatorMetricsRequest(
-dateutil.parser.isoparse('2022-06-17T03:28:06.363Z'),
-702371,
-    breakdown_by=[
-        operations.QueryParamBreakdownBy.DEVICE_TYPE,
-    ],
-)
+req = operations.GetCreatorViewershipMetricsRequest()
 
 res = s.metrics.get_creator_viewership(req)
 
-if res.classes is not None:
+if res.data is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
 
-| Parameter                                                                                  | Type                                                                                       | Required                                                                                   | Description                                                                                |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `request`                                                                                  | [operations.GetCreatorMetricsRequest](../../models/operations/getcreatormetricsrequest.md) | :heavy_check_mark:                                                                         | The request object to use for the request.                                                 |
+| Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                      | [operations.GetCreatorViewershipMetricsRequest](../../models/operations/getcreatorviewershipmetricsrequest.md) | :heavy_check_mark:                                                                                             | The request object to use for the request.                                                                     |
 
 
 ### Response
 
-**[operations.GetCreatorMetricsResponse](../../models/operations/getcreatormetricsresponse.md)**
+**[operations.GetCreatorViewershipMetricsResponse](../../models/operations/getcreatorviewershipmetricsresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
-## get_public_total_views
+## get_public_viewership
 
 Allows querying for the public metrics for viewership about a video.
 This can be called from the frontend with a CORS key, or even
@@ -110,19 +104,19 @@ unauthenticated.
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import operations
+import livepeer
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.metrics.get_public_total_views(playback_id='string')
+res = s.metrics.get_public_viewership(playback_id='<value>')
 
-if res.object is not None:
+if res.data is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
@@ -134,12 +128,12 @@ if res.object is not None:
 
 ### Response
 
-**[operations.GetPublicTotalViewsMetricsResponse](../../models/operations/getpublictotalviewsmetricsresponse.md)**
+**[operations.GetPublicViewershipMetricsResponse](../../models/operations/getpublicviewershipmetricsresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
 ## get_usage
 
@@ -148,19 +142,20 @@ Query usage metrics
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import operations
+import livepeer
+from livepeer.models import operations
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.metrics.get_usage(from_=224089, to=231125, time_step=operations.GetUsageMetricsQueryParamTimeStep.DAY, creator_id='string')
+res = s.metrics.get_usage(from_=224089, to=231125, time_step=operations.GetUsageMetricsQueryParamTimeStep.DAY, creator_id='<value>')
 
 if res.usage_metric is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
@@ -180,4 +175,4 @@ if res.usage_metric is not None:
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |

@@ -1,6 +1,10 @@
 # Task
 (*task*)
 
+## Overview
+
+Operations related to tasks api
+
 ### Available Operations
 
 * [get_all](#get_all) - Retrieve Tasks
@@ -13,18 +17,19 @@ Retrieve Tasks
 ### Example Usage
 
 ```python
-import sdk
+import livepeer
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
 res = s.task.get_all()
 
-if res.classes is not None:
+if res.data is not None:
     # handle response
     pass
+
 ```
 
 
@@ -35,7 +40,7 @@ if res.classes is not None:
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
 ## get
 
@@ -44,19 +49,19 @@ Retrieve a Task
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import operations
+import livepeer
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.task.get(task_id='string')
+res = s.task.get(task_id='<value>')
 
 if res.task is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
@@ -73,4 +78,4 @@ if res.task is not None:
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |

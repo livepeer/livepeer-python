@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### TranscodePayload1
+### Input1
 
 ```python
-input: components.TranscodePayload1 = /* values here */
+input: components.Input1 = /* values here */
 ```
 
-### TranscodePayload2
+### Input2
 
 ```python
-input: components.TranscodePayload2 = /* values here */
+input: components.Input2 = /* values here */
 ```
 
