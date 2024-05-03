@@ -12,3 +12,5 @@ Phase of the asset
 | `PROCESSING` | processing   |
 | `READY`      | ready        |
 | `FAILED`     | failed       |
+| `DELETING`   | deleting     |
+| `DELETED`    | deleted      |

@@ -1,6 +1,10 @@
 # Transcode
 (*transcode*)
 
+## Overview
+
+Operations related to transcode api
+
 ### Available Operations
 
 * [create](#create) - Transcode a video
@@ -8,7 +12,7 @@
 ## create
 
 `POST /transcode` transcodes a video file and uploads the results to the
-specified storage service. 
+specified storage service.
 \
 \
 Transcoding is asynchronous so you will need to check the status of the
@@ -133,22 +137,22 @@ This endpoint currently supports the following output types:
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import components
+import livepeer
+from livepeer.models import components
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 req = components.TranscodePayload(
-    components.TranscodePayload1(
+    input=components.Input1(
         url='https://s3.amazonaws.com/bucket/file.mp4',
     ),
-    components.TranscodePayloadSchemas1(
-        type=components.TranscodePayloadSchemasType.S3,
+    storage=components.Storage1(
+        type=components.StorageType.S3,
         endpoint='https://gateway.storjshare.io',
         bucket='outputbucket',
-        credentials=components.TranscodePayloadCredentials(
+        credentials=components.StorageCredentials(
             access_key_id='AKIAIOSFODNN7EXAMPLE',
             secret_access_key='wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
         ),
@@ -166,11 +170,17 @@ req = components.TranscodePayload(
     ),
     profiles=[
         components.TranscodeProfile(
+            bitrate=3000000,
+            width=1280,
             name='720p',
-            bitrate=638424,
+            quality=23,
+            fps=30,
+            fps_den=1,
+            gop='2',
+            profile=components.TranscodeProfileProfile.H264_BASELINE,
+            encoder=components.TranscodeProfileEncoder.H_264,
         ),
     ],
-'string',
 )
 
 res = s.transcode.create(req)
@@ -178,6 +188,7 @@ res = s.transcode.create(req)
 if res.task is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
@@ -189,9 +200,9 @@ if res.task is not None:
 
 ### Response
 
-**[operations.TranscodeResponse](../../models/operations/transcoderesponse.md)**
+**[operations.TranscodeVideoResponse](../../models/operations/transcodevideoresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |

@@ -1,14 +1,18 @@
 # Asset
 (*asset*)
 
+## Overview
+
+Operations related to asset/vod api
+
 ### Available Operations
 
 * [get_all](#get_all) - Retrieve assets
 * [create](#create) - Upload an asset
 * [create_via_url](#create_via_url) - Upload asset via URL
-* [delete](#delete) - Delete an asset
 * [get](#get) - Retrieves an asset
 * [update](#update) - Patch an asset
+* [delete](#delete) - Delete an asset
 
 ## get_all
 
@@ -17,18 +21,19 @@ Retrieve assets
 ### Example Usage
 
 ```python
-import sdk
+import livepeer
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
 res = s.asset.get_all()
 
-if res.classes is not None:
+if res.data is not None:
     # handle response
     pass
+
 ```
 
 
@@ -39,7 +44,7 @@ if res.classes is not None:
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
 ## create
 
@@ -70,7 +75,7 @@ Livepeer on POST /api/asset/request-upload. You should use the
 tusEndpoint field of the response to upload the video file and track the
 progress:
 
-``` 
+```
 # This assumes there is an `input` element of `type="file"` with id
 `fileInput` in the HTML
 
@@ -119,40 +124,73 @@ definition above.
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import components
+import livepeer
+from livepeer.models import components
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 req = components.NewAssetPayload(
     name='filename.mp4',
+    project_id=components.AssetInput(
+        source=components.Two(
+            type=components.AssetSourceType.RECORDING,
+            session_id='<value>',
+        ),
+        name='filename.mp4',
+        type=components.AssetType.VIDEO,
+        playback_id='eaw4nk06ts2d0mzb',
+        playback_policy=components.PlaybackPolicy(
+            type=components.Type.WEBHOOK,
+            webhook_id='1bde4o2i6xycudoy',
+            webhook_context={
+                'streamerId': 'my-custom-id',
+            },
+            refresh_interval=600,
+        ),
+        creator_id=components.CreatorID1(
+            type=components.CreatorIDType.UNVERIFIED,
+            value='user123',
+        ),
+        project_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
+        hash=[
+            components.Hash(
+                hash='9b560b28b85378a5004117539196ab24e21bbd75b0e9eb1a8bc7c5fd80dc5b57',
+                algorithm='sha256',
+            ),
+        ],
+    ),
     static_mp4=True,
     playback_policy=components.PlaybackPolicy(
-        type=components.Type.JWT,
+        type=components.Type.WEBHOOK,
+        webhook_id='1bde4o2i6xycudoy',
         webhook_context={
-            "key": 'string',
+            'streamerId': 'my-custom-id',
         },
+        refresh_interval=600,
     ),
-    components.CreatorID1(
-        type=components.CreatorIDType.UNVERIFIED,
-        value='string',
-    ),
-    storage=components.NewAssetPayloadStorage(
-    False,
-    ),
-    url='https://s3.amazonaws.com/my-bucket/path/filename.mp4',
-    encryption=components.NewAssetPayloadEncryption(
-        encrypted_key='string',
-    ),
+    profiles=[
+        components.TranscodeProfile(
+            bitrate=3000000,
+            width=1280,
+            name='720p',
+            quality=23,
+            fps=30,
+            fps_den=1,
+            gop='2',
+            profile=components.TranscodeProfileProfile.H264_BASELINE,
+            encoder=components.TranscodeProfileEncoder.H_264,
+        ),
+    ],
 )
 
 res = s.asset.create(req)
 
-if res.object is not None:
+if res.data is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
@@ -169,7 +207,7 @@ if res.object is not None:
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
 ## create_via_url
 
@@ -178,96 +216,63 @@ Upload asset via URL
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import components
+import livepeer
+from livepeer.models import components
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.NewAssetPayload(
+req = components.NewAssetFromURLPayload(
     name='filename.mp4',
+    url='https://s3.amazonaws.com/my-bucket/path/filename.mp4',
     static_mp4=True,
     playback_policy=components.PlaybackPolicy(
         type=components.Type.WEBHOOK,
+        webhook_id='1bde4o2i6xycudoy',
         webhook_context={
-            "key": 'string',
+            'streamerId': 'my-custom-id',
         },
+        refresh_interval=600,
     ),
-'string',
-    storage=components.NewAssetPayloadStorage(
-        components.NewAssetPayload1(
-            spec=components.Spec(
-                nft_metadata=components.NftMetadata(),
-            ),
+    profiles=[
+        components.TranscodeProfile(
+            bitrate=3000000,
+            width=1280,
+            name='720p',
+            quality=23,
+            fps=30,
+            fps_den=1,
+            gop='2',
+            profile=components.TranscodeProfileProfile.H264_BASELINE,
+            encoder=components.TranscodeProfileEncoder.H_264,
         ),
-    ),
-    url='https://s3.amazonaws.com/my-bucket/path/filename.mp4',
-    encryption=components.NewAssetPayloadEncryption(
-        encrypted_key='string',
-    ),
+    ],
 )
 
 res = s.asset.create_via_url(req)
 
-if res.object is not None:
+if res.data is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
 
-| Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `request`                                                                | [components.NewAssetPayload](../../models/components/newassetpayload.md) | :heavy_check_mark:                                                       | The request object to use for the request.                               |
+| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `request`                                                                              | [components.NewAssetFromURLPayload](../../models/components/newassetfromurlpayload.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
 
 
 ### Response
 
-**[operations.UploadAssetViaURLResponse](../../models/operations/uploadassetviaurlresponse.md)**
+**[operations.UploadAssetResponse](../../models/operations/uploadassetresponse.md)**
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
-
-## delete
-
-Delete an asset
-
-### Example Usage
-
-```python
-import sdk
-from sdk.models import operations
-
-s = sdk.SDK(
-    api_key="",
-)
-
-
-res = s.asset.delete(asset_id='string')
-
-if res.status_code == 200:
-    # handle response
-    pass
-```
-
-### Parameters
-
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `asset_id`         | *str*              | :heavy_check_mark: | ID of the asset    |
-
-
-### Response
-
-**[operations.DeleteAssetResponse](../../models/operations/deleteassetresponse.md)**
-### Errors
-
-| Error Object    | Status Code     | Content Type    |
-| --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
 ## get
 
@@ -276,19 +281,19 @@ Retrieves an asset
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import operations
+import livepeer
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.asset.get(asset_id='string')
+res = s.asset.get(asset_id='<value>')
 
 if res.asset is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
@@ -305,7 +310,7 @@ if res.asset is not None:
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
 
 ## update
 
@@ -314,31 +319,30 @@ Patch an asset
 ### Example Usage
 
 ```python
-import sdk
-from sdk.models import components, operations
+import livepeer
+from livepeer.models import components
 
-s = sdk.SDK(
-    api_key="",
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.asset.update(asset_id='string', asset_patch_payload=components.AssetPatchPayload(
+res = s.asset.update(asset_id='<value>', asset_patch_payload=components.AssetPatchPayload(
     name='filename.mp4',
-'string',
     playback_policy=components.PlaybackPolicy(
-        type=components.Type.PUBLIC,
+        type=components.Type.WEBHOOK,
+        webhook_id='1bde4o2i6xycudoy',
         webhook_context={
-            "key": 'string',
+            'streamerId': 'my-custom-id',
         },
-    ),
-    storage=components.Storage(
-    False,
+        refresh_interval=600,
     ),
 ))
 
 if res.asset is not None:
     # handle response
     pass
+
 ```
 
 ### Parameters
@@ -356,4 +360,42 @@ if res.asset is not None:
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 400-600         | */*             |
+| errors.SDKError | 4xx-5xx         | */*             |
+
+## delete
+
+Delete an asset
+
+### Example Usage
+
+```python
+import livepeer
+
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+
+res = s.asset.delete(asset_id='<value>')
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter          | Type               | Required           | Description        |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `asset_id`         | *str*              | :heavy_check_mark: | ID of the asset    |
+
+
+### Response
+
+**[operations.DeleteAssetResponse](../../models/operations/deleteassetresponse.md)**
+### Errors
+
+| Error Object    | Status Code     | Content Type    |
+| --------------- | --------------- | --------------- |
+| errors.SDKError | 4xx-5xx         | */*             |

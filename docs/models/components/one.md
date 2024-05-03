@@ -1,13 +1,11 @@
 # One
 
-Set to true to make default export to IPFS. To customize the
-pinned files, specify an object with a spec field. False or null
-means to unpin from IPFS, but it's unsupported right now.
-
-
 
 ## Fields
 
-| Field                                                        | Type                                                         | Required                                                     | Description                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `spec`                                                       | [Optional[components.Spec]](../../models/components/spec.md) | :heavy_minus_sign:                                           | N/A                                                          |
+| Field                                                                    | Type                                                                     | Required                                                                 | Description                                                              |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| `type`                                                                   | [components.SourceType](../../models/components/sourcetype.md)           | :heavy_check_mark:                                                       | N/A                                                                      |
+| `url`                                                                    | *str*                                                                    | :heavy_check_mark:                                                       | URL from which the asset was uploaded.                                   |
+| `gateway_url`                                                            | *Optional[str]*                                                          | :heavy_minus_sign:                                                       | Gateway URL from asset if parsed from provided URL on upload.            |
+| `encryption`                                                             | [Optional[components.Encryption]](../../models/components/encryption.md) | :heavy_minus_sign:                                                       | N/A                                                                      |

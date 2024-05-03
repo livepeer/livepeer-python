@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### CreatorID
+### InputCreatorID1
 
 ```python
-inputCreatorID: Union[components.CreatorID1] = /* values here */
+inputCreatorID: components.InputCreatorID1 = /* values here */
 ```
 
 ### 

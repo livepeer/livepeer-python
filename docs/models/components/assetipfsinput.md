@@ -1,0 +1,10 @@
+# AssetIpfsInput
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `spec`                                                                                 | [Optional[components.AssetSpec]](../../models/components/assetspec.md)                 | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `dollar_ref`                                                                           | *Optional[Any]*                                                                        | :heavy_minus_sign:                                                                     | N/A                                                                                    |
+| `nft_metadata`                                                                         | [Optional[components.IpfsFileInfoInput]](../../models/components/ipfsfileinfoinput.md) | :heavy_minus_sign:                                                                     | N/A                                                                                    |
