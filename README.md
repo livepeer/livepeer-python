@@ -10,7 +10,7 @@ For full documentation and examples, please visit [docs.livepeer.org](https://do
 ## SDK Installation
 
 ```bash
-pip install https://github.com/livepeer/livepeer-python.git
+pip install git+https://github.com/livepeer/livepeer-python.git
 ```
 
 ## SDK Example Usage
