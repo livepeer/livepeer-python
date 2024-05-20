@@ -59,6 +59,7 @@ class Playback:
         res = operations.GetPlaybackInfoResponse(http_meta=components.HTTPMetadata(request=req, response=http_res))
         
         if http_res.status_code == 200:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[components.PlaybackInfo])
                 res.playback_info = out
@@ -66,6 +67,7 @@ class Playback:
                 content_type = http_res.headers.get('Content-Type')
                 raise errors.SDKError(f'unknown content-type received: {content_type}', http_res.status_code, http_res.text, http_res)
         elif http_res.status_code == 404:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, errors.Error)
                 raise out

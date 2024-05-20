@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 import dataclasses
-from .input_creator_id import InputCreatorID1
+from .input_creator_id import InputCreatorID
 from .transcode_profile import TranscodeProfile
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from livepeer import utils
 from typing import List, Optional, Union
+
 
 class InputType(str, Enum):
     r"""Type of service. This is optional and defaults to `url` if
@@ -57,6 +58,9 @@ class Input1:
     
 
 
+Input = Union['Input1', 'Input2']
+
+
 class TranscodePayloadStorageType(str, Enum):
     r"""Type of service used for output files"""
     WEB3_STORAGE = 'web3.storage'
@@ -85,6 +89,7 @@ class Storage2:
     web3.storage
     """
     
+
 
 
 class StorageType(str, Enum):
@@ -118,6 +123,8 @@ class Storage1:
     r"""Credentials for the output video storage"""
     
 
+
+TranscodePayloadStorage = Union['Storage1', 'Storage2']
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -167,14 +174,14 @@ class Outputs:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class TranscodePayload:
-    input: Union[Input1, Input2] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('input') }})
-    storage: Union[Storage1, Storage2] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage') }})
+    input: Input = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('input') }})
+    storage: TranscodePayloadStorage = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage') }})
     outputs: Outputs = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outputs') }})
     r"""Output formats"""
     profiles: Optional[List[TranscodeProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
     target_segment_size_secs: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('targetSegmentSizeSecs'), 'exclude': lambda f: f is None }})
     r"""How many seconds the duration of each output segment should be"""
-    creator_id: Optional[Union[InputCreatorID1, str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    creator_id: Optional[InputCreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     c2pa: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('c2pa'), 'exclude': lambda f: f is None }})
     r"""Decides if the output video should include C2PA signature"""
     

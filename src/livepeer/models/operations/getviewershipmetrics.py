@@ -9,6 +9,11 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Optional, Union
 
+From = Union[datetime, int]
+
+To = Union[datetime, int]
+
+
 class TimeStep(str, Enum):
     r"""The time step to aggregate viewership metrics by"""
     HOUR = 'hour'
@@ -16,6 +21,7 @@ class TimeStep(str, Enum):
     WEEK = 'week'
     MONTH = 'month'
     YEAR = 'year'
+
 
 class BreakdownBy(str, Enum):
     PLAYBACK_ID = 'playbackId'
@@ -41,9 +47,9 @@ class GetViewershipMetricsRequest:
     playback ID from Livepeer assets or streams, or dStorage identifiers
     for assets
     """
-    from_: Optional[Union[datetime, int]] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'from', 'style': 'form', 'explode': True }})
+    from_: Optional[From] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'from', 'style': 'form', 'explode': True }})
     r"""Start timestamp for the query range (inclusive)"""
-    to: Optional[Union[datetime, int]] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'to', 'style': 'form', 'explode': True }})
+    to: Optional[To] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'to', 'style': 'form', 'explode': True }})
     r"""End timestamp for the query range (exclusive)"""
     time_step: Optional[TimeStep] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeStep', 'style': 'form', 'explode': True }})
     r"""The time step to aggregate viewership metrics by"""

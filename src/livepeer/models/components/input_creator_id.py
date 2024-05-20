@@ -5,6 +5,8 @@ import dataclasses
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from livepeer import utils
+from typing import Union
+
 
 class InputCreatorIDType(str, Enum):
     UNVERIFIED = 'unverified'
@@ -17,3 +19,5 @@ class InputCreatorID1:
     value: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('value') }})
     
 
+
+InputCreatorID = Union['InputCreatorID1', str]

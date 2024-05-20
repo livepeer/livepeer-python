@@ -4,14 +4,15 @@ from __future__ import annotations
 import dataclasses
 from .asset import Asset
 from .encryption_output import EncryptionOutput
-from .export_task_params import ExportTaskParams1, ExportTaskParams2
-from .input_creator_id import InputCreatorID1
+from .export_task_params import ExportTaskParams
+from .input_creator_id import InputCreatorID
 from .ipfs_export_params import IpfsExportParams
 from .transcode_profile import TranscodeProfile
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from livepeer import utils
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
+
 
 class TaskType(str, Enum):
     r"""Type of the task"""
@@ -131,7 +132,7 @@ class TranscodeFile:
     r"""How many seconds the duration of each output segment should
     be
     """
-    creator_id: Optional[Union[InputCreatorID1, str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    creator_id: Optional[InputCreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     c2pa: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('c2pa'), 'exclude': lambda f: f is None }})
     r"""Decides if the output video should include C2PA signature"""
     
@@ -149,6 +150,7 @@ class ClipStrategy:
     playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
     r"""The playback ID of the stream or stream recording to clip. Asset playback IDs are not supported yet."""
     
+
 
 
 class CatalystPipelineStrategy(str, Enum):
@@ -184,7 +186,7 @@ class Params:
     r"""Parameters of the task"""
     upload: Optional[Upload] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('upload'), 'exclude': lambda f: f is None }})
     r"""Parameters for the upload task"""
-    export: Optional[Union[ExportTaskParams1, ExportTaskParams2]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('export'), 'exclude': lambda f: f is None }})
+    export: Optional[ExportTaskParams] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('export'), 'exclude': lambda f: f is None }})
     r"""Parameters for the export task"""
     export_data: Optional[TaskExportData] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exportData'), 'exclude': lambda f: f is None }})
     r"""Parameters for the export-data task"""
@@ -192,6 +194,7 @@ class Params:
     r"""Parameters for the transcode-file task"""
     clip: Optional[Clip] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('clip'), 'exclude': lambda f: f is None }})
     
+
 
 
 class TaskPhase(str, Enum):

@@ -7,6 +7,7 @@ from enum import Enum
 from livepeer import utils
 from typing import Optional
 
+
 class Phase(str, Enum):
     r"""Phase of the asset storage"""
     WAITING = 'waiting'

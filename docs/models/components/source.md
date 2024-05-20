@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### One
+### Source1
 
 ```python
-source: components.One = /* values here */
+source: components.Source1 = /* values here */
 ```
 
 ### Two

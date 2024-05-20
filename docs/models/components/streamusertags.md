@@ -18,6 +18,6 @@ streamUserTags: float = /* values here */
 ### 
 
 ```python
-streamUserTags: List[Union[str, float]] = /* values here */
+streamUserTags: List[components.Three] = /* values here */
 ```
 

@@ -2,21 +2,22 @@
 
 from __future__ import annotations
 import dataclasses
-from .input_creator_id import InputCreatorID1
+from .input_creator_id import InputCreatorID
 from .playback_policy import PlaybackPolicy
 from .storage import Storage
 from dataclasses_json import Undefined, dataclass_json
 from livepeer import utils
-from typing import Optional, Union
+from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class AssetPatchPayload:
+    UNSET='__SPEAKEASY_UNSET__'
     name: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name'), 'exclude': lambda f: f is None }})
     r"""The name of the asset. This is not necessarily the filename - it can be a custom name or title."""
-    creator_id: Optional[Union[InputCreatorID1, str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
-    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
+    creator_id: Optional[InputCreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is AssetPatchPayload.UNSET }})
     r"""Whether the playback policy for a asset or stream is public or signed"""
     storage: Optional[Storage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     

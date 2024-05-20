@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### Source1
+### AssetSource1
 
 ```python
-assetSource: components.Source1 = /* values here */
+assetSource: components.AssetSource1 = /* values here */
 ```
 
 ### Two

@@ -20,12 +20,14 @@ class Pinata2:
 class Pinata1:
     pass
 
+Pinata = Union['Pinata1', 'Pinata2']
+
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class IpfsExportParams:
     dollar_ref: Optional[Any] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('$ref'), 'exclude': lambda f: f is None }})
-    pinata: Optional[Union[Pinata1, Pinata2]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pinata'), 'exclude': lambda f: f is None }})
+    pinata: Optional[Pinata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pinata'), 'exclude': lambda f: f is None }})
     r"""Custom credentials for the Piñata service. Must have either
     a JWT or an API key and an API secret.
     """

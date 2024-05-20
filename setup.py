@@ -12,7 +12,7 @@ setuptools.setup(
     name='livepeer',
     version='0.0.2',
     author='Livepeer',
-    description='Livepeer API client',
+    description='Python Client SDK for Livepeer Studio',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=setuptools.find_packages(where='src'),

@@ -1,25 +1,30 @@
 lockVersion: 2.0.0
-id: f7c8050d-342d-4ad7-a360-60d013af4a01
+id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: 8cb92d6e4be786c4354f6df0790f5984
+  docChecksum: c12afd029507bb4c81908e836702453b
   docVersion: 1.0.0
-  speakeasyVersion: 1.279.0
-  generationVersion: 2.322.5
-  releaseVersion: 0.0.1
-  configChecksum: 12c6dca1566659b70f40f6256a41071b
+  speakeasyVersion: 1.293.1
+  generationVersion: 2.333.3
+  releaseVersion: 0.0.2
+  configChecksum: 6942ebe5c074019cd8d3454289384331
 features:
   python:
+    additionalDependencies: 0.1.0
     additionalProperties: 0.1.0
     constsAndDefaults: 0.1.3
     core: 4.6.7
     deprecations: 2.81.1
     flattening: 2.81.1
     globalSecurity: 2.83.5
+    globalSecurityCallbacks: 0.1.0
+    globalSecurityFlattening: 0.1.0
     globalServerURLs: 2.82.2
     inputOutputModels: 2.83.1
     nameOverrides: 2.81.2
+    nullables: 0.1.0
     responseFormat: 0.1.0
-    unions: 2.82.6
+    sdkHooks: 0.1.0
+    unions: 2.82.7
 generatedFiles:
   - src/livepeer/sdkconfiguration.py
   - src/livepeer/stream.py
@@ -106,6 +111,7 @@ generatedFiles:
   - src/livepeer/models/components/creator_id.py
   - src/livepeer/models/components/httpmetadata.py
   - src/livepeer/models/components/new_stream_payload.py
+  - src/livepeer/models/components/usertags.py
   - src/livepeer/models/components/multistream.py
   - src/livepeer/models/components/target.py
   - src/livepeer/models/components/input_creator_id.py
@@ -200,6 +206,8 @@ generatedFiles:
   - docs/models/operations/task.md
   - docs/models/operations/requestuploaddata.md
   - docs/models/operations/requestuploadresponse.md
+  - docs/models/operations/uploadassetassettask.md
+  - docs/models/operations/uploadassetdataoutput.md
   - docs/models/operations/uploadassettask.md
   - docs/models/operations/uploadassetdata.md
   - docs/models/operations/uploadassetresponse.md
@@ -249,6 +257,7 @@ generatedFiles:
   - docs/models/operations/getpublicviewershipmetricsdata.md
   - docs/models/operations/getpublicviewershipmetricsresponse.md
   - docs/models/operations/getusagemetricsqueryparamtimestep.md
+  - docs/models/operations/getusagemetricsqueryparambreakdownby.md
   - docs/models/operations/getusagemetricsrequest.md
   - docs/models/operations/getusagemetricsresponse.md
   - docs/models/operations/createsigningkeyresponse.md
@@ -269,6 +278,8 @@ generatedFiles:
   - docs/models/errors/error.md
   - docs/models/components/three.md
   - docs/models/components/streamusertags.md
+  - docs/models/components/ismobile1.md
+  - docs/models/components/streamismobile.md
   - docs/models/components/streamlocation.md
   - docs/models/components/streampull.md
   - docs/models/components/streammultistream.md
@@ -293,6 +304,8 @@ generatedFiles:
   - docs/models/components/inputcreatoridtype.md
   - docs/models/components/inputcreatorid1.md
   - docs/models/components/inputcreatorid.md
+  - docs/models/components/one.md
+  - docs/models/components/ismobile.md
   - docs/models/components/location.md
   - docs/models/components/pull.md
   - docs/models/components/streampatchpayload.md
@@ -302,7 +315,7 @@ generatedFiles:
   - docs/models/components/assetsourcetype.md
   - docs/models/components/two.md
   - docs/models/components/sourcetype.md
-  - docs/models/components/source1.md
+  - docs/models/components/assetsource1.md
   - docs/models/components/assetsource.md
   - docs/models/components/assetnftmetadatatemplate.md
   - docs/models/components/assetnftmetadata.md
@@ -347,7 +360,7 @@ generatedFiles:
   - docs/models/components/nftmetadata.md
   - docs/models/components/spec.md
   - docs/models/components/source3.md
-  - docs/models/components/one.md
+  - docs/models/components/source1.md
   - docs/models/components/source.md
   - docs/models/components/assetipfsinput.md
   - docs/models/components/assetstorageinput.md
@@ -421,6 +434,7 @@ generatedFiles:
   - docs/models/components/outputs.md
   - docs/models/components/transcodepayload.md
   - docs/models/components/playbackinfotype.md
+  - docs/models/components/live.md
   - docs/models/components/hrn.md
   - docs/models/components/playbackinfometatype.md
   - docs/models/components/playbackinfosource.md
@@ -440,18 +454,6 @@ generatedFiles:
   - docs/models/components/attestationstorage.md
   - docs/models/components/attestation.md
   - docs/models/components/security.md
-  - docs/sdks/livepeer/README.md
-  - docs/sdks/stream/README.md
-  - docs/sdks/multistream/README.md
-  - docs/sdks/webhook/README.md
-  - docs/sdks/asset/README.md
-  - docs/sdks/session/README.md
-  - docs/sdks/room/README.md
-  - docs/sdks/metrics/README.md
-  - docs/sdks/accesscontrol/README.md
-  - docs/sdks/task/README.md
-  - docs/sdks/transcode/README.md
-  - docs/sdks/playback/README.md
   - USAGE.md
   - .gitattributes
   - src/livepeer/_hooks/sdkhooks.py
