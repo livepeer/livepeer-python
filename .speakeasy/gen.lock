@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.293.1
   generationVersion: 2.333.3
-  releaseVersion: 0.0.1
-  configChecksum: 62f669c5407f5c709447d79e9e3af0f1
+  releaseVersion: 0.0.2
+  configChecksum: 6942ebe5c074019cd8d3454289384331
 features:
   python:
     additionalDependencies: 0.1.0
@@ -454,18 +454,6 @@ generatedFiles:
   - docs/models/components/attestationstorage.md
   - docs/models/components/attestation.md
   - docs/models/components/security.md
-  - docs/sdks/livepeer/README.md
-  - docs/sdks/stream/README.md
-  - docs/sdks/multistream/README.md
-  - docs/sdks/webhook/README.md
-  - docs/sdks/asset/README.md
-  - docs/sdks/session/README.md
-  - docs/sdks/room/README.md
-  - docs/sdks/metrics/README.md
-  - docs/sdks/accesscontrol/README.md
-  - docs/sdks/task/README.md
-  - docs/sdks/transcode/README.md
-  - docs/sdks/playback/README.md
   - USAGE.md
   - .gitattributes
   - src/livepeer/_hooks/sdkhooks.py
