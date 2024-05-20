@@ -58,6 +58,7 @@ class Metrics:
         res = operations.GetViewershipMetricsResponse(http_meta=components.HTTPMetadata(request=req, response=http_res))
         
         if http_res.status_code == 200:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.ViewershipMetric]])
                 res.data = out
@@ -67,6 +68,7 @@ class Metrics:
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
             raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
         else:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[errors.Error])
                 res.error = out
@@ -120,6 +122,7 @@ class Metrics:
         res = operations.GetCreatorViewershipMetricsResponse(http_meta=components.HTTPMetadata(request=req, response=http_res))
         
         if http_res.status_code == 200:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[List[components.ViewershipMetric]])
                 res.data = out
@@ -129,6 +132,7 @@ class Metrics:
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
             raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
         else:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[errors.Error])
                 res.error = out
@@ -187,6 +191,7 @@ class Metrics:
         res = operations.GetPublicViewershipMetricsResponse(http_meta=components.HTTPMetadata(request=req, response=http_res))
         
         if http_res.status_code == 200:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[operations.GetPublicViewershipMetricsData])
                 res.data = out
@@ -196,6 +201,7 @@ class Metrics:
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
             raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
         else:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[errors.Error])
                 res.error = out
@@ -207,16 +213,9 @@ class Metrics:
 
     
     
-    def get_usage(self, from_: Optional[int] = None, to: Optional[int] = None, time_step: Optional[operations.GetUsageMetricsQueryParamTimeStep] = None, creator_id: Optional[str] = None) -> operations.GetUsageMetricsResponse:
+    def get_usage(self, request: operations.GetUsageMetricsRequest) -> operations.GetUsageMetricsResponse:
         r"""Query usage metrics"""
         hook_ctx = HookContext(operation_id='getUsageMetrics', oauth2_scopes=[], security_source=self.sdk_configuration.security)
-        request = operations.GetUsageMetricsRequest(
-            from_=from_,
-            to=to,
-            time_step=time_step,
-            creator_id=creator_id,
-        )
-        
         base_url = utils.template_url(*self.sdk_configuration.get_server_details())
         
         url = base_url + '/data/usage/query'
@@ -254,6 +253,7 @@ class Metrics:
         res = operations.GetUsageMetricsResponse(http_meta=components.HTTPMetadata(request=req, response=http_res))
         
         if http_res.status_code == 200:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[components.UsageMetric])
                 res.usage_metric = out
@@ -263,6 +263,7 @@ class Metrics:
         elif http_res.status_code >= 400 and http_res.status_code < 500 or http_res.status_code >= 500 and http_res.status_code < 600:
             raise errors.SDKError('API error occurred', http_res.status_code, http_res.text, http_res)
         else:
+            # pylint: disable=no-else-return
             if utils.match_content_type(http_res.headers.get('Content-Type') or '', 'application/json'):                
                 out = utils.unmarshal_json(http_res.text, Optional[errors.Error])
                 res.error = out

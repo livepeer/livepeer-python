@@ -24,8 +24,8 @@ class SDKConfiguration:
     language: str = 'python'
     openapi_doc_version: str = '1.0.0'
     sdk_version: str = '0.0.1'
-    gen_version: str = '2.322.5'
-    user_agent: str = 'speakeasy-sdk/python 0.0.1 2.322.5 1.0.0 livepeer'
+    gen_version: str = '2.333.3'
+    user_agent: str = 'speakeasy-sdk/python 0.0.1 2.333.3 1.0.0 livepeer'
     retry_config: Optional[RetryConfig] = None
 
     def __post_init__(self):

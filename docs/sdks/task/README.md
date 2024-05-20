@@ -23,7 +23,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.task.get_all()
 
 if res.data is not None:
@@ -54,7 +53,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.task.get(task_id='<value>')
 

@@ -12,8 +12,26 @@ from typing import Optional
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
+class UploadAssetAssetTask:
+    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
+    
+
+
+
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
+class UploadAssetDataOutput:
+    r"""Upload started"""
+    asset: components_asset.Asset = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('asset') }})
+    task: UploadAssetAssetTask = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('task') }})
+    
+
+
+
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
 class UploadAssetTask:
-    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
+    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     
 
 
@@ -21,7 +39,7 @@ class UploadAssetTask:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class UploadAssetData:
-    r"""Success"""
+    r"""Upload in progress"""
     asset: components_asset.Asset = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('asset') }})
     task: UploadAssetTask = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('task') }})
     
@@ -31,8 +49,10 @@ class UploadAssetData:
 @dataclasses.dataclass
 class UploadAssetResponse:
     http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
-    data: Optional[UploadAssetData] = dataclasses.field(default=None)
-    r"""Success"""
+    two_hundred_application_json_data: Optional[UploadAssetData] = dataclasses.field(default=None)
+    r"""Upload in progress"""
+    two_hundred_and_one_application_json_data: Optional[UploadAssetDataOutput] = dataclasses.field(default=None)
+    r"""Upload started"""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)
     r"""Error"""
     

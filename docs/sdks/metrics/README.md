@@ -27,9 +27,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = operations.GetViewershipMetricsRequest()
-
-res = s.metrics.get_viewership(req)
+res = s.metrics.get_viewership(request=operations.GetViewershipMetricsRequest())
 
 if res.data is not None:
     # handle response
@@ -68,9 +66,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = operations.GetCreatorViewershipMetricsRequest()
-
-res = s.metrics.get_creator_viewership(req)
+res = s.metrics.get_creator_viewership(request=operations.GetCreatorViewershipMetricsRequest())
 
 if res.data is not None:
     # handle response
@@ -110,7 +106,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.metrics.get_public_viewership(playback_id='<value>')
 
 if res.data is not None:
@@ -149,8 +144,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.metrics.get_usage(from_=224089, to=231125, time_step=operations.GetUsageMetricsQueryParamTimeStep.DAY, creator_id='<value>')
+res = s.metrics.get_usage(request=operations.GetUsageMetricsRequest())
 
 if res.usage_metric is not None:
     # handle response
@@ -160,12 +154,9 @@ if res.usage_metric is not None:
 
 ### Parameters
 
-| Parameter                                                                                                              | Type                                                                                                                   | Required                                                                                                               | Description                                                                                                            |
-| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `from_`                                                                                                                | *Optional[int]*                                                                                                        | :heavy_minus_sign:                                                                                                     | Start millis timestamp for the query range (inclusive)<br/>                                                            |
-| `to`                                                                                                                   | *Optional[int]*                                                                                                        | :heavy_minus_sign:                                                                                                     | End millis timestamp for the query range (exclusive)<br/>                                                              |
-| `time_step`                                                                                                            | [Optional[operations.GetUsageMetricsQueryParamTimeStep]](../../models/operations/getusagemetricsqueryparamtimestep.md) | :heavy_minus_sign:                                                                                                     | The time step to aggregate viewership metrics by<br/>                                                                  |
-| `creator_id`                                                                                                           | *Optional[str]*                                                                                                        | :heavy_minus_sign:                                                                                                     | The creator ID to filter the query results<br/>                                                                        |
+| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `request`                                                                              | [operations.GetUsageMetricsRequest](../../models/operations/getusagemetricsrequest.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
 
 
 ### Response

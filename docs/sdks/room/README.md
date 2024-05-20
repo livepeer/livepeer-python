@@ -33,7 +33,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.room.create()
 
 if res.create_room_response is not None:
@@ -66,7 +65,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.room.get(id='<value>')
 
@@ -106,7 +104,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.room.delete(id='<value>')
 
@@ -150,7 +147,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.room.start_egress(id='<value>', room_egress_payload=components.RoomEgressPayload(
     stream_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
 ))
@@ -192,7 +188,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.room.stop_egress(id='<value>')
 
@@ -236,7 +231,6 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.room.create_user(id='<value>', room_user_payload=components.RoomUserPayload(
     name='name',
@@ -282,7 +276,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.room.get_user(id='<value>', user_id='<value>')
 
 if res.get_room_user_response is not None:
@@ -323,7 +316,6 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.room.update_user(id='<value>', user_id='<value>', room_user_update_payload=components.RoomUserUpdatePayload(
     can_publish=True,
@@ -368,7 +360,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.room.delete_user(id='<value>', user_id='<value>')
 

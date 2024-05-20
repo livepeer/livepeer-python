@@ -22,7 +22,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.playback.get(id='<value>')
 
 if res.playback_info is not None:

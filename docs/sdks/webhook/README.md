@@ -29,7 +29,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.webhook.get_all()
 
 if res.data is not None:
@@ -63,7 +62,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.WebhookInput(
+res = s.webhook.create(request=components.WebhookInput(
     name='test_webhook',
     url='https://my-service.com/webhook',
     events=[
@@ -72,9 +71,7 @@ req = components.WebhookInput(
     ],
     shared_secret='my-secret',
     stream_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
-)
-
-res = s.webhook.create(req)
+))
 
 if res.webhook is not None:
     # handle response
@@ -110,7 +107,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.webhook.get(id='<value>')
 
@@ -149,7 +145,6 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.webhook.update(id='<value>', webhook=components.WebhookInput(
     name='test_webhook',
@@ -198,7 +193,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.webhook.delete(id='<value>')
 
 if res.webhook is not None:
@@ -236,7 +230,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.webhook.get_logs(id='<value>')
 
 if res.data is not None:
@@ -273,7 +266,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.webhook.get_log(id='<value>', log_id='<value>')
 
@@ -315,7 +307,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.webhook.resend_log(id='<value>', log_id='<value>')
 

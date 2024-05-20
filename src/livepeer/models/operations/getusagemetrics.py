@@ -6,12 +6,17 @@ from ...models.components import httpmetadata as components_httpmetadata
 from ...models.components import usage_metric as components_usage_metric
 from ...models.errors import error as errors_error
 from enum import Enum
-from typing import Optional
+from typing import List, Optional
+
 
 class GetUsageMetricsQueryParamTimeStep(str, Enum):
     r"""The time step to aggregate viewership metrics by"""
     HOUR = 'hour'
     DAY = 'day'
+
+
+class GetUsageMetricsQueryParamBreakdownBy(str, Enum):
+    CREATOR_ID = 'creatorId'
 
 
 @dataclasses.dataclass
@@ -24,6 +29,10 @@ class GetUsageMetricsRequest:
     r"""The time step to aggregate viewership metrics by"""
     creator_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'creatorId', 'style': 'form', 'explode': True }})
     r"""The creator ID to filter the query results"""
+    breakdown_by: Optional[List[GetUsageMetricsQueryParamBreakdownBy]] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'breakdownBy[]', 'style': 'form', 'explode': True }})
+    r"""The list of fields to break down the query results. Currently the
+    only supported breakdown is by `creatorId`.
+    """
     
 
 

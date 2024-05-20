@@ -26,7 +26,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.multistream.get_all()
 
 if res.data is not None:
@@ -59,11 +58,9 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.MultistreamTargetInput(
+res = s.multistream.create(request=components.MultistreamTargetInput(
     url='rtmps://live.my-service.tv/channel/secretKey',
-)
-
-res = s.multistream.create(req)
+))
 
 if res.multistream_target is not None:
     # handle response
@@ -99,7 +96,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.multistream.get(id='<value>')
 
@@ -138,7 +134,6 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.multistream.update(id='<value>', multistream_target_patch_payload=components.MultistreamTargetPatchPayload(
     url='rtmps://live.my-service.tv/channel/secretKey',
@@ -181,7 +176,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.multistream.delete(id='<value>')
 

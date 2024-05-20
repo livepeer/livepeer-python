@@ -7,11 +7,13 @@ from enum import Enum
 from livepeer import utils
 from typing import Optional
 
+
 class Profile(str, Enum):
     H264_BASELINE = 'H264Baseline'
     H264_MAIN = 'H264Main'
     H264_HIGH = 'H264High'
     H264_CONSTRAINED_HIGH = 'H264ConstrainedHigh'
+
 
 class Encoder(str, Enum):
     H_264 = 'H.264'

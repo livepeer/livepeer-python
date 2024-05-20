@@ -9,10 +9,17 @@ from enum import Enum
 from livepeer import utils
 from typing import List, Optional
 
+
 class PlaybackInfoType(str, Enum):
     LIVE = 'live'
     VOD = 'vod'
     RECORDING = 'recording'
+
+
+class Live(int, Enum):
+    ZERO = 0
+    ONE = 1
+
 
 class Hrn(str, Enum):
     r"""Human Readable Name"""
@@ -22,6 +29,7 @@ class Hrn(str, Enum):
     FLV_H264_ = 'FLV (H264)'
     THUMBNAIL_JPEG_ = 'Thumbnail (JPEG)'
     THUMBNAILS = 'Thumbnails'
+
 
 class PlaybackInfoMetaType(str, Enum):
     HTML5_APPLICATION_VND_APPLE_MPEGURL = 'html5/application/vnd.apple.mpegurl'
@@ -46,8 +54,10 @@ class PlaybackInfoSource:
     
 
 
+
 class PlaybackInfoHrn(str, Enum):
     HLS_TS_ = 'HLS (TS)'
+
 
 class PlaybackInfoMetaDvrPlaybackType(str, Enum):
     HTML5_APPLICATION_VND_APPLE_MPEGURL = 'html5/application/vnd.apple.mpegurl'
@@ -67,9 +77,10 @@ class DvrPlayback:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class Meta:
+    UNSET='__SPEAKEASY_UNSET__'
     source: List[PlaybackInfoSource] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
-    live: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('live'), 'exclude': lambda f: f is None }})
-    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
+    live: Optional[Live] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('live'), 'exclude': lambda f: f is None }})
+    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is Meta.UNSET }})
     r"""Whether the playback policy for a asset or stream is public or signed"""
     dvr_playback: Optional[List[DvrPlayback]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dvrPlayback'), 'exclude': lambda f: f is None }})
     attestation: Optional[Attestation] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('attestation'), 'exclude': lambda f: f is None }})

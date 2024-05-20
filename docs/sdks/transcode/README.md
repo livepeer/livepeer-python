@@ -144,7 +144,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.TranscodePayload(
+res = s.transcode.create(request=components.TranscodePayload(
     input=components.Input1(
         url='https://s3.amazonaws.com/bucket/file.mp4',
     ),
@@ -181,9 +181,7 @@ req = components.TranscodePayload(
             encoder=components.TranscodeProfileEncoder.H_264,
         ),
     ],
-)
-
-res = s.transcode.create(req)
+))
 
 if res.task is not None:
     # handle response

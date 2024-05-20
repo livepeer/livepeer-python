@@ -28,7 +28,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.access_control.create()
 
 if res.signing_key is not None:
@@ -60,7 +59,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.access_control.get_all()
 
 if res.data is not None:
@@ -91,7 +89,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.access_control.delete(key_id='<value>')
 
@@ -130,7 +127,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.access_control.get(key_id='<value>')
 
 if res.signing_key is not None:
@@ -168,7 +164,6 @@ from livepeer.models import operations
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.access_control.update(key_id='<value>', request_body=operations.UpdateSigningKeyRequestBody())
 

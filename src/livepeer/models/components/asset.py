@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 import dataclasses
-from .creator_id import CreatorID1
+from .creator_id import CreatorID
 from .encryption import Encryption
 from .encryption_output import EncryptionOutput
 from .ipfs_file_info import IpfsFileInfo
@@ -14,10 +14,12 @@ from enum import Enum
 from livepeer import utils
 from typing import Any, List, Optional, Union
 
+
 class AssetType(str, Enum):
     r"""Type of the asset."""
     VIDEO = 'video'
     AUDIO = 'audio'
+
 
 class AssetSource3Type(str, Enum):
     DIRECT_UPLOAD = 'directUpload'
@@ -42,6 +44,7 @@ class AssetSource3:
     
 
 
+
 class AssetSourceType(str, Enum):
     RECORDING = 'recording'
 
@@ -55,13 +58,14 @@ class Two:
     
 
 
+
 class SourceType(str, Enum):
     URL = 'url'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Source1:
+class AssetSource1:
     type: SourceType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     url: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url') }})
     r"""URL from which the asset was uploaded."""
@@ -69,6 +73,9 @@ class Source1:
     r"""Gateway URL from asset if parsed from provided URL on upload."""
     encryption: Optional[EncryptionOutput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
     
+
+
+AssetSource = Union['AssetSource1', 'Two', 'AssetSource3']
 
 
 class AssetNftMetadataTemplate(str, Enum):
@@ -129,6 +136,7 @@ class AssetStorage:
     
 
 
+
 class AssetPhase(str, Enum):
     r"""Phase of the asset"""
     UPLOADING = 'uploading'
@@ -164,6 +172,7 @@ class Hash:
     algorithm: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('algorithm'), 'exclude': lambda f: f is None }})
     r"""Hash algorithm used to compute the hash"""
     
+
 
 
 class AssetVideoSpecType(str, Enum):
@@ -226,8 +235,9 @@ class VideoSpec:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class Asset:
+    UNSET='__SPEAKEASY_UNSET__'
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    source: Union[Source1, Two, AssetSource3] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
+    source: AssetSource = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     r"""The name of the asset. This is not necessarily the filename - it can be a custom name or title."""
     type: Optional[AssetType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
@@ -240,9 +250,9 @@ class Asset:
     r"""URL for HLS playback. **It is recommended to not use this URL**, and instead use playback IDs with the Playback Info endpoint to retrieve the playback URLs - this URL format is subject to change (e.g. https://livepeercdn.com/asset/ea03f37e-f861-4cdd-b495-0e60b6d753ad/index.m3u8)."""
     download_url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('downloadUrl'), 'exclude': lambda f: f is None }})
     r"""The URL to directly download the asset, e.g. `https://livepeercdn.com/asset/eawrrk06ts2d0mzb/video`. It is not recommended to use this for playback."""
-    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
+    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is Asset.UNSET }})
     r"""Whether the playback policy for a asset or stream is public or signed"""
-    creator_id: Optional[Union[CreatorID1]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    creator_id: Optional[CreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     storage: Optional[AssetStorage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     status: Optional[AssetStatus] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
     r"""Status of the asset"""
@@ -283,7 +293,7 @@ class Source3:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class One:
+class Source1:
     type: SourceType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     url: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('url') }})
     r"""URL from which the asset was uploaded."""
@@ -292,6 +302,8 @@ class One:
     encryption: Optional[Encryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
     
 
+
+Source = Union['Source1', 'Two', 'Source3']
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -315,7 +327,8 @@ class AssetStorageInput:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class AssetInput:
-    source: Union[One, Two, Source3] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
+    UNSET='__SPEAKEASY_UNSET__'
+    source: Source = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     r"""The name of the asset. This is not necessarily the filename - it can be a custom name or title."""
     type: Optional[AssetType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
@@ -324,9 +337,9 @@ class AssetInput:
     r"""The playback ID to use with the Playback Info endpoint to retrieve playback URLs."""
     static_mp4: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('staticMp4'), 'exclude': lambda f: f is None }})
     r"""Whether to generate MP4s for the asset."""
-    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
+    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is AssetInput.UNSET }})
     r"""Whether the playback policy for a asset or stream is public or signed"""
-    creator_id: Optional[Union[CreatorID1]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    creator_id: Optional[CreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     storage: Optional[AssetStorageInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     project_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('projectId'), 'exclude': lambda f: f is None }})
     r"""The ID of the project"""

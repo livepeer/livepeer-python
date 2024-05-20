@@ -16,12 +16,14 @@ class Ipfs1:
     
 
 
+Ipfs = Union['Ipfs1', bool]
+
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class Storage:
     UNSET='__SPEAKEASY_UNSET__'
-    ipfs: Optional[Union[Ipfs1, bool]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is Storage.UNSET }})
+    ipfs: Optional[Ipfs] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is Storage.UNSET }})
     r"""Set to true to make default export to IPFS. To customize the
     pinned files, specify an object with a spec field. False or null
     means to unpin from IPFS, but it's unsupported right now.

@@ -27,7 +27,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.asset.get_all()
 
 if res.data is not None:
@@ -131,7 +130,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.NewAssetPayload(
+res = s.asset.create(request=components.NewAssetPayload(
     name='filename.mp4',
     project_id=components.AssetInput(
         source=components.Two(
@@ -183,9 +182,7 @@ req = components.NewAssetPayload(
             encoder=components.TranscodeProfileEncoder.H_264,
         ),
     ],
-)
-
-res = s.asset.create(req)
+))
 
 if res.data is not None:
     # handle response
@@ -223,7 +220,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.NewAssetFromURLPayload(
+res = s.asset.create_via_url(request=components.NewAssetFromURLPayload(
     name='filename.mp4',
     url='https://s3.amazonaws.com/my-bucket/path/filename.mp4',
     static_mp4=True,
@@ -248,11 +245,9 @@ req = components.NewAssetFromURLPayload(
             encoder=components.TranscodeProfileEncoder.H_264,
         ),
     ],
-)
+))
 
-res = s.asset.create_via_url(req)
-
-if res.data is not None:
+if res.two_hundred_application_json_data is not None:
     # handle response
     pass
 
@@ -286,7 +281,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.asset.get(asset_id='<value>')
 
@@ -325,7 +319,6 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.asset.update(asset_id='<value>', asset_patch_payload=components.AssetPatchPayload(
     name='filename.mp4',
@@ -374,7 +367,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.asset.delete(asset_id='<value>')
 

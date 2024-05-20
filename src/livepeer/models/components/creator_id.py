@@ -5,6 +5,8 @@ import dataclasses
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from livepeer import utils
+from typing import Union
+
 
 class CreatorIDType(str, Enum):
     UNVERIFIED = 'unverified'
@@ -18,3 +20,5 @@ class CreatorID1:
     r"""Developer-managed ID of the user who created the resource."""
     
 
+
+CreatorID = Union['CreatorID1']

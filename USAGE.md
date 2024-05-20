@@ -7,7 +7,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.NewStreamPayload(
+res = s.stream.create(request=components.NewStreamPayload(
     name='test_stream',
     pull=components.Pull(
         source='https://myservice.com/live/stream.flv',
@@ -54,9 +54,7 @@ req = components.NewStreamPayload(
             ),
         ],
     ),
-)
-
-res = s.stream.create(req)
+))
 
 if res.stream is not None:
     # handle response

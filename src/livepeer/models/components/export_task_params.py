@@ -5,7 +5,7 @@ import dataclasses
 from .ipfs_export_params import IpfsExportParams
 from dataclasses_json import Undefined, dataclass_json
 from livepeer import utils
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -37,3 +37,5 @@ class ExportTaskParams1:
     r"""custom URL parameters for the export task"""
     
 
+
+ExportTaskParams = Union['ExportTaskParams1', 'ExportTaskParams2']

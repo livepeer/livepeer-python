@@ -8,12 +8,15 @@ from enum import Enum
 from livepeer import utils
 from typing import Any, List, Optional
 
+
 class PrimaryType(str, Enum):
     r"""Video Metadata EIP-712 primaryType"""
     VIDEO_ATTESTATION = 'VideoAttestation'
 
+
 class Name(str, Enum):
     VERIFIABLE_VIDEO = 'Verifiable Video'
+
 
 class Version(str, Enum):
     ONE = '1'
@@ -47,6 +50,7 @@ class Message:
     signer: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('signer') }})
     timestamp: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timestamp') }})
     
+
 
 
 class SignatureType(str, Enum):

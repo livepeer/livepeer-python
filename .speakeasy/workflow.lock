@@ -1,12 +1,26 @@
-speakeasyVersion: 1.279.0
-sources: {}
-targets: {}
+speakeasyVersion: 1.293.1
+sources:
+    livepeer-studio-api:
+        sourceNamespace: livepeer-studio-api
+        sourceRevisionDigest: sha256:2c2ae5c13226fad979904d039150d475be68aa6b1982336cd1b1fca10442e6b4
+        sourceBlobDigest: sha256:9654f648f1908a242d44f50d26e30aa334924508a90c930b3395f14550833e99
+        tags:
+            - latest
+targets:
+    my-first-target:
+        source: livepeer-studio-api
+        sourceNamespace: livepeer-studio-api
+        sourceRevisionDigest: sha256:2c2ae5c13226fad979904d039150d475be68aa6b1982336cd1b1fca10442e6b4
+        sourceBlobDigest: sha256:9654f648f1908a242d44f50d26e30aa334924508a90c930b3395f14550833e99
+        outLocation: /Users/chase/git/livepeer/livepeer-python
 workflow:
     workflowVersion: 1.0.0
     sources:
         livepeer-studio-api:
             inputs:
-                - location: https://raw.githubusercontent.com/livepeer/studio/sk/schema-fixes/packages/api/src/schema/api-schema.yaml
+                - location: https://raw.githubusercontent.com/livepeer/studio/master/packages/api/src/schema/api-schema.yaml
+            registry:
+                location: registry.speakeasyapi.dev/livepeer/livepeer-studio/livepeer-studio-api
     targets:
         my-first-target:
             target: python

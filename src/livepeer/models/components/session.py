@@ -8,10 +8,12 @@ from enum import Enum
 from livepeer import utils
 from typing import List, Optional
 
+
 class RecordingStatus(str, Enum):
     r"""The status of the recording process of this stream session."""
     WAITING = 'waiting'
     READY = 'ready'
+    FAILED = 'failed'
     NONE = 'none'
 
 

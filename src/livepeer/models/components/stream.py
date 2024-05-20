@@ -2,13 +2,27 @@
 
 from __future__ import annotations
 import dataclasses
-from .creator_id import CreatorID1
+from .creator_id import CreatorID
 from .ffmpeg_profile import FfmpegProfile
 from .playback_policy import PlaybackPolicy
 from .target_output import TargetOutput
 from dataclasses_json import Undefined, dataclass_json
+from enum import Enum
 from livepeer import utils
 from typing import Dict, List, Optional, Union
+
+Three = Union[str, float]
+
+StreamUserTags = Union[str, float, List['Three']]
+
+
+class IsMobile1(int, Enum):
+    r"""0: not mobile, 1: mobile screen share, 2: mobile camera."""
+    ZERO = 0
+    ONE = 1
+    TWO = 2
+
+StreamIsMobile = Union['IsMobile1', bool]
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -40,6 +54,8 @@ class StreamPull:
     r"""URL from which to pull from."""
     headers: Optional[Dict[str, str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('headers'), 'exclude': lambda f: f is None }})
     r"""Headers to be sent with the request to the pull source."""
+    is_mobile: Optional[StreamIsMobile] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('isMobile'), 'exclude': lambda f: f is None }})
+    r"""Indicates whether the stream will be pulled from a mobile source."""
     location: Optional[StreamLocation] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('location'), 'exclude': lambda f: f is None }})
     r"""Approximate location of the pull source. The location is used to
     determine the closest Livepeer region to pull the stream from.
@@ -72,8 +88,8 @@ class Stream:
     id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
     kind: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('kind'), 'exclude': lambda f: f is None }})
     r"""Deprecated field: This will be removed in a future release, please migrate away from it as soon as possible."""
-    creator_id: Optional[Union[CreatorID1]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
-    user_tags: Optional[Dict[str, Union[str, float, List[Union[str, float]]]]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('userTags'), 'exclude': lambda f: f is None }})
+    creator_id: Optional[CreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    user_tags: Optional[Dict[str, StreamUserTags]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('userTags'), 'exclude': lambda f: f is None }})
     r"""User input tags associated with the stream"""
     last_seen: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('lastSeen'), 'exclude': lambda f: f is None }})
     source_segments: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('sourceSegments'), 'exclude': lambda f: f is None }})
@@ -109,7 +125,7 @@ class Stream:
     """
     playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
     r"""The playback ID to use with the Playback Info endpoint to retrieve playback URLs."""
-    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
+    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is Stream.UNSET }})
     r"""Whether the playback policy for a asset or stream is public or signed"""
     profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
     record: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('record'), 'exclude': lambda f: f is None }})

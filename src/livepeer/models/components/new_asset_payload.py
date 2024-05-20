@@ -3,7 +3,7 @@
 from __future__ import annotations
 import dataclasses
 from .asset import AssetInput
-from .input_creator_id import InputCreatorID1
+from .input_creator_id import InputCreatorID
 from .playback_policy import PlaybackPolicy
 from .spec import Spec
 from .transcode_profile import TranscodeProfile
@@ -20,12 +20,14 @@ class NewAssetPayloadIpfs1:
     
 
 
+NewAssetPayloadIpfs = Union['NewAssetPayloadIpfs1', bool]
+
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class NewAssetPayloadStorage:
     UNSET='__SPEAKEASY_UNSET__'
-    ipfs: Optional[Union[NewAssetPayloadIpfs1, bool]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is NewAssetPayloadStorage.UNSET }})
+    ipfs: Optional[NewAssetPayloadIpfs] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ipfs'), 'exclude': lambda f: f is NewAssetPayloadStorage.UNSET }})
     r"""Set to true to make default export to IPFS. To customize the
     pinned files, specify an object with a spec field. False or null
     means to unpin from IPFS, but it's unsupported right now.
@@ -46,19 +48,20 @@ class NewAssetPayloadEncryption:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class NewAssetPayload:
+    UNSET='__SPEAKEASY_UNSET__'
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     r"""The name of the asset. This is not necessarily the filename - it can be a custom name or title."""
     project_id: Optional[AssetInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('projectId'), 'exclude': lambda f: f is None }})
     static_mp4: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('staticMp4'), 'exclude': lambda f: f is None }})
     r"""Whether to generate MP4s for the asset."""
-    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is None }})
+    playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is NewAssetPayload.UNSET }})
     r"""Whether the playback policy for a asset or stream is public or signed"""
-    creator_id: Optional[Union[InputCreatorID1, str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    creator_id: Optional[InputCreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     storage: Optional[NewAssetPayloadStorage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     encryption: Optional[NewAssetPayloadEncryption] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('encryption'), 'exclude': lambda f: f is None }})
     c2pa: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('c2pa'), 'exclude': lambda f: f is None }})
     r"""Decides if the output video should include C2PA signature"""
-    profiles: Optional[List[TranscodeProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
+    profiles: Optional[List[TranscodeProfile]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is NewAssetPayload.UNSET }})
     target_segment_size_secs: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('targetSegmentSizeSecs'), 'exclude': lambda f: f is None }})
     r"""How many seconds the duration of each output segment should be"""
     

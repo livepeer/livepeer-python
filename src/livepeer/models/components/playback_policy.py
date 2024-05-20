@@ -7,6 +7,7 @@ from enum import Enum
 from livepeer import utils
 from typing import Any, Dict, Optional
 
+
 class Type(str, Enum):
     PUBLIC = 'public'
     JWT = 'jwt'

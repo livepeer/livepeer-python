@@ -46,7 +46,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.NewStreamPayload(
+res = s.stream.create(request=components.NewStreamPayload(
     name='test_stream',
     pull=components.Pull(
         source='https://myservice.com/live/stream.flv',
@@ -93,9 +93,7 @@ req = components.NewStreamPayload(
             ),
         ],
     ),
-)
-
-res = s.stream.create(req)
+))
 
 if res.stream is not None:
     # handle response
@@ -131,7 +129,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.stream.get_all(streamsonly='<value>')
 
@@ -170,7 +167,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.stream.get(id='<value>')
 
 if res.stream is not None:
@@ -208,7 +204,6 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.stream.update(id='<value>', stream_patch_payload=components.StreamPatchPayload(
     record=False,
@@ -288,7 +283,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.stream.delete(id='<value>')
 
 if res is not None:
@@ -334,7 +328,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.stream.terminate(id='<value>')
 
 if res is not None:
@@ -379,7 +372,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.stream.start_pull(id='<value>')
 
 if res is not None:
@@ -418,15 +410,13 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-req = components.ClipPayload(
+res = s.stream.create_clip(request=components.ClipPayload(
     playback_id='eaw4nk06ts2d0mzb',
     start_time=1587667174725,
     end_time=1587667174725,
     name='My Clip',
     session_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
-)
-
-res = s.stream.create_clip(req)
+))
 
 if res.data is not None:
     # handle response
@@ -462,7 +452,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.stream.get_clips(id='<value>')
 
@@ -501,7 +490,6 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.stream.add_multistream_target(id='<value>', target_add_payload=components.TargetAddPayload(
     profile='720p0',
@@ -548,7 +536,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.stream.remove_multistream_target(id='<value>', target_id='<value>')
 

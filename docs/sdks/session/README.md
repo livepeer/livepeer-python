@@ -25,7 +25,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.session.get_clips(id='<value>')
 
 if res.data is not None:
@@ -63,7 +62,6 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
 res = s.session.get_all()
 
 if res.data is not None:
@@ -94,7 +92,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.session.get(id='<value>')
 
@@ -132,7 +129,6 @@ import livepeer
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.session.get_recorded(parent_id='<value>', record=1)
 

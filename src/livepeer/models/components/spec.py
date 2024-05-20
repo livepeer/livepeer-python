@@ -7,6 +7,7 @@ from enum import Enum
 from livepeer import utils
 from typing import Optional
 
+
 class NftMetadataTemplate(str, Enum):
     r"""Name of the NFT metadata template to export. 'player'
     will embed the Livepeer Player on the NFT while 'file'

@@ -7,6 +7,7 @@ from enum import Enum
 from livepeer import utils
 from typing import List, Optional
 
+
 class Events(str, Enum):
     STREAM_STARTED = 'stream.started'
     STREAM_DETECTION = 'stream.detection'
