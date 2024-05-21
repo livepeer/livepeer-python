@@ -152,3 +152,285 @@ looking for the latest version.
 
 While we value open-source contributions to this SDK, this library is generated programmatically.
 Feel free to open a PR or a Github issue as a proof of concept and we'll do our best to include it in a future release!
+
+<!-- No SDK Installation -->
+<!-- No SDK Example Usage -->
+<!-- No SDK Available Operations -->
+<!-- Start Error Handling [errors] -->
+## Error Handling
+
+Handling errors in this SDK should largely match your expectations.  All operations return a response object or raise an error.  If Error objects are specified in your OpenAPI Spec, the SDK will raise the appropriate Error type.
+
+| Error Object     | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 404              | application/json |
+| errors.SDKError  | 4xx-5xx          | */*              |
+
+### Example
+
+```python
+import livepeer
+from livepeer.models import errors
+
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+res = None
+try:
+    res = s.playback.get(id='<value>')
+except errors.Error as e:
+    # handle exception
+    raise(e)
+except errors.SDKError as e:
+    # handle exception
+    raise(e)
+
+if res.playback_info is not None:
+    # handle response
+    pass
+
+```
+<!-- End Error Handling [errors] -->
+
+<!-- Start Server Selection [server] -->
+## Server Selection
+
+### Select Server by Index
+
+You can override the default server globally by passing a server index to the `server_idx: int` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
+
+| # | Server | Variables |
+| - | ------ | --------- |
+| 0 | `https://livepeer.studio/api` | None |
+
+#### Example
+
+```python
+import livepeer
+from livepeer.models import components
+
+s = livepeer.Livepeer(
+    server_idx=0,
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+res = s.stream.create(request=components.NewStreamPayload(
+    name='test_stream',
+    pull=components.Pull(
+        source='https://myservice.com/live/stream.flv',
+        headers={
+            'Authorization': 'Bearer 123',
+        },
+        location=components.Location(
+            lat=39.739,
+            lon=-104.988,
+        ),
+    ),
+    playback_policy=components.PlaybackPolicy(
+        type=components.Type.WEBHOOK,
+        webhook_id='1bde4o2i6xycudoy',
+        webhook_context={
+            'streamerId': 'my-custom-id',
+        },
+        refresh_interval=600,
+    ),
+    profiles=[
+        components.FfmpegProfile(
+            width=1280,
+            name='720p',
+            height=486589,
+            bitrate=3000000,
+            fps=30,
+            fps_den=1,
+            quality=23,
+            gop='2',
+            profile=components.Profile.H264_BASELINE,
+        ),
+    ],
+    record=False,
+    multistream=components.Multistream(
+        targets=[
+            components.Target(
+                profile='720p',
+                video_only=False,
+                id='PUSH123',
+                spec=components.TargetSpec(
+                    url='rtmps://live.my-service.tv/channel/secretKey',
+                    name='My target',
+                ),
+            ),
+        ],
+    ),
+))
+
+if res.stream is not None:
+    # handle response
+    pass
+
+```
+
+
+### Override Server URL Per-Client
+
+The default server can also be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
+```python
+import livepeer
+from livepeer.models import components
+
+s = livepeer.Livepeer(
+    server_url="https://livepeer.studio/api",
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+res = s.stream.create(request=components.NewStreamPayload(
+    name='test_stream',
+    pull=components.Pull(
+        source='https://myservice.com/live/stream.flv',
+        headers={
+            'Authorization': 'Bearer 123',
+        },
+        location=components.Location(
+            lat=39.739,
+            lon=-104.988,
+        ),
+    ),
+    playback_policy=components.PlaybackPolicy(
+        type=components.Type.WEBHOOK,
+        webhook_id='1bde4o2i6xycudoy',
+        webhook_context={
+            'streamerId': 'my-custom-id',
+        },
+        refresh_interval=600,
+    ),
+    profiles=[
+        components.FfmpegProfile(
+            width=1280,
+            name='720p',
+            height=486589,
+            bitrate=3000000,
+            fps=30,
+            fps_den=1,
+            quality=23,
+            gop='2',
+            profile=components.Profile.H264_BASELINE,
+        ),
+    ],
+    record=False,
+    multistream=components.Multistream(
+        targets=[
+            components.Target(
+                profile='720p',
+                video_only=False,
+                id='PUSH123',
+                spec=components.TargetSpec(
+                    url='rtmps://live.my-service.tv/channel/secretKey',
+                    name='My target',
+                ),
+            ),
+        ],
+    ),
+))
+
+if res.stream is not None:
+    # handle response
+    pass
+
+```
+<!-- End Server Selection [server] -->
+
+<!-- Start Custom HTTP Client [http-client] -->
+## Custom HTTP Client
+
+The Python SDK makes API calls using the [requests](https://pypi.org/project/requests/) HTTP library.  In order to provide a convenient way to configure timeouts, cookies, proxies, custom headers, and other low-level configuration, you can initialize the SDK client with a custom `requests.Session` object.
+
+For example, you could specify a header for every request that this sdk makes as follows:
+```python
+import livepeer
+import requests
+
+http_client = requests.Session()
+http_client.headers.update({'x-custom-header': 'someValue'})
+s = livepeer.Livepeer(client=http_client)
+```
+<!-- End Custom HTTP Client [http-client] -->
+
+<!-- Start Authentication [security] -->
+## Authentication
+
+### Per-Client Security Schemes
+
+This SDK supports the following security scheme globally:
+
+| Name        | Type        | Scheme      |
+| ----------- | ----------- | ----------- |
+| `api_key`   | http        | HTTP Bearer |
+
+To authenticate with the API the `api_key` parameter must be set when initializing the SDK client instance. For example:
+```python
+import livepeer
+from livepeer.models import components
+
+s = livepeer.Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+res = s.stream.create(request=components.NewStreamPayload(
+    name='test_stream',
+    pull=components.Pull(
+        source='https://myservice.com/live/stream.flv',
+        headers={
+            'Authorization': 'Bearer 123',
+        },
+        location=components.Location(
+            lat=39.739,
+            lon=-104.988,
+        ),
+    ),
+    playback_policy=components.PlaybackPolicy(
+        type=components.Type.WEBHOOK,
+        webhook_id='1bde4o2i6xycudoy',
+        webhook_context={
+            'streamerId': 'my-custom-id',
+        },
+        refresh_interval=600,
+    ),
+    profiles=[
+        components.FfmpegProfile(
+            width=1280,
+            name='720p',
+            height=486589,
+            bitrate=3000000,
+            fps=30,
+            fps_den=1,
+            quality=23,
+            gop='2',
+            profile=components.Profile.H264_BASELINE,
+        ),
+    ],
+    record=False,
+    multistream=components.Multistream(
+        targets=[
+            components.Target(
+                profile='720p',
+                video_only=False,
+                id='PUSH123',
+                spec=components.TargetSpec(
+                    url='rtmps://live.my-service.tv/channel/secretKey',
+                    name='My target',
+                ),
+            ),
+        ],
+    ),
+))
+
+if res.stream is not None:
+    # handle response
+    pass
+
+```
+<!-- End Authentication [security] -->
+
+<!-- Placeholder for Future Speakeasy SDK Sections -->
+
+

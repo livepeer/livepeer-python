@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: c12afd029507bb4c81908e836702453b
+  docChecksum: c51b40791605d2618ac3ad4165afbd94
   docVersion: 1.0.0
-  speakeasyVersion: 1.293.1
+  speakeasyVersion: 1.294.0
   generationVersion: 2.333.3
-  releaseVersion: 0.0.2
-  configChecksum: 6942ebe5c074019cd8d3454289384331
+  releaseVersion: 0.0.3
+  configChecksum: d6ee04ec5ee7faa538d030bf24dedfe8
 features:
   python:
     additionalDependencies: 0.1.0
@@ -117,6 +117,7 @@ generatedFiles:
   - src/livepeer/models/components/input_creator_id.py
   - src/livepeer/models/components/pull.py
   - src/livepeer/models/components/stream_patch_payload.py
+  - src/livepeer/models/components/asset.py
   - src/livepeer/models/components/storage_status.py
   - src/livepeer/models/components/ipfs_file_info.py
   - src/livepeer/models/components/encryption_output.py
@@ -130,10 +131,8 @@ generatedFiles:
   - src/livepeer/models/components/new_asset_payload.py
   - src/livepeer/models/components/transcode_profile.py
   - src/livepeer/models/components/spec.py
-  - src/livepeer/models/components/asset.py
-  - src/livepeer/models/components/ipfs_file_info_input.py
-  - src/livepeer/models/components/encryption.py
   - src/livepeer/models/components/new_asset_from_url_payload.py
+  - src/livepeer/models/components/encryption.py
   - src/livepeer/models/components/storage.py
   - src/livepeer/models/components/asset_patch_payload.py
   - src/livepeer/models/components/session.py
@@ -311,12 +310,12 @@ generatedFiles:
   - docs/models/components/streampatchpayload.md
   - docs/models/components/assettype.md
   - docs/models/components/assetsource3type.md
-  - docs/models/components/assetsource3.md
+  - docs/models/components/source3.md
   - docs/models/components/assetsourcetype.md
   - docs/models/components/two.md
   - docs/models/components/sourcetype.md
-  - docs/models/components/assetsource1.md
-  - docs/models/components/assetsource.md
+  - docs/models/components/source1.md
+  - docs/models/components/source.md
   - docs/models/components/assetnftmetadatatemplate.md
   - docs/models/components/assetnftmetadata.md
   - docs/models/components/assetspec.md
@@ -359,15 +358,8 @@ generatedFiles:
   - docs/models/components/nftmetadatatemplate.md
   - docs/models/components/nftmetadata.md
   - docs/models/components/spec.md
-  - docs/models/components/source3.md
-  - docs/models/components/source1.md
-  - docs/models/components/source.md
-  - docs/models/components/assetipfsinput.md
-  - docs/models/components/assetstorageinput.md
-  - docs/models/components/assetinput.md
-  - docs/models/components/ipfsfileinfoinput.md
-  - docs/models/components/encryption.md
   - docs/models/components/newassetfromurlpayload.md
+  - docs/models/components/encryption.md
   - docs/models/components/ipfs1.md
   - docs/models/components/ipfs.md
   - docs/models/components/storage.md

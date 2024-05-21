@@ -5,7 +5,7 @@ import dataclasses
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from livepeer import utils
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 
 class Type(str, Enum):
@@ -27,5 +27,7 @@ class PlaybackPolicy:
     r"""Interval (in seconds) at which the playback policy should be
     refreshed (default 600 seconds)
     """
+    allowed_origins: Optional[List[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('allowedOrigins'), 'exclude': lambda f: f is None }})
+    r"""List of allowed origins for CORS playback (<scheme>://<hostname>:<port>, <scheme>://<hostname>)"""
     
 

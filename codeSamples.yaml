@@ -3,96 +3,82 @@ info:
   title: CodeSamples overlay for python target
   version: 0.0.0
 actions:
-  - target: $["paths"]["/asset/{assetId}"]["get"]
+  - target: $["paths"]["/clip"]["post"]
     update:
       x-codeSamples:
         - lang: python
-          label: getAsset
+          label: createClip
           source: |-
             import livepeer
+            from livepeer.models import components
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.get(asset_id='<value>')
-
-            if res.asset is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/asset/{assetId}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteAsset
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.delete(asset_id='<value>')
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getStreams
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_all(streamsonly='<value>')
+            res = s.create_clip(request=components.ClipPayload(
+                playback_id='eaw4nk06ts2d0mzb',
+                start_time=1587667174725,
+                end_time=1587667174725,
+                name='My Clip',
+                session_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
+            ))
 
             if res.data is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/stream/{id}/terminate"]["delete"]
+  - target: $["paths"]["/multistream/target"]["post"]
     update:
       x-codeSamples:
         - lang: python
-          label: terminateStream
+          label: createMultistreamTarget
           source: |-
             import livepeer
+            from livepeer.models import components
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.terminate(id='<value>')
+            res = s.create(request=components.MultistreamTargetInput(
+                url='rtmps://live.my-service.tv/channel/secretKey',
+            ))
 
-            if res is not None:
+            if res.multistream_target is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/webhook/{id}"]["delete"]
+  - target: $["paths"]["/webhook"]["post"]
     update:
       x-codeSamples:
         - lang: python
-          label: deleteWebhook
+          label: createWebhook
           source: |-
             import livepeer
+            from livepeer.models import components
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.delete(id='<value>')
+            res = s.create(request=components.WebhookInput(
+                name='test_webhook',
+                events=[
+                    components.Events.STREAM_STARTED,
+                    components.Events.STREAM_IDLE,
+                ],
+                url='https://my-service.com/webhook',
+                shared_secret='my-secret',
+                stream_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
+            ))
 
             if res.webhook is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/room"]["post"]
+  - target: $["paths"]["/webhook/{id}/log"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: createRoom
+          label: getWebhookLogs
           source: |-
             import livepeer
 
@@ -100,9 +86,131 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.create()
+            res = s.get_logs(id='<value>')
 
-            if res.create_room_response is not None:
+            if res.data is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/data/views/query/creator"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getCreatorViewershipMetrics
+          source: |-
+            import livepeer
+            from livepeer.models import operations
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_creator_viewership(request=operations.GetCreatorViewershipMetricsRequest())
+
+            if res.data is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/task/{taskId}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getTask
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get(task_id='<value>')
+
+            if res.task is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/webhook"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getWebhooks
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_all()
+
+            if res.data is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/room/{id}/egress"]["delete"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: stopRoomEgress
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.stop_egress(id='<value>')
+
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/data/views/query"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getViewershipMetrics
+          source: |-
+            import livepeer
+            from livepeer.models import operations
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_viewership(request=operations.GetViewershipMetricsRequest())
+
+            if res.data is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/webhook/{id}/log/{logId}/resend"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: resendWebhook
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.resend_log(id='<value>', log_id='<value>')
+
+            if res.webhook_log is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/access-control/signing-key/{keyId}"]["patch"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: updateSigningKey
+          source: |-
+            import livepeer
+            from livepeer.models import operations
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.update(key_id='<value>', request_body=operations.UpdateSigningKeyRequestBody())
+
+            if res is not None:
                 # handle response
                 pass
   - target: $["paths"]["/stream/{id}"]["patch"]
@@ -159,11 +267,28 @@ actions:
             if res is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/stream/{id}/create-multistream-target"]["post"]
+  - target: $["paths"]["/multistream/target/{id}"]["delete"]
     update:
       x-codeSamples:
         - lang: python
-          label: addMultistreamTarget
+          label: deleteMultistreamTarget
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.delete(id='<value>')
+
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/asset/upload/url"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: uploadAsset
           source: |-
             import livepeer
             from livepeer.models import components
@@ -172,24 +297,41 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.add_multistream_target(id='<value>', target_add_payload=components.TargetAddPayload(
-                profile='720p0',
-                video_only=False,
-                id='PUSH123',
-                spec=components.TargetAddPayloadSpec(
-                    name='My target',
-                    url='rtmps://live.my-service.tv/channel/secretKey',
+            res = s.create_via_url(request=components.NewAssetFromURLPayload(
+                name='filename.mp4',
+                static_mp4=True,
+                playback_policy=components.PlaybackPolicy(
+                    type=components.Type.WEBHOOK,
+                    webhook_id='1bde4o2i6xycudoy',
+                    webhook_context={
+                        'streamerId': 'my-custom-id',
+                    },
+                    refresh_interval=600,
                 ),
+                url='https://s3.amazonaws.com/my-bucket/path/filename.mp4',
+                profiles=[
+                    components.TranscodeProfile(
+                        width=1280,
+                        name='720p',
+                        bitrate=3000000,
+                        quality=23,
+                        fps=30,
+                        fps_den=1,
+                        gop='2',
+                        profile=components.TranscodeProfileProfile.H264_BASELINE,
+                        encoder=components.TranscodeProfileEncoder.H_264,
+                    ),
+                ],
             ))
 
-            if res is not None:
+            if res.two_hundred_application_json_data is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/stream/{parentId}/sessions"]["get"]
+  - target: $["paths"]["/room/{id}/user/{userId}"]["delete"]
     update:
       x-codeSamples:
         - lang: python
-          label: getRecordedSessions
+          label: deleteRoomUser
           source: |-
             import livepeer
 
@@ -197,7 +339,24 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.get_recorded(parent_id='<value>', record=1)
+            res = s.delete_user(id='<value>', user_id='<value>')
+
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/task"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getTasks
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_all()
 
             if res.data is not None:
                 # handle response
@@ -219,96 +378,11 @@ actions:
             if res.playback_info is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/room/{id}"]["delete"]
+  - target: $["paths"]["/asset/request-upload"]["post"]
     update:
       x-codeSamples:
         - lang: python
-          label: deleteRoom
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.delete(id='<value>')
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteRoomUser
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.delete_user(id='<value>', user_id='<value>')
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/access-control/signing-key"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: createSigningKey
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.create()
-
-            if res.signing_key is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/access-control/signing-key"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getSigningKeys
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_all()
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/access-control/signing-key/{keyId}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getSigningKey
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get(key_id='<value>')
-
-            if res.signing_key is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/multistream/target/{id}"]["patch"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: updateMultistreamTarget
+          label: requestUpload
           source: |-
             import livepeer
             from livepeer.models import components
@@ -317,164 +391,40 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.update(id='<value>', multistream_target_patch_payload=components.MultistreamTargetPatchPayload(
-                url='rtmps://live.my-service.tv/channel/secretKey',
-            ))
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/webhook/{id}/log/{logId}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getWebhookLog
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_log(id='<value>', log_id='<value>')
-
-            if res.webhook_log is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/session/{id}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getSession
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get(id='<value>')
-
-            if res.session is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/access-control/signing-key/{keyId}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteSigningKey
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.delete(key_id='<value>')
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{id}/start-pull"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: startPullStream
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.start_pull(id='<value>')
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/multistream/target/{id}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteMultistreamTarget
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.delete(id='<value>')
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/multistream/target/{id}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getMultistreamTarget
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get(id='<value>')
-
-            if res.multistream_target is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/session/{id}/clips"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getSessionClips
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_clips(id='<value>')
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/webhook"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: createWebhook
-          source: |-
-            import livepeer
-            from livepeer.models import components
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.create(request=components.WebhookInput(
-                name='test_webhook',
-                events=[
-                    components.Events.STREAM_STARTED,
-                    components.Events.STREAM_IDLE,
+            res = s.create(request=components.NewAssetPayload(
+                name='filename.mp4',
+                static_mp4=True,
+                playback_policy=components.PlaybackPolicy(
+                    type=components.Type.WEBHOOK,
+                    webhook_id='1bde4o2i6xycudoy',
+                    webhook_context={
+                        'streamerId': 'my-custom-id',
+                    },
+                    refresh_interval=600,
+                ),
+                profiles=[
+                    components.TranscodeProfile(
+                        width=1280,
+                        name='720p',
+                        bitrate=3000000,
+                        quality=23,
+                        fps=30,
+                        fps_den=1,
+                        gop='2',
+                        profile=components.TranscodeProfileProfile.H264_BASELINE,
+                        encoder=components.TranscodeProfileEncoder.H_264,
+                    ),
                 ],
-                url='https://my-service.com/webhook',
-                shared_secret='my-secret',
-                stream_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
             ))
 
-            if res.webhook is not None:
+            if res.data is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["put"]
+  - target: $["paths"]["/asset/{assetId}"]["patch"]
     update:
       x-codeSamples:
         - lang: python
-          label: updateRoomUser
+          label: updateAsset
           source: |-
             import livepeer
             from livepeer.models import components
@@ -483,37 +433,26 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.update_user(id='<value>', user_id='<value>', room_user_update_payload=components.RoomUserUpdatePayload(
-                can_publish=True,
-                can_publish_data=True,
+            res = s.update(asset_id='<value>', asset_patch_payload=components.AssetPatchPayload(
+                name='filename.mp4',
+                playback_policy=components.PlaybackPolicy(
+                    type=components.Type.WEBHOOK,
+                    webhook_id='1bde4o2i6xycudoy',
+                    webhook_context={
+                        'streamerId': 'my-custom-id',
+                    },
+                    refresh_interval=600,
+                ),
             ))
 
-            if res is not None:
+            if res.asset is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/access-control/signing-key/{keyId}"]["patch"]
+  - target: $["paths"]["/stream"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: updateSigningKey
-          source: |-
-            import livepeer
-            from livepeer.models import operations
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.update(key_id='<value>', request_body=operations.UpdateSigningKeyRequestBody())
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/task/{taskId}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getTask
+          label: getStreams
           source: |-
             import livepeer
 
@@ -521,67 +460,9 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.get(task_id='<value>')
-
-            if res.task is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/clip"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: createClip
-          source: |-
-            import livepeer
-            from livepeer.models import components
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.create_clip(request=components.ClipPayload(
-                playback_id='eaw4nk06ts2d0mzb',
-                start_time=1587667174725,
-                end_time=1587667174725,
-                name='My Clip',
-                session_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
-            ))
+            res = s.get_all(streamsonly='<value>')
 
             if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{id}/clips"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getClips
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_clips(id='<value>')
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/webhook/{id}/log/{logId}/resend"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: resendWebhook
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.resend_log(id='<value>', log_id='<value>')
-
-            if res.webhook_log is not None:
                 # handle response
                 pass
   - target: $["paths"]["/asset"]["get"]
@@ -618,11 +499,11 @@ actions:
             if res.room is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/stream/{id}"]["get"]
+  - target: $["paths"]["/room/{id}/user/{userId}"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: getStream
+          label: getRoomUser
           source: |-
             import livepeer
 
@@ -630,9 +511,47 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.get(id='<value>')
+            res = s.get_user(id='<value>', user_id='<value>')
 
-            if res.stream is not None:
+            if res.get_room_user_response is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/room/{id}/user/{userId}"]["put"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: updateRoomUser
+          source: |-
+            import livepeer
+            from livepeer.models import components
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.update_user(id='<value>', user_id='<value>', room_user_update_payload=components.RoomUserUpdatePayload(
+                can_publish=True,
+                can_publish_data=True,
+            ))
+
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/data/views/query/total/{playbackId}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getPublicViewershipMetrics
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_public_viewership(playback_id='<value>')
+
+            if res.data is not None:
                 # handle response
                 pass
   - target: $["paths"]["/stream/{id}/multistream/{targetId}"]["delete"]
@@ -652,11 +571,38 @@ actions:
             if res is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/room/{id}/egress"]["delete"]
+  - target: $["paths"]["/webhook/{id}"]["put"]
     update:
       x-codeSamples:
         - lang: python
-          label: stopRoomEgress
+          label: updateWebhook
+          source: |-
+            import livepeer
+            from livepeer.models import components
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.update(id='<value>', webhook=components.WebhookInput(
+                name='test_webhook',
+                events=[
+                    components.Events.STREAM_STARTED,
+                    components.Events.STREAM_IDLE,
+                ],
+                url='https://my-service.com/webhook',
+                shared_secret='my-secret',
+                stream_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
+            ))
+
+            if res.webhook is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/stream/{id}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getStream
           source: |-
             import livepeer
 
@@ -664,27 +610,89 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.stop_egress(id='<value>')
+            res = s.get(id='<value>')
+
+            if res.stream is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/stream/{id}/create-multistream-target"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: addMultistreamTarget
+          source: |-
+            import livepeer
+            from livepeer.models import components
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.add_multistream_target(id='<value>', target_add_payload=components.TargetAddPayload(
+                profile='720p0',
+                video_only=False,
+                id='PUSH123',
+                spec=components.TargetAddPayloadSpec(
+                    name='My target',
+                    url='rtmps://live.my-service.tv/channel/secretKey',
+                ),
+            ))
 
             if res is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/data/views/query/creator"]["get"]
+  - target: $["paths"]["/asset/{assetId}"]["delete"]
     update:
       x-codeSamples:
         - lang: python
-          label: getCreatorViewershipMetrics
+          label: deleteAsset
           source: |-
             import livepeer
-            from livepeer.models import operations
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.get_creator_viewership(request=operations.GetCreatorViewershipMetricsRequest())
+            res = s.delete(asset_id='<value>')
 
-            if res.data is not None:
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/room/{id}"]["delete"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: deleteRoom
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.delete(id='<value>')
+
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/room/{id}/egress"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: startRoomEgress
+          source: |-
+            import livepeer
+            from livepeer.models import components
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.start_egress(id='<value>', room_egress_payload=components.RoomEgressPayload(
+                stream_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
+            ))
+
+            if res is not None:
                 # handle response
                 pass
   - target: $["paths"]["/transcode"]["post"]
@@ -742,11 +750,11 @@ actions:
             if res.task is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["get"]
+  - target: $["paths"]["/stream/{id}/start-pull"]["post"]
     update:
       x-codeSamples:
         - lang: python
-          label: getRoomUser
+          label: startPullStream
           source: |-
             import livepeer
 
@@ -754,287 +762,60 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.get_user(id='<value>', user_id='<value>')
-
-            if res.get_room_user_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/data/views/query/total/{playbackId}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getPublicViewershipMetrics
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_public_viewership(playback_id='<value>')
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/multistream/target"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getMultistreamTargets
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_all()
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/webhook/{id}/log"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getWebhookLogs
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_logs(id='<value>')
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/asset/request-upload"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: requestUpload
-          source: |-
-            import livepeer
-            from livepeer.models import components
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.create(request=components.NewAssetPayload(
-                name='filename.mp4',
-                project_id=components.AssetInput(
-                    type=components.AssetType.VIDEO,
-                    playback_id='eaw4nk06ts2d0mzb',
-                    playback_policy=components.PlaybackPolicy(
-                        type=components.Type.WEBHOOK,
-                        webhook_id='1bde4o2i6xycudoy',
-                        webhook_context={
-                            'streamerId': 'my-custom-id',
-                        },
-                        refresh_interval=600,
-                    ),
-                    source=components.Two(
-                        type=components.AssetSourceType.RECORDING,
-                        session_id='<value>',
-                    ),
-                    creator_id=components.CreatorID1(
-                        type=components.CreatorIDType.UNVERIFIED,
-                        value='user123',
-                    ),
-                    name='filename.mp4',
-                    project_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
-                    hash=[
-                        components.Hash(
-                            hash='9b560b28b85378a5004117539196ab24e21bbd75b0e9eb1a8bc7c5fd80dc5b57',
-                            algorithm='sha256',
-                        ),
-                    ],
-                ),
-                static_mp4=True,
-                playback_policy=components.PlaybackPolicy(
-                    type=components.Type.WEBHOOK,
-                    webhook_id='1bde4o2i6xycudoy',
-                    webhook_context={
-                        'streamerId': 'my-custom-id',
-                    },
-                    refresh_interval=600,
-                ),
-                profiles=[
-                    components.TranscodeProfile(
-                        width=1280,
-                        name='720p',
-                        bitrate=3000000,
-                        quality=23,
-                        fps=30,
-                        fps_den=1,
-                        gop='2',
-                        profile=components.TranscodeProfileProfile.H264_BASELINE,
-                        encoder=components.TranscodeProfileEncoder.H_264,
-                    ),
-                ],
-            ))
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/asset/upload/url"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: uploadAsset
-          source: |-
-            import livepeer
-            from livepeer.models import components
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.create_via_url(request=components.NewAssetFromURLPayload(
-                name='filename.mp4',
-                static_mp4=True,
-                playback_policy=components.PlaybackPolicy(
-                    type=components.Type.WEBHOOK,
-                    webhook_id='1bde4o2i6xycudoy',
-                    webhook_context={
-                        'streamerId': 'my-custom-id',
-                    },
-                    refresh_interval=600,
-                ),
-                url='https://s3.amazonaws.com/my-bucket/path/filename.mp4',
-                profiles=[
-                    components.TranscodeProfile(
-                        width=1280,
-                        name='720p',
-                        bitrate=3000000,
-                        quality=23,
-                        fps=30,
-                        fps_den=1,
-                        gop='2',
-                        profile=components.TranscodeProfileProfile.H264_BASELINE,
-                        encoder=components.TranscodeProfileEncoder.H_264,
-                    ),
-                ],
-            ))
-
-            if res.two_hundred_application_json_data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/session"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getSessions
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_all()
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/webhook"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getWebhooks
-          source: |-
-            import livepeer
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.get_all()
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/egress"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: startRoomEgress
-          source: |-
-            import livepeer
-            from livepeer.models import components
-
-            s = livepeer.Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.start_egress(id='<value>', room_egress_payload=components.RoomEgressPayload(
-                stream_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
-            ))
+            res = s.start_pull(id='<value>')
 
             if res is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/data/views/query"]["get"]
+  - target: $["paths"]["/stream/{id}/clips"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: getViewershipMetrics
+          label: getClips
           source: |-
             import livepeer
-            from livepeer.models import operations
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.get_viewership(request=operations.GetViewershipMetricsRequest())
+            res = s.get_clips(id='<value>')
 
             if res.data is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/multistream/target"]["post"]
+  - target: $["paths"]["/session/{id}/clips"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: createMultistreamTarget
+          label: getSessionClips
           source: |-
             import livepeer
-            from livepeer.models import components
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.create(request=components.MultistreamTargetInput(
-                url='rtmps://live.my-service.tv/channel/secretKey',
-            ))
+            res = s.get_clips(id='<value>')
 
-            if res.multistream_target is not None:
+            if res.data is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/room/{id}/user"]["post"]
+  - target: $["paths"]["/stream/{parentId}/sessions"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: createRoomUser
+          label: getRecordedSessions
           source: |-
             import livepeer
-            from livepeer.models import components
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.create_user(id='<value>', room_user_payload=components.RoomUserPayload(
-                name='name',
-                can_publish=True,
-                can_publish_data=True,
-            ))
+            res = s.get_recorded(parent_id='<value>', record=1)
 
-            if res.room_user_response is not None:
+            if res.data is not None:
                 # handle response
                 pass
   - target: $["paths"]["/data/usage/query"]["get"]
@@ -1055,11 +836,11 @@ actions:
             if res.usage_metric is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/task"]["get"]
+  - target: $["paths"]["/access-control/signing-key"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: getTasks
+          label: getSigningKeys
           source: |-
             import livepeer
 
@@ -1072,32 +853,72 @@ actions:
             if res.data is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/asset/{assetId}"]["patch"]
+  - target: $["paths"]["/multistream/target/{id}"]["get"]
     update:
       x-codeSamples:
         - lang: python
-          label: updateAsset
+          label: getMultistreamTarget
           source: |-
             import livepeer
-            from livepeer.models import components
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.update(asset_id='<value>', asset_patch_payload=components.AssetPatchPayload(
-                name='filename.mp4',
-                playback_policy=components.PlaybackPolicy(
-                    type=components.Type.WEBHOOK,
-                    webhook_id='1bde4o2i6xycudoy',
-                    webhook_context={
-                        'streamerId': 'my-custom-id',
-                    },
-                    refresh_interval=600,
-                ),
-            ))
+            res = s.get(id='<value>')
 
-            if res.asset is not None:
+            if res.multistream_target is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/webhook/{id}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getWebhook
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get(id='<value>')
+
+            if res.webhook is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/access-control/signing-key/{keyId}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getSigningKey
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get(key_id='<value>')
+
+            if res.signing_key is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/session"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getSessions
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_all()
+
+            if res.data is not None:
                 # handle response
                 pass
   - target: $["paths"]["/stream"]["post"]
@@ -1182,11 +1003,155 @@ actions:
             if res is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/webhook/{id}"]["get"]
+  - target: $["paths"]["/webhook/{id}"]["delete"]
     update:
       x-codeSamples:
         - lang: python
-          label: getWebhook
+          label: deleteWebhook
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.delete(id='<value>')
+
+            if res.webhook is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/room"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: createRoom
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.create()
+
+            if res.create_room_response is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/webhook/{id}/log/{logId}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getWebhookLog
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_log(id='<value>', log_id='<value>')
+
+            if res.webhook_log is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/asset/{assetId}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getAsset
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get(asset_id='<value>')
+
+            if res.asset is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/room/{id}/user"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: createRoomUser
+          source: |-
+            import livepeer
+            from livepeer.models import components
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.create_user(id='<value>', room_user_payload=components.RoomUserPayload(
+                name='name',
+                can_publish=True,
+                can_publish_data=True,
+            ))
+
+            if res.room_user_response is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/stream/{id}/terminate"]["delete"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: terminateStream
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.terminate(id='<value>')
+
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/multistream/target"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getMultistreamTargets
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.get_all()
+
+            if res.data is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/multistream/target/{id}"]["patch"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: updateMultistreamTarget
+          source: |-
+            import livepeer
+            from livepeer.models import components
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.update(id='<value>', multistream_target_patch_payload=components.MultistreamTargetPatchPayload(
+                url='rtmps://live.my-service.tv/channel/secretKey',
+            ))
+
+            if res is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/session/{id}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getSession
           source: |-
             import livepeer
 
@@ -1196,33 +1161,40 @@ actions:
 
             res = s.get(id='<value>')
 
-            if res.webhook is not None:
+            if res.session is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/webhook/{id}"]["put"]
+  - target: $["paths"]["/access-control/signing-key"]["post"]
     update:
       x-codeSamples:
         - lang: python
-          label: updateWebhook
+          label: createSigningKey
           source: |-
             import livepeer
-            from livepeer.models import components
 
             s = livepeer.Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.update(id='<value>', webhook=components.WebhookInput(
-                name='test_webhook',
-                events=[
-                    components.Events.STREAM_STARTED,
-                    components.Events.STREAM_IDLE,
-                ],
-                url='https://my-service.com/webhook',
-                shared_secret='my-secret',
-                stream_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
-            ))
+            res = s.create()
 
-            if res.webhook is not None:
+            if res.signing_key is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/access-control/signing-key/{keyId}"]["delete"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: deleteSigningKey
+          source: |-
+            import livepeer
+
+            s = livepeer.Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.delete(key_id='<value>')
+
+            if res is not None:
                 # handle response
                 pass
