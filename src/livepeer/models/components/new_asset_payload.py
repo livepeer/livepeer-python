@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 import dataclasses
-from .asset import AssetInput
 from .input_creator_id import InputCreatorID
 from .playback_policy import PlaybackPolicy
 from .spec import Spec
@@ -51,7 +50,6 @@ class NewAssetPayload:
     UNSET='__SPEAKEASY_UNSET__'
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     r"""The name of the asset. This is not necessarily the filename - it can be a custom name or title."""
-    project_id: Optional[AssetInput] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('projectId'), 'exclude': lambda f: f is None }})
     static_mp4: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('staticMp4'), 'exclude': lambda f: f is None }})
     r"""Whether to generate MP4s for the asset."""
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is NewAssetPayload.UNSET }})
