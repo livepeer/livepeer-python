@@ -1,17 +1,17 @@
-speakeasyVersion: 1.294.0
+speakeasyVersion: 1.296.0
 sources:
     livepeer-studio-api:
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:67e54c3a9fa2aea694280b199988736fb33c38a2aabb3453fe9ac6e5c9387845
-        sourceBlobDigest: sha256:492c2fa58ce3ff1ca0ce48fd53c156cd26965da9bdf256b420dbe480b93f0b26
+        sourceRevisionDigest: sha256:b81b41ca91d17ad2ae1c014f0eebfa69d2894797fc90e4d334e93fa5fac41259
+        sourceBlobDigest: sha256:484a86d348043527b82eda4e5b1e4608ec35b9b3341a6e08ae7e4fb231e996af
         tags:
             - latest
 targets:
     livepeer-python:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:67e54c3a9fa2aea694280b199988736fb33c38a2aabb3453fe9ac6e5c9387845
-        sourceBlobDigest: sha256:492c2fa58ce3ff1ca0ce48fd53c156cd26965da9bdf256b420dbe480b93f0b26
+        sourceRevisionDigest: sha256:b81b41ca91d17ad2ae1c014f0eebfa69d2894797fc90e4d334e93fa5fac41259
+        sourceBlobDigest: sha256:484a86d348043527b82eda4e5b1e4608ec35b9b3341a6e08ae7e4fb231e996af
         outLocation: /Users/chase/git/livepeer/livepeer-python
     my-first-target:
         source: livepeer-studio-api

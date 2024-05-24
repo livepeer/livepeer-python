@@ -27,9 +27,10 @@ class UpdateSigningKeyRequest:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class UpdateSigningKeyResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     error: Optional[errors_error.Error] = dataclasses.field(default=None)
     r"""Error"""
     

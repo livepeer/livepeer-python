@@ -28,9 +28,10 @@ class CreateClipData:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class CreateClipResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     data: Optional[CreateClipData] = dataclasses.field(default=None)
     r"""Success"""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)

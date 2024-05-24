@@ -4,6 +4,7 @@ from __future__ import annotations
 import dataclasses
 from ...models.components import httpmetadata as components_httpmetadata
 from ...models.components import task as components_task
+from dataclasses_json import Undefined, dataclass_json
 from typing import Optional
 
 
@@ -15,9 +16,10 @@ class GetTaskRequest:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class GetTaskResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     task: Optional[components_task.Task] = dataclasses.field(default=None)
     r"""Success"""
     

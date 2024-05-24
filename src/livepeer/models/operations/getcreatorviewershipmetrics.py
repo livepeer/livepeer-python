@@ -5,6 +5,7 @@ import dataclasses
 from ...models.components import httpmetadata as components_httpmetadata
 from ...models.components import viewership_metric as components_viewership_metric
 from ...models.errors import error as errors_error
+from dataclasses_json import Undefined, dataclass_json
 from datetime import datetime
 from enum import Enum
 from typing import List, Optional, Union
@@ -59,9 +60,10 @@ class GetCreatorViewershipMetricsRequest:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class GetCreatorViewershipMetricsResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     data: Optional[List[components_viewership_metric.ViewershipMetric]] = dataclasses.field(default=None)
     r"""A list of Metric objects"""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)

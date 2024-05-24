@@ -38,9 +38,10 @@ class GetPublicViewershipMetricsData:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class GetPublicViewershipMetricsResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     data: Optional[GetPublicViewershipMetricsData] = dataclasses.field(default=None)
     r"""A single Metric object with the viewCount and playtimeMins metrics."""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)

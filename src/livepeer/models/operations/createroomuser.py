@@ -6,6 +6,7 @@ from ...models.components import httpmetadata as components_httpmetadata
 from ...models.components import room_user_payload as components_room_user_payload
 from ...models.components import room_user_response as components_room_user_response
 from ...models.errors import error as errors_error
+from dataclasses_json import Undefined, dataclass_json
 from typing import Optional
 
 
@@ -17,9 +18,10 @@ class CreateRoomUserRequest:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class CreateRoomUserResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     room_user_response: Optional[components_room_user_response.RoomUserResponse] = dataclasses.field(default=None)
     r"""Success"""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)

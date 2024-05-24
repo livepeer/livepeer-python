@@ -5,6 +5,7 @@ import dataclasses
 from ...models.components import httpmetadata as components_httpmetadata
 from ...models.components import webhook_log as components_webhook_log
 from ...models.errors import error as errors_error
+from dataclasses_json import Undefined, dataclass_json
 from typing import Optional
 
 
@@ -16,9 +17,10 @@ class ResendWebhookRequest:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class ResendWebhookResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     webhook_log: Optional[components_webhook_log.WebhookLog] = dataclasses.field(default=None)
     r"""Success"""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)

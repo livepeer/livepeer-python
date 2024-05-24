@@ -46,9 +46,10 @@ class UploadAssetData:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class UploadAssetResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     two_hundred_application_json_data: Optional[UploadAssetData] = dataclasses.field(default=None)
     r"""Upload in progress"""
     two_hundred_and_one_application_json_data: Optional[UploadAssetDataOutput] = dataclasses.field(default=None)
