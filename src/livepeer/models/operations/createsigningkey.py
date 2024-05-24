@@ -5,12 +5,14 @@ import dataclasses
 from ...models.components import httpmetadata as components_httpmetadata
 from ...models.components import signing_key as components_signing_key
 from ...models.errors import error as errors_error
+from dataclasses_json import Undefined, dataclass_json
 from typing import Optional
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class CreateSigningKeyResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     signing_key: Optional[components_signing_key.SigningKey] = dataclasses.field(default=None)
     r"""Success"""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)

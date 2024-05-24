@@ -32,9 +32,10 @@ class RequestUploadData:
 
 
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class RequestUploadResponse:
-    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field()
+    http_meta: components_httpmetadata.HTTPMetadata = dataclasses.field(metadata={'dataclasses_json': { 'exclude': lambda f: True }})
     data: Optional[RequestUploadData] = dataclasses.field(default=None)
     r"""Success"""
     error: Optional[errors_error.Error] = dataclasses.field(default=None)

@@ -10,7 +10,7 @@ except FileNotFoundError:
 
 setuptools.setup(
     name='livepeer',
-    version='0.0.3',
+    version='0.0.4',
     author='Livepeer',
     description='Python Client SDK for Livepeer Studio',
     long_description=long_description,

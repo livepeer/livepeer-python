@@ -7,6 +7,7 @@ s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
+
 res = s.stream.create(request=components.NewStreamPayload(
     name='test_stream',
     pull=components.Pull(
