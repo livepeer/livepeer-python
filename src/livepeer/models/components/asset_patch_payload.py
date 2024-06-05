@@ -18,7 +18,7 @@ class AssetPatchPayload:
     r"""The name of the asset. This is not necessarily the filename - it can be a custom name or title."""
     creator_id: Optional[InputCreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is AssetPatchPayload.UNSET }})
-    r"""Whether the playback policy for a asset or stream is public or signed"""
+    r"""Whether the playback policy for an asset or stream is public or signed"""
     storage: Optional[Storage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     
 

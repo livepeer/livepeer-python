@@ -25,7 +25,7 @@ class StreamPatchPayload:
     r"""If currently suspended"""
     multistream: Optional[Multistream] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('multistream'), 'exclude': lambda f: f is None }})
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is StreamPatchPayload.UNSET }})
-    r"""Whether the playback policy for a asset or stream is public or signed"""
+    r"""Whether the playback policy for an asset or stream is public or signed"""
     profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is StreamPatchPayload.UNSET }})
     user_tags: Optional[Dict[str, UserTags]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('userTags'), 'exclude': lambda f: f is None }})
     r"""User input tags associated with the stream"""

@@ -130,33 +130,6 @@ if res.stream is not None:
 <!-- End Available Resources and Operations [operations] -->
 
 <!-- Start Error Handling [errors] -->
-
-## Error Handling
-
-Handling errors in this SDK should largely match your expectations. All operations return a response object or raise an error. If Error objects are specified in your OpenAPI Spec, the SDK will raise the appropriate Error type.
-
-| Error Object    | Status Code | Content Type     |
-| --------------- | ----------- | ---------------- |
-| errors.Error    | 404         | application/json |
-| errors.SDKError | 4xx-5xx     | _/_              |
-
-# Development
-
-## Maturity
-
-This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning usage
-to a specific package version. This way, you can install the same version each time without breaking changes unless you are intentionally
-looking for the latest version.
-
-## Contributions
-
-While we value open-source contributions to this SDK, this library is generated programmatically.
-Feel free to open a PR or a Github issue as a proof of concept and we'll do our best to include it in a future release!
-
-<!-- No SDK Installation -->
-<!-- No SDK Example Usage -->
-<!-- No SDK Available Operations -->
-<!-- Start Error Handling [errors] -->
 ## Error Handling
 
 Handling errors in this SDK should largely match your expectations.  All operations return a response object or raise an error.  If Error objects are specified in your OpenAPI Spec, the SDK will raise the appropriate Error type.
@@ -179,6 +152,7 @@ s = livepeer.Livepeer(
 res = None
 try:
     res = s.playback.get(id='<value>')
+
 except errors.Error as e:
     # handle exception
     raise(e)
@@ -214,6 +188,7 @@ s = livepeer.Livepeer(
     server_idx=0,
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
+
 
 res = s.stream.create(request=components.NewStreamPayload(
     name='test_stream',
@@ -282,6 +257,7 @@ s = livepeer.Livepeer(
     server_url="https://livepeer.studio/api",
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
+
 
 res = s.stream.create(request=components.NewStreamPayload(
     name='test_stream',
@@ -374,6 +350,7 @@ from livepeer.models import components
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
+
 
 res = s.stream.create(request=components.NewStreamPayload(
     name='test_stream',

@@ -1,18 +1,20 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: c51b40791605d2618ac3ad4165afbd94
+  docChecksum: b534222e8195f9c182c64e92d4c02912
   docVersion: 1.0.0
-  speakeasyVersion: 1.296.0
-  generationVersion: 2.337.1
-  releaseVersion: 0.0.4
-  configChecksum: 6be2e2c4a40b97bc5b8af7a8b347366c
+  speakeasyVersion: 1.299.7
+  generationVersion: 2.338.12
+  releaseVersion: 0.0.5
+  configChecksum: d0414e3eed2aed5c741950b43db74be8
+  repoURL: https://github.com/livepeer/livepeer-python.git
+  installationURL: https://github.com/livepeer/livepeer-python.git
 features:
   python:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.0
     constsAndDefaults: 0.1.3
-    core: 4.6.8
+    core: 4.6.9
     deprecations: 2.81.1
     flattening: 2.81.1
     globalSecurity: 2.83.5
@@ -221,6 +223,7 @@ generatedFiles:
   - docs/models/operations/getsessionsresponse.md
   - docs/models/operations/getsessionrequest.md
   - docs/models/operations/getsessionresponse.md
+  - docs/models/operations/record.md
   - docs/models/operations/getrecordedsessionsrequest.md
   - docs/models/operations/getrecordedsessionsresponse.md
   - docs/models/operations/createroomresponse.md

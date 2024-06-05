@@ -17,7 +17,7 @@ class Type(str, Enum):
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class PlaybackPolicy:
-    r"""Whether the playback policy for a asset or stream is public or signed"""
+    r"""Whether the playback policy for an asset or stream is public or signed"""
     type: Type = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     webhook_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('webhookId'), 'exclude': lambda f: f is None }})
     r"""ID of the webhook to use for playback policy"""

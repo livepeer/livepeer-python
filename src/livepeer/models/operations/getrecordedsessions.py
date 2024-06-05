@@ -6,14 +6,16 @@ from ...models.components import httpmetadata as components_httpmetadata
 from ...models.components import session as components_session
 from ...models.errors import error as errors_error
 from dataclasses_json import Undefined, dataclass_json
-from typing import List, Optional
+from typing import List, Optional, Union
+
+Record = Union[bool, int]
 
 
 @dataclasses.dataclass
 class GetRecordedSessionsRequest:
     parent_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'parentId', 'style': 'simple', 'explode': False }})
     r"""ID of the parent stream"""
-    record: Optional[int] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'record', 'style': 'form', 'explode': True }})
+    record: Optional[Record] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'record', 'style': 'form', 'explode': True }})
     r"""Flag indicating if the response should only include recorded
     sessions
     """

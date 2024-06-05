@@ -249,7 +249,7 @@ class Asset:
     download_url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('downloadUrl'), 'exclude': lambda f: f is None }})
     r"""The URL to directly download the asset, e.g. `https://livepeercdn.com/asset/eawrrk06ts2d0mzb/video`. It is not recommended to use this for playback."""
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is Asset.UNSET }})
-    r"""Whether the playback policy for a asset or stream is public or signed"""
+    r"""Whether the playback policy for an asset or stream is public or signed"""
     creator_id: Optional[CreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
     storage: Optional[AssetStorage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     status: Optional[AssetStatus] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
@@ -262,7 +262,7 @@ class Asset:
     r"""Name of the token used to create this object"""
     size: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('size'), 'exclude': lambda f: f is None }})
     r"""Size of the asset in bytes"""
-    hash: Optional[List[Hash]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hash'), 'exclude': lambda f: f is None }})
+    hash: Optional[List[Hash]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hash'), 'exclude': lambda f: f is Asset.UNSET }})
     r"""Hash of the asset"""
     video_spec: Optional[VideoSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('videoSpec'), 'exclude': lambda f: f is None }})
     r"""Video metadata"""
