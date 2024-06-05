@@ -207,7 +207,7 @@ class Session:
 
     
     
-    def get_recorded(self, parent_id: str, record: Optional[int] = None) -> operations.GetRecordedSessionsResponse:
+    def get_recorded(self, parent_id: str, record: Optional[operations.Record] = None) -> operations.GetRecordedSessionsResponse:
         r"""Retrieve Recorded Sessions"""
         hook_ctx = HookContext(operation_id='getRecordedSessions', oauth2_scopes=[], security_source=self.sdk_configuration.security)
         request = operations.GetRecordedSessionsRequest(

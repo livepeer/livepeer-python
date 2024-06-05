@@ -81,7 +81,7 @@ class Meta:
     source: List[PlaybackInfoSource] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('source') }})
     live: Optional[Live] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('live'), 'exclude': lambda f: f is None }})
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is Meta.UNSET }})
-    r"""Whether the playback policy for a asset or stream is public or signed"""
+    r"""Whether the playback policy for an asset or stream is public or signed"""
     dvr_playback: Optional[List[DvrPlayback]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dvrPlayback'), 'exclude': lambda f: f is None }})
     attestation: Optional[Attestation] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('attestation'), 'exclude': lambda f: f is None }})
     
