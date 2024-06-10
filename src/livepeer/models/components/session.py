@@ -3,6 +3,7 @@
 from __future__ import annotations
 import dataclasses
 from .ffmpeg_profile import FfmpegProfile
+from .recordingspec import RecordingSpec
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from livepeer import utils
@@ -48,6 +49,8 @@ class Session:
     r"""Timestamp (in milliseconds) at which stream object was created"""
     parent_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('parentId'), 'exclude': lambda f: f is None }})
     r"""Points to parent stream object"""
+    project_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('projectId'), 'exclude': lambda f: f is None }})
+    r"""The ID of the project"""
     record: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('record'), 'exclude': lambda f: f is None }})
     r"""Whether the stream should be recorded. Uses default settings. For more customization, create and configure an object store."""
     recording_status: Optional[RecordingStatus] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordingStatus'), 'exclude': lambda f: f is None }})
@@ -59,5 +62,9 @@ class Session:
     playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
     r"""The playback ID to use with the Playback Info endpoint to retrieve playback URLs."""
     profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
+    recording_spec: Optional[RecordingSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordingSpec'), 'exclude': lambda f: f is None }})
+    r"""Configuration for recording the stream. This can only be set if
+    `record` is true.
+    """
     
 

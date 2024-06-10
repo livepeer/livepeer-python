@@ -22,5 +22,7 @@ class SigningKey:
     r"""Timestamp (in milliseconds) at which the signing-key was last used"""
     disabled: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('disabled'), 'exclude': lambda f: f is None }})
     r"""Disable the signing key to allow rotation safely"""
+    project_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('projectId'), 'exclude': lambda f: f is None }})
+    r"""The ID of the project"""
     
 

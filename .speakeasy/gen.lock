@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: b534222e8195f9c182c64e92d4c02912
+  docChecksum: ff2202a25732837028e6242ecc0ab673
   docVersion: 1.0.0
-  speakeasyVersion: 1.299.7
-  generationVersion: 2.338.12
-  releaseVersion: 0.0.5
-  configChecksum: d0414e3eed2aed5c741950b43db74be8
+  speakeasyVersion: 1.300.1
+  generationVersion: 2.339.1
+  releaseVersion: 0.0.6
+  configChecksum: 1b183429b4c58242870ba4869ca2c4b4
   repoURL: https://github.com/livepeer/livepeer-python.git
   installationURL: https://github.com/livepeer/livepeer-python.git
 features:
@@ -116,6 +116,7 @@ generatedFiles:
   - src/livepeer/models/components/usertags.py
   - src/livepeer/models/components/multistream.py
   - src/livepeer/models/components/target.py
+  - src/livepeer/models/components/recordingspec.py
   - src/livepeer/models/components/input_creator_id.py
   - src/livepeer/models/components/pull.py
   - src/livepeer/models/components/stream_patch_payload.py
@@ -284,6 +285,7 @@ generatedFiles:
   - docs/models/components/streamismobile.md
   - docs/models/components/streamlocation.md
   - docs/models/components/streampull.md
+  - docs/models/components/streamrecordingspec.md
   - docs/models/components/streammultistream.md
   - docs/models/components/renditions.md
   - docs/models/components/stream.md
@@ -303,6 +305,7 @@ generatedFiles:
   - docs/models/components/multistream.md
   - docs/models/components/targetspec.md
   - docs/models/components/target.md
+  - docs/models/components/recordingspec.md
   - docs/models/components/inputcreatoridtype.md
   - docs/models/components/inputcreatorid1.md
   - docs/models/components/inputcreatorid.md
@@ -449,6 +452,18 @@ generatedFiles:
   - docs/models/components/attestationstorage.md
   - docs/models/components/attestation.md
   - docs/models/components/security.md
+  - docs/sdks/livepeer/README.md
+  - docs/sdks/stream/README.md
+  - docs/sdks/multistream/README.md
+  - docs/sdks/webhook/README.md
+  - docs/sdks/asset/README.md
+  - docs/sdks/session/README.md
+  - docs/sdks/room/README.md
+  - docs/sdks/metrics/README.md
+  - docs/sdks/accesscontrol/README.md
+  - docs/sdks/task/README.md
+  - docs/sdks/transcode/README.md
+  - docs/sdks/playback/README.md
   - USAGE.md
   - .gitattributes
   - src/livepeer/_hooks/sdkhooks.py
