@@ -58,8 +58,6 @@ class Input1:
     
 
 
-Input = Union['Input1', 'Input2']
-
 
 class TranscodePayloadStorageType(str, Enum):
     r"""Type of service used for output files"""
@@ -124,8 +122,6 @@ class Storage1:
     
 
 
-TranscodePayloadStorage = Union['Storage1', 'Storage2']
-
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
@@ -186,3 +182,7 @@ class TranscodePayload:
     r"""Decides if the output video should include C2PA signature"""
     
 
+
+Input = Union[Input1, Input2]
+
+TranscodePayloadStorage = Union[Storage1, Storage2]

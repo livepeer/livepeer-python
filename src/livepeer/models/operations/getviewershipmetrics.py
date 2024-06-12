@@ -10,10 +10,6 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Optional, Union
 
-From = Union[datetime, int]
-
-To = Union[datetime, int]
-
 
 class TimeStep(str, Enum):
     r"""The time step to aggregate viewership metrics by"""
@@ -78,3 +74,7 @@ class GetViewershipMetricsResponse:
     r"""Error"""
     
 
+
+From = Union[datetime, int]
+
+To = Union[datetime, int]

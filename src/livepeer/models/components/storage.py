@@ -16,8 +16,6 @@ class Ipfs1:
     
 
 
-Ipfs = Union['Ipfs1', bool]
-
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
@@ -30,3 +28,5 @@ class Storage:
     """
     
 
+
+Ipfs = Union[Ipfs1, bool]

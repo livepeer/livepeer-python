@@ -20,8 +20,6 @@ class Pinata2:
 class Pinata1:
     pass
 
-Pinata = Union['Pinata1', 'Pinata2']
-
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
@@ -33,3 +31,5 @@ class IpfsExportParams:
     """
     
 
+
+Pinata = Union[Pinata1, Pinata2]

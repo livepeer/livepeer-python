@@ -38,4 +38,4 @@ class ExportTaskParams1:
     
 
 
-ExportTaskParams = Union['ExportTaskParams1', 'ExportTaskParams2']
+ExportTaskParams = Union[ExportTaskParams1, ExportTaskParams2]

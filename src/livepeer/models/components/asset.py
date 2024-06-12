@@ -73,8 +73,6 @@ class Source1:
     
 
 
-Source = Union['Source1', 'Two', 'Source3']
-
 
 class AssetNftMetadataTemplate(str, Enum):
     r"""Name of the NFT metadata template to export. 'player'
@@ -268,3 +266,5 @@ class Asset:
     r"""Video metadata"""
     
 
+
+Source = Union[Source1, Two, Source3]

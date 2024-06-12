@@ -21,4 +21,4 @@ class CreatorID1:
     
 
 
-CreatorID = Union['CreatorID1']
+CreatorID = Union[CreatorID1]

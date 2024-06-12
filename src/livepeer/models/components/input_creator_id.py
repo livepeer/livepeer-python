@@ -20,4 +20,4 @@ class InputCreatorID1:
     
 
 
-InputCreatorID = Union['InputCreatorID1', str]
+InputCreatorID = Union[InputCreatorID1, str]
