@@ -42,6 +42,21 @@ res = s.stream.create(request=components.NewStreamPayload(
         ),
     ],
     record=False,
+    recording_spec=components.RecordingSpec(
+        profiles=[
+            components.FfmpegProfile(
+                width=1280,
+                name='720p',
+                height=489382,
+                bitrate=3000000,
+                fps=30,
+                fps_den=1,
+                quality=23,
+                gop='2',
+                profile=components.Profile.H264_BASELINE,
+            ),
+        ],
+    ),
     multistream=components.Multistream(
         targets=[
             components.Target(

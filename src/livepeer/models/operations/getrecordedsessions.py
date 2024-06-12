@@ -8,8 +8,6 @@ from ...models.errors import error as errors_error
 from dataclasses_json import Undefined, dataclass_json
 from typing import List, Optional, Union
 
-Record = Union[bool, int]
-
 
 @dataclasses.dataclass
 class GetRecordedSessionsRequest:
@@ -33,3 +31,5 @@ class GetRecordedSessionsResponse:
     r"""Error"""
     
 
+
+Record = Union[bool, int]

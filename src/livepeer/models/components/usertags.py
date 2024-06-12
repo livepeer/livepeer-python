@@ -5,4 +5,4 @@ from typing import List, Union
 
 UserTags3 = Union[str, float]
 
-UserTags = Union[str, float, List['UserTags3']]
+UserTags = Union[str, float, List[UserTags3]]

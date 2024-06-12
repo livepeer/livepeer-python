@@ -19,8 +19,6 @@ class NewAssetPayloadIpfs1:
     
 
 
-NewAssetPayloadIpfs = Union['NewAssetPayloadIpfs1', bool]
-
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
@@ -64,3 +62,5 @@ class NewAssetPayload:
     r"""How many seconds the duration of each output segment should be"""
     
 
+
+NewAssetPayloadIpfs = Union[NewAssetPayloadIpfs1, bool]

@@ -14,8 +14,6 @@ class One(int, Enum):
     ONE = 1
     TWO = 2
 
-IsMobile = Union['One', bool]
-
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
@@ -54,3 +52,5 @@ class Pull:
     """
     
 
+
+IsMobile = Union[One, bool]

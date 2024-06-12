@@ -10,10 +10,6 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Optional, Union
 
-QueryParamFrom = Union[datetime, int]
-
-QueryParamTo = Union[datetime, int]
-
 
 class QueryParamTimeStep(str, Enum):
     r"""The time step to aggregate viewership metrics by"""
@@ -70,3 +66,7 @@ class GetCreatorViewershipMetricsResponse:
     r"""Error"""
     
 
+
+QueryParamFrom = Union[datetime, int]
+
+QueryParamTo = Union[datetime, int]
