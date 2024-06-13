@@ -1,9 +1,9 @@
-speakeasyVersion: 1.296.0
+speakeasyVersion: 1.306.0
 sources:
     livepeer-studio-api:
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:1d4b7ec844330673b79e39757ea6657000531f726ff6c7fe28b7ca35aaf81a66
-        sourceBlobDigest: sha256:18fd782437d6694f3b9fdda86bb626baf8cd9ab243b6d7c715774dea878cca6a
+        sourceRevisionDigest: sha256:d63493c38b5327207b9db655db6fb875f94812840e9c93ad34114dd87a645d1a
+        sourceBlobDigest: sha256:f0c407e126d11c818ac0149d7337d72452326f867ba734b32dfa2e31c0170d3a
         tags:
             - latest
             - main
@@ -11,8 +11,8 @@ targets:
     livepeer-python:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:1d4b7ec844330673b79e39757ea6657000531f726ff6c7fe28b7ca35aaf81a66
-        sourceBlobDigest: sha256:18fd782437d6694f3b9fdda86bb626baf8cd9ab243b6d7c715774dea878cca6a
+        sourceRevisionDigest: sha256:d63493c38b5327207b9db655db6fb875f94812840e9c93ad34114dd87a645d1a
+        sourceBlobDigest: sha256:f0c407e126d11c818ac0149d7337d72452326f867ba734b32dfa2e31c0170d3a
         outLocation: /github/workspace/repo
     my-first-target:
         source: livepeer-studio-api
