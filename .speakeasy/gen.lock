@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: ff2202a25732837028e6242ecc0ab673
+  docChecksum: 542222dd6207ab2554389496b78b5e76
   docVersion: 1.0.0
-  speakeasyVersion: 1.305.0
-  generationVersion: 2.340.3
-  releaseVersion: 0.0.6
-  configChecksum: 1b183429b4c58242870ba4869ca2c4b4
+  speakeasyVersion: 1.308.1
+  generationVersion: 2.342.6
+  releaseVersion: 0.0.7
+  configChecksum: 197e916ffa4cb1beae0f91901235d390
   repoURL: https://github.com/livepeer/livepeer-python.git
   installationURL: https://github.com/livepeer/livepeer-python.git
 features:
@@ -14,7 +14,7 @@ features:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.0
     constsAndDefaults: 0.1.3
-    core: 4.6.9
+    core: 4.6.11
     deprecations: 2.81.1
     flattening: 2.81.1
     globalSecurity: 2.83.5
@@ -41,8 +41,10 @@ generatedFiles:
   - src/livepeer/transcode.py
   - src/livepeer/playback.py
   - src/livepeer/sdk.py
+  - Makefile
   - py.typed
   - pylintrc
+  - scripts/publish.sh
   - setup.py
   - src/livepeer/__init__.py
   - src/livepeer/utils/__init__.py

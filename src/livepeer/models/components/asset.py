@@ -4,6 +4,7 @@ from __future__ import annotations
 import dataclasses
 from .creator_id import CreatorID
 from .encryption_output import EncryptionOutput
+from .ffmpeg_profile import FfmpegProfile
 from .ipfs_file_info import IpfsFileInfo
 from .playback_policy import PlaybackPolicy
 from .storage_status import StorageStatus
@@ -249,6 +250,12 @@ class Asset:
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is Asset.UNSET }})
     r"""Whether the playback policy for an asset or stream is public or signed"""
     creator_id: Optional[CreatorID] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
+    profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
+    r"""Requested profiles for the asset to be transcoded into. Currently
+    only supported for livestream recording assets, configured through
+    the `stream.recordingSpec` field. If this is not present it means
+    that default profiles were derived from the input metadata.
+    """
     storage: Optional[AssetStorage] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('storage'), 'exclude': lambda f: f is None }})
     status: Optional[AssetStatus] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
     r"""Status of the asset"""
