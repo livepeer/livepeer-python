@@ -62,6 +62,10 @@ class Session:
     playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
     r"""The playback ID to use with the Playback Info endpoint to retrieve playback URLs."""
     profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
+    r"""Profiles to transcode the stream into. If not specified, a default
+    set of profiles will be used with 240p, 360p, 480p and 720p
+    resolutions. Keep in mind that the source rendition is always kept.
+    """
     recording_spec: Optional[RecordingSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordingSpec'), 'exclude': lambda f: f is None }})
     r"""Configuration for recording the stream. This can only be set if
     `record` is true.

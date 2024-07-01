@@ -5,15 +5,15 @@ Start timestamp for the query range (inclusive)
 
 ## Supported Types
 
-### 
+### `datetime`
 
 ```python
-from: datetime = /* values here */
+value: datetime = /* values here */
 ```
 
-### 
+### `int`
 
 ```python
-from: int = /* values here */
+value: int = /* values here */
 ```
 

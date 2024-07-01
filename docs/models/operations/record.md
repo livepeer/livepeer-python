@@ -7,15 +7,15 @@ sessions
 
 ## Supported Types
 
-### 
+### `bool`
 
 ```python
-record: bool = /* values here */
+value: bool = /* values here */
 ```
 
-### 
+### `int`
 
 ```python
-record: int = /* values here */
+value: int = /* values here */
 ```
 

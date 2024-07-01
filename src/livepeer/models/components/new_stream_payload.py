@@ -7,11 +7,20 @@ from .input_creator_id import InputCreatorID
 from .multistream import Multistream
 from .playback_policy import PlaybackPolicy
 from .pull import Pull
-from .recordingspec import RecordingSpec
+from .transcode_profile import TranscodeProfile
 from .usertags import UserTags
 from dataclasses_json import Undefined, dataclass_json
 from livepeer import utils
 from typing import Dict, List, Optional
+
+
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
+class NewStreamPayloadRecordingSpec:
+    UNSET='__SPEAKEASY_UNSET__'
+    profiles: Optional[List[TranscodeProfile]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is NewStreamPayloadRecordingSpec.UNSET }})
+    
+
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -32,10 +41,7 @@ class NewStreamPayload:
     r"""Should this stream be recorded? Uses default settings. For more
     customization, create and configure an object store.
     """
-    recording_spec: Optional[RecordingSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordingSpec'), 'exclude': lambda f: f is None }})
-    r"""Configuration for recording the stream. This can only be set if
-    `record` is true.
-    """
+    recording_spec: Optional[NewStreamPayloadRecordingSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordingSpec'), 'exclude': lambda f: f is None }})
     multistream: Optional[Multistream] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('multistream'), 'exclude': lambda f: f is None }})
     user_tags: Optional[Dict[str, UserTags]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('userTags'), 'exclude': lambda f: f is None }})
     r"""User input tags associated with the stream"""

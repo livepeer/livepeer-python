@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### Storage1
+### `components.Storage1`
 
 ```python
-transcodePayloadStorage: components.Storage1 = /* values here */
+value: components.Storage1 = /* values here */
 ```
 
-### Storage2
+### `components.Storage2`
 
 ```python
-transcodePayloadStorage: components.Storage2 = /* values here */
+value: components.Storage2 = /* values here */
 ```
 

@@ -3,21 +3,21 @@
 
 ## Supported Types
 
-### 
+### `str`
 
 ```python
-streamUserTags: str = /* values here */
+value: str = /* values here */
 ```
 
-### 
+### `float`
 
 ```python
-streamUserTags: float = /* values here */
+value: float = /* values here */
 ```
 
-### 
+### `List[components.Three]`
 
 ```python
-streamUserTags: List[components.Three] = /* values here */
+value: List[components.Three] = /* values here */
 ```
 

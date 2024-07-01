@@ -81,18 +81,18 @@ res = s.stream.create(request=components.NewStreamPayload(
         ),
     ],
     record=False,
-    recording_spec=components.RecordingSpec(
+    recording_spec=components.NewStreamPayloadRecordingSpec(
         profiles=[
-            components.FfmpegProfile(
+            components.TranscodeProfile(
+                bitrate=3000000,
                 width=1280,
                 name='720p',
-                height=489382,
-                bitrate=3000000,
+                quality=23,
                 fps=30,
                 fps_den=1,
-                quality=23,
                 gop='2',
-                profile=components.Profile.H264_BASELINE,
+                profile=components.TranscodeProfileProfile.H264_BASELINE,
+                encoder=components.TranscodeProfileEncoder.H_264,
             ),
         ],
     ),
@@ -260,6 +260,21 @@ res = s.stream.update(id='<value>', stream_patch_payload=components.StreamPatchP
             profile=components.Profile.H264_BASELINE,
         ),
     ],
+    recording_spec=components.RecordingSpec(
+        profiles=[
+            components.TranscodeProfile(
+                bitrate=3000000,
+                width=1280,
+                name='720p',
+                quality=23,
+                fps=30,
+                fps_den=1,
+                gop='2',
+                profile=components.TranscodeProfileProfile.H264_BASELINE,
+                encoder=components.TranscodeProfileEncoder.H_264,
+            ),
+        ],
+    ),
 ))
 
 if res is not None:

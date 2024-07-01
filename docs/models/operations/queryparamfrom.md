@@ -5,15 +5,15 @@ Start timestamp for the query range (inclusive)
 
 ## Supported Types
 
-### 
+### `datetime`
 
 ```python
-queryParamFrom: datetime = /* values here */
+value: datetime = /* values here */
 ```
 
-### 
+### `int`
 
 ```python
-queryParamFrom: int = /* values here */
+value: int = /* values here */
 ```
 

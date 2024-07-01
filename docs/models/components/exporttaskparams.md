@@ -5,15 +5,15 @@ Parameters for the export task
 
 ## Supported Types
 
-### ExportTaskParams1
+### `components.ExportTaskParams1`
 
 ```python
-exportTaskParams: components.ExportTaskParams1 = /* values here */
+value: components.ExportTaskParams1 = /* values here */
 ```
 
-### ExportTaskParams2
+### `components.ExportTaskParams2`
 
 ```python
-exportTaskParams: components.ExportTaskParams2 = /* values here */
+value: components.ExportTaskParams2 = /* values here */
 ```
 

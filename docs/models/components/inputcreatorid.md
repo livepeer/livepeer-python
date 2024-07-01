@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### InputCreatorID1
+### `components.InputCreatorID1`
 
 ```python
-inputCreatorID: components.InputCreatorID1 = /* values here */
+value: components.InputCreatorID1 = /* values here */
 ```
 
-### 
+### `str`
 
 ```python
-inputCreatorID: str = /* values here */
+value: str = /* values here */
 ```
 

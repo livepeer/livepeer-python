@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 import dataclasses
-from .ffmpeg_profile import FfmpegProfile
+from .transcode_profile import TranscodeProfile
 from dataclasses_json import Undefined, dataclass_json
 from livepeer import utils
 from typing import List, Optional
@@ -11,13 +11,7 @@ from typing import List, Optional
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class RecordingSpec:
-    r"""Configuration for recording the stream. This can only be set if
-    `record` is true.
-    """
-    profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
-    r"""Profiles to record the stream in. If not specified, the stream
-    will be recorded in the same profiles as the stream itself. Keep
-    in mind that the source rendition will always be recorded.
-    """
+    UNSET='__SPEAKEASY_UNSET__'
+    profiles: Optional[List[TranscodeProfile]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is RecordingSpec.UNSET }})
     
 

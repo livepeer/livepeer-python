@@ -229,7 +229,6 @@ class TaskStatus:
 @dataclasses.dataclass
 class TaskUpload:
     r"""Output of the upload task"""
-    UNSET='__SPEAKEASY_UNSET__'
     asset_spec: Optional[Asset] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('assetSpec'), 'exclude': lambda f: f is None }})
     additional_properties: Optional[Dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'exclude': lambda f: f is None }})
     
