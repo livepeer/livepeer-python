@@ -5,15 +5,15 @@ Indicates whether the stream will be pulled from a mobile source.
 
 ## Supported Types
 
-### One
+### `components.One`
 
 ```python
-isMobile: components.One = /* values here */
+value: components.One = /* values here */
 ```
 
-### 
+### `bool`
 
 ```python
-isMobile: bool = /* values here */
+value: bool = /* values here */
 ```
 

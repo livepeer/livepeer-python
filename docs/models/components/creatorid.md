@@ -3,9 +3,9 @@
 
 ## Supported Types
 
-### CreatorID1
+### `components.CreatorID1`
 
 ```python
-creatorID: components.CreatorID1 = /* values here */
+value: components.CreatorID1 = /* values here */
 ```
 

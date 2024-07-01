@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### Input1
+### `components.Input1`
 
 ```python
-input: components.Input1 = /* values here */
+value: components.Input1 = /* values here */
 ```
 
-### Input2
+### `components.Input2`
 
 ```python
-input: components.Input2 = /* values here */
+value: components.Input2 = /* values here */
 ```
 

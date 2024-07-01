@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### 
+### `str`
 
 ```python
-three: str = /* values here */
+value: str = /* values here */
 ```
 
-### 
+### `float`
 
 ```python
-three: float = /* values here */
+value: float = /* values here */
 ```
 

@@ -5,15 +5,15 @@ End timestamp for the query range (exclusive)
 
 ## Supported Types
 
-### 
+### `datetime`
 
 ```python
-queryParamTo: datetime = /* values here */
+value: datetime = /* values here */
 ```
 
-### 
+### `int`
 
 ```python
-queryParamTo: int = /* values here */
+value: int = /* values here */
 ```
 

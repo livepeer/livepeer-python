@@ -6,6 +6,7 @@ from .ffmpeg_profile import FfmpegProfile
 from .input_creator_id import InputCreatorID
 from .multistream import Multistream
 from .playback_policy import PlaybackPolicy
+from .recordingspec import RecordingSpec
 from .usertags import UserTags
 from dataclasses_json import Undefined, dataclass_json
 from livepeer import utils
@@ -27,6 +28,7 @@ class StreamPatchPayload:
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is StreamPatchPayload.UNSET }})
     r"""Whether the playback policy for an asset or stream is public or signed"""
     profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is StreamPatchPayload.UNSET }})
+    recording_spec: Optional[RecordingSpec] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('recordingSpec'), 'exclude': lambda f: f is None }})
     user_tags: Optional[Dict[str, UserTags]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('userTags'), 'exclude': lambda f: f is None }})
     r"""User input tags associated with the stream"""
     

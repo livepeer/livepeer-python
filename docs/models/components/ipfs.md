@@ -8,15 +8,15 @@ means to unpin from IPFS, but it's unsupported right now.
 
 ## Supported Types
 
-### Ipfs1
+### `components.Ipfs1`
 
 ```python
-ipfs: components.Ipfs1 = /* values here */
+value: components.Ipfs1 = /* values here */
 ```
 
-### 
+### `bool`
 
 ```python
-ipfs: bool = /* values here */
+value: bool = /* values here */
 ```
 

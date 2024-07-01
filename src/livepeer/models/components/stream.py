@@ -6,6 +6,7 @@ from .creator_id import CreatorID
 from .ffmpeg_profile import FfmpegProfile
 from .playback_policy import PlaybackPolicy
 from .target_output import TargetOutput
+from .transcode_profile import TranscodeProfile
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from livepeer import utils
@@ -64,10 +65,10 @@ class StreamRecordingSpec:
     r"""Configuration for recording the stream. This can only be set if
     `record` is true.
     """
-    profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
-    r"""Profiles to record the stream in. If not specified, the stream
-    will be recorded in the same profiles as the stream itself. Keep
-    in mind that the source rendition will always be recorded.
+    profiles: Optional[List[TranscodeProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
+    r"""Profiles to process the recording of this stream into. If not
+    specified, default profiles will be derived based on the stream
+    input. Keep in mind that the source rendition is always kept.
     """
     
 
@@ -137,6 +138,10 @@ class Stream:
     playback_policy: Optional[PlaybackPolicy] = dataclasses.field(default=UNSET, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackPolicy'), 'exclude': lambda f: f is Stream.UNSET }})
     r"""Whether the playback policy for an asset or stream is public or signed"""
     profiles: Optional[List[FfmpegProfile]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('profiles'), 'exclude': lambda f: f is None }})
+    r"""Profiles to transcode the stream into. If not specified, a default
+    set of profiles will be used with 240p, 360p, 480p and 720p
+    resolutions. Keep in mind that the source rendition is always kept.
+    """
     project_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('projectId'), 'exclude': lambda f: f is None }})
     r"""The ID of the project"""
     record: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('record'), 'exclude': lambda f: f is None }})

@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### 
+### `str`
 
 ```python
-userTags3: str = /* values here */
+value: str = /* values here */
 ```
 
-### 
+### `float`
 
 ```python
-userTags3: float = /* values here */
+value: float = /* values here */
 ```
 

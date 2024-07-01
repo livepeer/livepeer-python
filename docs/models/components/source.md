@@ -3,21 +3,21 @@
 
 ## Supported Types
 
-### Source1
+### `components.Source1`
 
 ```python
-source: components.Source1 = /* values here */
+value: components.Source1 = /* values here */
 ```
 
-### Two
+### `components.Two`
 
 ```python
-source: components.Two = /* values here */
+value: components.Two = /* values here */
 ```
 
-### Source3
+### `components.Source3`
 
 ```python
-source: components.Source3 = /* values here */
+value: components.Source3 = /* values here */
 ```
 
