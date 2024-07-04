@@ -1,11 +1,10 @@
-# QueryParamBreakdownBy
+# GetCreatorViewershipMetricsQueryParamBreakdownBy
 
 
 ## Values
 
 | Name             | Value            |
 | ---------------- | ---------------- |
-| `PLAYBACK_ID`    | playbackId       |
 | `DEVICE_TYPE`    | deviceType       |
 | `DEVICE`         | device           |
 | `CPU`            | cpu              |
@@ -16,6 +15,4 @@
 | `COUNTRY`        | country          |
 | `SUBDIVISION`    | subdivision      |
 | `TIMEZONE`       | timezone         |
-| `GEOHASH`        | geohash          |
 | `VIEWER_ID`      | viewerId         |
-| `CREATOR_ID`     | creatorId        |

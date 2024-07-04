@@ -31,9 +31,9 @@ class GetPublicViewershipMetricsData:
     d_storage_url: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dStorageUrl'), 'exclude': lambda f: f is None }})
     r"""The URL of the distributed storage used for the asset"""
     view_count: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('viewCount'), 'exclude': lambda f: f is None }})
-    r"""The number of views for the asset."""
+    r"""The number of views for the stream/asset."""
     playtime_mins: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playtimeMins'), 'exclude': lambda f: f is None }})
-    r"""The total playtime in minutes for the asset."""
+    r"""The total playtime in minutes for the stream/asset."""
     
 
 
