@@ -20,7 +20,7 @@ class QueryParamTimeStep(str, Enum):
     YEAR = 'year'
 
 
-class QueryParamBreakdownBy(str, Enum):
+class GetCreatorViewershipMetricsQueryParamBreakdownBy(str, Enum):
     DEVICE_TYPE = 'deviceType'
     DEVICE = 'device'
     CPU = 'cpu'
@@ -48,7 +48,7 @@ class GetCreatorViewershipMetricsRequest:
     r"""The stream ID to filter metrics for"""
     creator_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'creatorId', 'style': 'form', 'explode': True }})
     r"""The creator ID to filter the query results"""
-    breakdown_by: Optional[List[QueryParamBreakdownBy]] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'breakdownBy[]', 'style': 'form', 'explode': True }})
+    breakdown_by: Optional[List[GetCreatorViewershipMetricsQueryParamBreakdownBy]] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'breakdownBy[]', 'style': 'form', 'explode': True }})
     r"""The list of fields to break down the query results. Specify this
     query-string multiple times to break down by multiple fields.
     """

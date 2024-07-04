@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: c8b66caae26fdb2e55e4c991f43f3e17
+  docChecksum: bd22d35dc6bf62d09e41897481fef714
   docVersion: 1.0.0
-  speakeasyVersion: 1.322.3
-  generationVersion: 2.354.2
-  releaseVersion: 0.0.8
-  configChecksum: 3b73eb5b4fd224153613c4b7f79f1eb5
+  speakeasyVersion: 1.326.2
+  generationVersion: 2.359.1
+  releaseVersion: 0.0.9
+  configChecksum: 90954ce50db15e521b2117511c4a7312
   repoURL: https://github.com/livepeer/livepeer-python.git
   installationURL: https://github.com/livepeer/livepeer-python.git
 features:
@@ -93,6 +93,7 @@ generatedFiles:
   - src/livepeer/models/operations/getroomuser.py
   - src/livepeer/models/operations/updateroomuser.py
   - src/livepeer/models/operations/deleteroomuser.py
+  - src/livepeer/models/operations/getrealtimeviewershipnow.py
   - src/livepeer/models/operations/getviewershipmetrics.py
   - src/livepeer/models/operations/getcreatorviewershipmetrics.py
   - src/livepeer/models/operations/getpublicviewershipmetrics.py
@@ -147,6 +148,7 @@ generatedFiles:
   - src/livepeer/models/components/room_user_payload.py
   - src/livepeer/models/components/get_room_user_response.py
   - src/livepeer/models/components/room_user_update_payload.py
+  - src/livepeer/models/components/realtime_viewership_metric.py
   - src/livepeer/models/components/viewership_metric.py
   - src/livepeer/models/components/usage_metric.py
   - src/livepeer/models/components/signing_key.py
@@ -245,16 +247,19 @@ generatedFiles:
   - docs/models/operations/updateroomuserresponse.md
   - docs/models/operations/deleteroomuserrequest.md
   - docs/models/operations/deleteroomuserresponse.md
+  - docs/models/operations/breakdownby.md
+  - docs/models/operations/getrealtimeviewershipnowrequest.md
+  - docs/models/operations/getrealtimeviewershipnowresponse.md
   - docs/models/operations/from_.md
   - docs/models/operations/to.md
   - docs/models/operations/timestep.md
-  - docs/models/operations/breakdownby.md
+  - docs/models/operations/queryparambreakdownby.md
   - docs/models/operations/getviewershipmetricsrequest.md
   - docs/models/operations/getviewershipmetricsresponse.md
   - docs/models/operations/queryparamfrom.md
   - docs/models/operations/queryparamto.md
   - docs/models/operations/queryparamtimestep.md
-  - docs/models/operations/queryparambreakdownby.md
+  - docs/models/operations/getcreatorviewershipmetricsqueryparambreakdownby.md
   - docs/models/operations/getcreatorviewershipmetricsrequest.md
   - docs/models/operations/getcreatorviewershipmetricsresponse.md
   - docs/models/operations/getpublicviewershipmetricsrequest.md
@@ -382,6 +387,7 @@ generatedFiles:
   - docs/models/components/roomuserpayload.md
   - docs/models/components/getroomuserresponse.md
   - docs/models/components/roomuserupdatepayload.md
+  - docs/models/components/realtimeviewershipmetric.md
   - docs/models/components/viewershipmetric.md
   - docs/models/components/usagemetric.md
   - docs/models/components/signingkey.md

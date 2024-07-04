@@ -612,6 +612,7 @@ if res.stream is not None:
 
 ### [metrics](docs/sdks/metrics/README.md)
 
+* [get_realtime_viewership](docs/sdks/metrics/README.md#get_realtime_viewership) - Query realtime viewership
 * [get_viewership](docs/sdks/metrics/README.md#get_viewership) - Query viewership metrics
 * [get_creator_viewership](docs/sdks/metrics/README.md#get_creator_viewership) - Query creator viewership metrics
 * [get_public_viewership](docs/sdks/metrics/README.md#get_public_viewership) - Query public total views metrics

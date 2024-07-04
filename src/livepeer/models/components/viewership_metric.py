@@ -10,13 +10,13 @@ from typing import Optional
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class ViewershipMetric:
-    r"""An individual metric about viewership of an asset. Necessarily, at least
+    r"""An individual metric about viewership of a stream/asset. Necessarily, at least
     1 of playbackId and dStorageUrl will be present, depending on the query.
     """
     view_count: int = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('viewCount') }})
-    r"""The number of views for the asset."""
+    r"""The number of views for the stream/asset."""
     playtime_mins: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playtimeMins') }})
-    r"""The total playtime in minutes for the asset."""
+    r"""The total playtime in minutes for the stream/asset."""
     playback_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('playbackId'), 'exclude': lambda f: f is None }})
     r"""The playback ID associated with the metric."""
     creator_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('creatorId'), 'exclude': lambda f: f is None }})
@@ -59,7 +59,7 @@ class ViewershipMetric:
     rebuffer_ratio: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('rebufferRatio'), 'exclude': lambda f: f is None }})
     r"""The rebuffering ratio for the asset."""
     error_rate: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('errorRate'), 'exclude': lambda f: f is None }})
-    r"""The error rate for the asset."""
+    r"""The error rate for the stream/asset."""
     exits_before_start: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('exitsBeforeStart'), 'exclude': lambda f: f is None }})
     r"""The percentage of sessions that existed before the asset started
     playing.
