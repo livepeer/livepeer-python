@@ -71,7 +71,7 @@ res = s.stream.create(request=components.NewStreamPayload(
         components.FfmpegProfile(
             width=1280,
             name='720p',
-            height=486589,
+            height=720,
             bitrate=3000000,
             fps=30,
             fps_den=1,
@@ -87,6 +87,7 @@ res = s.stream.create(request=components.NewStreamPayload(
                 bitrate=3000000,
                 width=1280,
                 name='720p',
+                height=720,
                 quality=23,
                 fps=30,
                 fps_den=1,
@@ -147,7 +148,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.get_all(streamsonly='<value>')
+res = s.stream.get_all()
 
 if res.data is not None:
     # handle response
@@ -251,7 +252,7 @@ res = s.stream.update(id='<value>', stream_patch_payload=components.StreamPatchP
         components.FfmpegProfile(
             width=1280,
             name='720p',
-            height=857478,
+            height=720,
             bitrate=3000000,
             fps=30,
             fps_den=1,
@@ -266,6 +267,7 @@ res = s.stream.update(id='<value>', stream_patch_payload=components.StreamPatchP
                 bitrate=3000000,
                 width=1280,
                 name='720p',
+                height=720,
                 quality=23,
                 fps=30,
                 fps_den=1,
