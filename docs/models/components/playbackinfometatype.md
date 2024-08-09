@@ -10,4 +10,5 @@
 | `HTML5_VIDEO_H264`                    | html5/video/h264                      |
 | `VIDEO_X_FLV`                         | video/x-flv                           |
 | `IMAGE_JPEG`                          | image/jpeg                            |
+| `IMAGE_PNG`                           | image/png                             |
 | `TEXT_VTT`                            | text/vtt                              |
