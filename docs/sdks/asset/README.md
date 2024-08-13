@@ -37,6 +37,8 @@ if res.data is not None:
 ```
 
 
+
+
 ### Response
 
 **[operations.GetAssetsResponse](../../models/operations/getassetsresponse.md)**
@@ -148,6 +150,7 @@ res = s.asset.create(request=components.NewAssetPayload(
             bitrate=3000000,
             width=1280,
             name='720p',
+            height=720,
             quality=23,
             fps=30,
             fps_den=1,
@@ -163,6 +166,8 @@ if res.data is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -212,6 +217,7 @@ res = s.asset.create_via_url(request=components.NewAssetFromURLPayload(
             bitrate=3000000,
             width=1280,
             name='720p',
+            height=720,
             quality=23,
             fps=30,
             fps_den=1,
@@ -227,6 +233,8 @@ if res.two_hundred_application_json_data is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -265,6 +273,8 @@ if res.asset is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -315,6 +325,8 @@ if res.asset is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
@@ -353,6 +365,8 @@ if res is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 

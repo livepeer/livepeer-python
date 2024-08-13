@@ -34,6 +34,8 @@ if res.data is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                | Type                     | Required                 | Description              |
@@ -73,6 +75,8 @@ if res.data is not None:
 ```
 
 
+
+
 ### Response
 
 **[operations.GetSessionsResponse](../../models/operations/getsessionsresponse.md)**
@@ -103,6 +107,8 @@ if res.session is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -141,6 +147,8 @@ if res.data is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 

@@ -43,6 +43,8 @@ if res.create_room_response is not None:
 ```
 
 
+
+
 ### Response
 
 **[operations.CreateRoomResponse](../../models/operations/createroomresponse.md)**
@@ -75,6 +77,8 @@ if res.room is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -115,6 +119,8 @@ if res is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -161,6 +167,8 @@ if res is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
@@ -201,6 +209,8 @@ if res is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -250,6 +260,8 @@ if res.room_user_response is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
@@ -290,6 +302,8 @@ if res.get_room_user_response is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -336,6 +350,8 @@ if res is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                                            | Type                                                                                 | Required                                                                             | Description                                                                          |
@@ -377,6 +393,8 @@ if res is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 

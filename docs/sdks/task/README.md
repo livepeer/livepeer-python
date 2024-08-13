@@ -33,6 +33,8 @@ if res.data is not None:
 ```
 
 
+
+
 ### Response
 
 **[operations.GetTasksResponse](../../models/operations/gettasksresponse.md)**
@@ -63,6 +65,8 @@ if res.task is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 

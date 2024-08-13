@@ -22,22 +22,21 @@ Requires a private (non-CORS) API key to be used.
 
 ```python
 import livepeer
-from livepeer.models import operations
 
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.metrics.get_realtime_viewership(playback_id='<value>', creator_id='<value>', breakdown_by=[
-    operations.BreakdownBy.PLAYBACK_ID,
-])
+res = s.metrics.get_realtime_viewership()
 
 if res.data is not None:
     # handle response
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -66,20 +65,21 @@ Requires a private (non-CORS) API key to be used.
 
 ```python
 import livepeer
-from livepeer.models import operations
 
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.metrics.get_viewership(request=operations.GetViewershipMetricsRequest())
+res = s.metrics.get_viewership()
 
 if res.data is not None:
     # handle response
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -106,20 +106,21 @@ Requires a proof of ownership to be sent in the request, which for now is just t
 
 ```python
 import livepeer
-from livepeer.models import operations
 
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.metrics.get_creator_viewership(request=operations.GetCreatorViewershipMetricsRequest())
+res = s.metrics.get_creator_viewership()
 
 if res.data is not None:
     # handle response
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -162,6 +163,8 @@ if res.data is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                                                                                                             | Type                                                                                                                                                  | Required                                                                                                                                              | Description                                                                                                                                           |
@@ -186,20 +189,21 @@ Query usage metrics
 
 ```python
 import livepeer
-from livepeer.models import operations
 
 s = livepeer.Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 
-res = s.metrics.get_usage(request=operations.GetUsageMetricsRequest())
+res = s.metrics.get_usage()
 
 if res.usage_metric is not None:
     # handle response
     pass
 
 ```
+
+
 
 ### Parameters
 
