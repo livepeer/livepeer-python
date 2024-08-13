@@ -1,23 +1,23 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: bd22d35dc6bf62d09e41897481fef714
+  docChecksum: b5a2c208bc36f884f74846e5b9777fb8
   docVersion: 1.0.0
-  speakeasyVersion: 1.332.1
-  generationVersion: 2.366.1
-  releaseVersion: 0.1.0
-  configChecksum: b8377b3392c6a1ac01e2e558eb20ee44
+  speakeasyVersion: 1.363.1
+  generationVersion: 2.396.0
+  releaseVersion: 0.1.1
+  configChecksum: a01b4eb287b2b5ba1dc8f7988add268f
   repoURL: https://github.com/livepeer/livepeer-python.git
   installationURL: https://github.com/livepeer/livepeer-python.git
 features:
   python:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.0
-    constsAndDefaults: 0.1.3
-    core: 4.8.1
+    constsAndDefaults: 0.1.4
+    core: 4.8.4
     deprecations: 2.81.1
     flattening: 2.81.1
-    globalSecurity: 2.83.5
+    globalSecurity: 2.83.7
     globalSecurityCallbacks: 0.1.0
     globalSecurityFlattening: 0.1.0
     globalServerURLs: 2.82.2
@@ -26,7 +26,7 @@ features:
     nullables: 0.1.0
     responseFormat: 0.1.0
     sdkHooks: 0.1.0
-    unions: 2.82.8
+    unions: 2.82.9
 generatedFiles:
   - src/livepeer/sdkconfiguration.py
   - src/livepeer/stream.py
@@ -477,3 +477,4 @@ generatedFiles:
   - src/livepeer/_hooks/sdkhooks.py
   - src/livepeer/_hooks/types.py
   - src/livepeer/_hooks/__init__.py
+  - CONTRIBUTING.md

@@ -39,6 +39,8 @@ if res.data is not None:
 ```
 
 
+
+
 ### Response
 
 **[operations.GetWebhooksResponse](../../models/operations/getwebhooksresponse.md)**
@@ -82,6 +84,8 @@ if res.webhook is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                          | Type                                                               | Required                                                           | Description                                                        |
@@ -119,6 +123,8 @@ if res.webhook is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -169,6 +175,8 @@ if res.webhook is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                          | Type                                                               | Required                                                           | Description                                                        |
@@ -208,6 +216,8 @@ if res.webhook is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
@@ -246,6 +256,8 @@ if res.data is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
@@ -283,6 +295,8 @@ if res.webhook_log is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -325,6 +339,8 @@ if res.webhook_log is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 

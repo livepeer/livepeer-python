@@ -36,6 +36,8 @@ if res.data is not None:
 ```
 
 
+
+
 ### Response
 
 **[operations.GetMultistreamTargetsResponse](../../models/operations/getmultistreamtargetsresponse.md)**
@@ -69,6 +71,8 @@ if res.multistream_target is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -107,6 +111,8 @@ if res.multistream_target is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
@@ -149,6 +155,8 @@ if res is not None:
 
 ```
 
+
+
 ### Parameters
 
 | Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
@@ -189,6 +197,8 @@ if res is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 

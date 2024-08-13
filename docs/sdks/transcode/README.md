@@ -174,6 +174,7 @@ res = s.transcode.create(request=components.TranscodePayload(
             bitrate=3000000,
             width=1280,
             name='720p',
+            height=720,
             quality=23,
             fps=30,
             fps_den=1,
@@ -189,6 +190,8 @@ if res.task is not None:
     pass
 
 ```
+
+
 
 ### Parameters
 
