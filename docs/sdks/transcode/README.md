@@ -191,18 +191,16 @@ if res.task is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `request`                                                                  | [components.TranscodePayload](../../models/components/transcodepayload.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
 
-
 ### Response
 
 **[operations.TranscodeVideoResponse](../../models/operations/transcodevideoresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

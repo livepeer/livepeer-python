@@ -31,18 +31,16 @@ if res.playback_info is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | The playback ID from the asset or livestream, e.g. `eaw4nk06ts2d0mzb`. |
 
-
 ### Response
 
 **[operations.GetPlaybackInfoResponse](../../models/operations/getplaybackinforesponse.md)**
+
 ### Errors
 
 | Error Object     | Status Code      | Content Type     |

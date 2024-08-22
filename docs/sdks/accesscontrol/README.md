@@ -37,17 +37,16 @@ if res.signing_key is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.CreateSigningKeyResponse](../../models/operations/createsigningkeyresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get_all
 
@@ -71,17 +70,16 @@ if res.data is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.GetSigningKeysResponse](../../models/operations/getsigningkeysresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## delete
 
@@ -105,23 +103,22 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter             | Type                  | Required              | Description           |
 | --------------------- | --------------------- | --------------------- | --------------------- |
 | `key_id`              | *str*                 | :heavy_check_mark:    | ID of the signing key |
 
-
 ### Response
 
 **[operations.DeleteSigningKeyResponse](../../models/operations/deletesigningkeyresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get
 
@@ -145,23 +142,22 @@ if res.signing_key is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter             | Type                  | Required              | Description           |
 | --------------------- | --------------------- | --------------------- | --------------------- |
 | `key_id`              | *str*                 | :heavy_check_mark:    | ID of the signing key |
 
-
 ### Response
 
 **[operations.GetSigningKeyResponse](../../models/operations/getsigningkeyresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## update
 
@@ -186,8 +182,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
@@ -195,10 +189,10 @@ if res is not None:
 | `key_id`                                                                                         | *str*                                                                                            | :heavy_check_mark:                                                                               | ID of the signing key                                                                            |
 | `request_body`                                                                                   | [operations.UpdateSigningKeyRequestBody](../../models/operations/updatesigningkeyrequestbody.md) | :heavy_check_mark:                                                                               | N/A                                                                                              |
 
-
 ### Response
 
 **[operations.UpdateSigningKeyResponse](../../models/operations/updatesigningkeyresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

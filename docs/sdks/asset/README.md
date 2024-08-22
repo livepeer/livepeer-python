@@ -36,17 +36,16 @@ if res.data is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.GetAssetsResponse](../../models/operations/getassetsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## create
 
@@ -167,23 +166,22 @@ if res.data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
 | `request`                                                                | [components.NewAssetPayload](../../models/components/newassetpayload.md) | :heavy_check_mark:                                                       | The request object to use for the request.                               |
 
-
 ### Response
 
 **[operations.RequestUploadResponse](../../models/operations/requestuploadresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## create_via_url
 
@@ -234,23 +232,22 @@ if res.two_hundred_application_json_data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
 | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `request`                                                                              | [components.NewAssetFromURLPayload](../../models/components/newassetfromurlpayload.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
 
-
 ### Response
 
 **[operations.UploadAssetResponse](../../models/operations/uploadassetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get
 
@@ -274,23 +271,22 @@ if res.asset is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `asset_id`         | *str*              | :heavy_check_mark: | ID of the asset    |
 
-
 ### Response
 
 **[operations.GetAssetResponse](../../models/operations/getassetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## update
 
@@ -325,8 +321,6 @@ if res.asset is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
@@ -334,15 +328,16 @@ if res.asset is not None:
 | `asset_id`                                                                   | *str*                                                                        | :heavy_check_mark:                                                           | ID of the asset                                                              |
 | `asset_patch_payload`                                                        | [components.AssetPatchPayload](../../models/components/assetpatchpayload.md) | :heavy_check_mark:                                                           | N/A                                                                          |
 
-
 ### Response
 
 **[operations.UpdateAssetResponse](../../models/operations/updateassetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## delete
 
@@ -366,18 +361,16 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `asset_id`         | *str*              | :heavy_check_mark: | ID of the asset    |
 
-
 ### Response
 
 **[operations.DeleteAssetResponse](../../models/operations/deleteassetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
