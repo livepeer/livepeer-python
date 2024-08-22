@@ -32,17 +32,16 @@ if res.data is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.GetTasksResponse](../../models/operations/gettasksresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get
 
@@ -66,18 +65,16 @@ if res.task is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `task_id`          | *str*              | :heavy_check_mark: | ID of the task     |
 
-
 ### Response
 
 **[operations.GetTaskResponse](../../models/operations/gettaskresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

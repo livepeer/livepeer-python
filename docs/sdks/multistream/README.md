@@ -35,17 +35,16 @@ if res.data is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.GetMultistreamTargetsResponse](../../models/operations/getmultistreamtargetsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## create
 
@@ -72,23 +71,22 @@ if res.multistream_target is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
 | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `request`                                                                              | [components.MultistreamTargetInput](../../models/components/multistreamtargetinput.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
 
-
 ### Response
 
 **[operations.CreateMultistreamTargetResponse](../../models/operations/createmultistreamtargetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get
 
@@ -112,23 +110,22 @@ if res.multistream_target is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                    | Type                         | Required                     | Description                  |
 | ---------------------------- | ---------------------------- | ---------------------------- | ---------------------------- |
 | `id`                         | *str*                        | :heavy_check_mark:           | ID of the multistream target |
 
-
 ### Response
 
 **[operations.GetMultistreamTargetResponse](../../models/operations/getmultistreamtargetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## update
 
@@ -155,8 +152,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
@@ -164,15 +159,16 @@ if res is not None:
 | `id`                                                                                                 | *str*                                                                                                | :heavy_check_mark:                                                                                   | ID of the multistream target                                                                         |
 | `multistream_target_patch_payload`                                                                   | [components.MultistreamTargetPatchPayload](../../models/components/multistreamtargetpatchpayload.md) | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
 
-
 ### Response
 
 **[operations.UpdateMultistreamTargetResponse](../../models/operations/updatemultistreamtargetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## delete
 
@@ -198,18 +194,16 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                    | Type                         | Required                     | Description                  |
 | ---------------------------- | ---------------------------- | ---------------------------- | ---------------------------- |
 | `id`                         | *str*                        | :heavy_check_mark:           | ID of the multistream target |
 
-
 ### Response
 
 **[operations.DeleteMultistreamTargetResponse](../../models/operations/deletemultistreamtargetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: b5a2c208bc36f884f74846e5b9777fb8
+  docChecksum: 59634240879b8bce1b699c21c7f4f276
   docVersion: 1.0.0
-  speakeasyVersion: 1.363.1
-  generationVersion: 2.396.0
-  releaseVersion: 0.1.1
-  configChecksum: a01b4eb287b2b5ba1dc8f7988add268f
+  speakeasyVersion: 1.377.1
+  generationVersion: 2.404.1
+  releaseVersion: 0.1.2
+  configChecksum: 5231b9f981878f8105cfab0b8f673baf
   repoURL: https://github.com/livepeer/livepeer-python.git
   installationURL: https://github.com/livepeer/livepeer-python.git
 features:
@@ -14,7 +14,7 @@ features:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.0
     constsAndDefaults: 0.1.4
-    core: 4.8.4
+    core: 4.8.6
     deprecations: 2.81.1
     flattening: 2.81.1
     globalSecurity: 2.83.7
@@ -314,7 +314,6 @@ generatedFiles:
   - docs/models/components/usertags.md
   - docs/models/components/multistream.md
   - docs/models/components/targetspec.md
-  - docs/models/components/target.md
   - docs/models/components/inputcreatoridtype.md
   - docs/models/components/inputcreatorid1.md
   - docs/models/components/inputcreatorid.md
@@ -353,13 +352,11 @@ generatedFiles:
   - docs/models/components/targetaddpayloadspec.md
   - docs/models/components/targetaddpayload.md
   - docs/models/components/multistreamtarget.md
-  - docs/models/components/multistreamtargetinput.md
   - docs/models/components/multistreamtargetpatchpayload.md
   - docs/models/components/events.md
   - docs/models/components/lastfailure.md
   - docs/models/components/status.md
   - docs/models/components/webhook.md
-  - docs/models/components/webhookinput.md
   - docs/models/components/request.md
   - docs/models/components/response.md
   - docs/models/components/webhooklog.md
@@ -372,7 +369,6 @@ generatedFiles:
   - docs/models/components/nftmetadata.md
   - docs/models/components/spec.md
   - docs/models/components/newassetfromurlpayload.md
-  - docs/models/components/encryption.md
   - docs/models/components/ipfs1.md
   - docs/models/components/ipfs.md
   - docs/models/components/storage.md

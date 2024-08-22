@@ -34,23 +34,22 @@ if res.data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                | Type                     | Required                 | Description              |
 | ------------------------ | ------------------------ | ------------------------ | ------------------------ |
 | `id`                     | *str*                    | :heavy_check_mark:       | ID of the parent session |
 
-
 ### Response
 
 **[operations.GetSessionClipsResponse](../../models/operations/getsessionclipsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get_all
 
@@ -74,17 +73,16 @@ if res.data is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.GetSessionsResponse](../../models/operations/getsessionsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get
 
@@ -108,23 +106,22 @@ if res.session is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | ID of the session  |
 
-
 ### Response
 
 **[operations.GetSessionResponse](../../models/operations/getsessionresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get_recorded
 
@@ -148,8 +145,6 @@ if res.data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            | Example                                                                |
@@ -157,10 +152,10 @@ if res.data is not None:
 | `parent_id`                                                            | *str*                                                                  | :heavy_check_mark:                                                     | ID of the parent stream                                                |                                                                        |
 | `record`                                                               | [Optional[operations.Record]](../../models/operations/record.md)       | :heavy_minus_sign:                                                     | Flag indicating if the response should only include recorded<br/>sessions<br/> | true                                                                   |
 
-
 ### Response
 
 **[operations.GetRecordedSessionsResponse](../../models/operations/getrecordedsessionsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

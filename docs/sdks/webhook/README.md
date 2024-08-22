@@ -38,17 +38,16 @@ if res.data is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.GetWebhooksResponse](../../models/operations/getwebhooksresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## create
 
@@ -84,23 +83,22 @@ if res.webhook is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                          | Type                                                               | Required                                                           | Description                                                        |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | `request`                                                          | [components.WebhookInput](../../models/components/webhookinput.md) | :heavy_check_mark:                                                 | The request object to use for the request.                         |
 
-
 ### Response
 
 **[operations.CreateWebhookResponse](../../models/operations/createwebhookresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get
 
@@ -124,23 +122,22 @@ if res.webhook is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.GetWebhookResponse](../../models/operations/getwebhookresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## update
 
@@ -175,8 +172,6 @@ if res.webhook is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                          | Type                                                               | Required                                                           | Description                                                        |
@@ -184,15 +179,16 @@ if res.webhook is not None:
 | `id`                                                               | *str*                                                              | :heavy_check_mark:                                                 | N/A                                                                |
 | `webhook`                                                          | [components.WebhookInput](../../models/components/webhookinput.md) | :heavy_check_mark:                                                 | N/A                                                                |
 
-
 ### Response
 
 **[operations.UpdateWebhookResponse](../../models/operations/updatewebhookresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## delete
 
@@ -216,23 +212,22 @@ if res.webhook is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.DeleteWebhookResponse](../../models/operations/deletewebhookresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get_logs
 
@@ -256,23 +251,22 @@ if res.data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.GetWebhookLogsResponse](../../models/operations/getwebhooklogsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get_log
 
@@ -296,8 +290,6 @@ if res.webhook_log is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
@@ -305,15 +297,16 @@ if res.webhook_log is not None:
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 | `log_id`           | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.GetWebhookLogResponse](../../models/operations/getwebhooklogresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## resend_log
 
@@ -340,8 +333,6 @@ if res.webhook_log is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
@@ -349,10 +340,10 @@ if res.webhook_log is not None:
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 | `log_id`           | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.ResendWebhookResponse](../../models/operations/resendwebhookresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

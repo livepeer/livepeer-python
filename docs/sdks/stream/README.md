@@ -118,23 +118,22 @@ if res.stream is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `request`                                                                  | [components.NewStreamPayload](../../models/components/newstreampayload.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
 
-
 ### Response
 
 **[operations.CreateStreamResponse](../../models/operations/createstreamresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get_all
 
@@ -158,23 +157,22 @@ if res.data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `streamsonly`      | *Optional[str]*    | :heavy_minus_sign: | N/A                |
 
-
 ### Response
 
 **[operations.GetStreamsResponse](../../models/operations/getstreamsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get
 
@@ -198,23 +196,22 @@ if res.stream is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
 
-
 ### Response
 
 **[operations.GetStreamResponse](../../models/operations/getstreamresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## update
 
@@ -291,8 +288,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
@@ -300,15 +295,16 @@ if res is not None:
 | `id`                                                                           | *str*                                                                          | :heavy_check_mark:                                                             | ID of the stream                                                               |
 | `stream_patch_payload`                                                         | [components.StreamPatchPayload](../../models/components/streampatchpayload.md) | :heavy_check_mark:                                                             | N/A                                                                            |
 
-
 ### Response
 
 **[operations.UpdateStreamResponse](../../models/operations/updatestreamresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## delete
 
@@ -336,23 +332,22 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
 
-
 ### Response
 
 **[operations.DeleteStreamResponse](../../models/operations/deletestreamresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## terminate
 
@@ -384,23 +379,22 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
 
-
 ### Response
 
 **[operations.TerminateStreamResponse](../../models/operations/terminatestreamresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## start_pull
 
@@ -431,23 +425,22 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
 
-
 ### Response
 
 **[operations.StartPullStreamResponse](../../models/operations/startpullstreamresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## create_clip
 
@@ -478,23 +471,22 @@ if res.data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                        | Type                                                             | Required                                                         | Description                                                      |
 | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
 | `request`                                                        | [components.ClipPayload](../../models/components/clippayload.md) | :heavy_check_mark:                                               | The request object to use for the request.                       |
 
-
 ### Response
 
 **[operations.CreateClipResponse](../../models/operations/createclipresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## get_clips
 
@@ -518,23 +510,22 @@ if res.data is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                              | Type                                                   | Required                                               | Description                                            |
 | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
 | `id`                                                   | *str*                                                  | :heavy_check_mark:                                     | ID of the parent stream or playbackId of parent stream |
 
-
 ### Response
 
 **[operations.GetClipsResponse](../../models/operations/getclipsresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## add_multistream_target
 
@@ -567,8 +558,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
@@ -576,15 +565,16 @@ if res is not None:
 | `id`                                                                       | *str*                                                                      | :heavy_check_mark:                                                         | ID of the parent stream                                                    |
 | `target_add_payload`                                                       | [components.TargetAddPayload](../../models/components/targetaddpayload.md) | :heavy_check_mark:                                                         | N/A                                                                        |
 
-
 ### Response
 
 **[operations.AddMultistreamTargetResponse](../../models/operations/addmultistreamtargetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## remove_multistream_target
 
@@ -608,8 +598,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                    | Type                         | Required                     | Description                  |
@@ -617,10 +605,10 @@ if res is not None:
 | `id`                         | *str*                        | :heavy_check_mark:           | ID of the parent stream      |
 | `target_id`                  | *str*                        | :heavy_check_mark:           | ID of the multistream target |
 
-
 ### Response
 
 **[operations.RemoveMultistreamTargetResponse](../../models/operations/removemultistreamtargetresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |

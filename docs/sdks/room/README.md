@@ -42,17 +42,16 @@ if res.create_room_response is not None:
 
 ```
 
-
-
-
 ### Response
 
 **[operations.CreateRoomResponse](../../models/operations/createroomresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~get~~
 
@@ -78,23 +77,22 @@ if res.room is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.GetRoomResponse](../../models/operations/getroomresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~delete~~
 
@@ -120,23 +118,22 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.DeleteRoomResponse](../../models/operations/deleteroomresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~start_egress~~
 
@@ -167,8 +164,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
@@ -176,15 +171,16 @@ if res is not None:
 | `id`                                                                         | *str*                                                                        | :heavy_check_mark:                                                           | N/A                                                                          |
 | `room_egress_payload`                                                        | [components.RoomEgressPayload](../../models/components/roomegresspayload.md) | :heavy_check_mark:                                                           | N/A                                                                          |
 
-
 ### Response
 
 **[operations.StartRoomEgressResponse](../../models/operations/startroomegressresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~stop_egress~~
 
@@ -210,23 +206,22 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.StopRoomEgressResponse](../../models/operations/stoproomegressresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~create_user~~
 
@@ -260,8 +255,6 @@ if res.room_user_response is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
@@ -269,15 +262,16 @@ if res.room_user_response is not None:
 | `id`                                                                     | *str*                                                                    | :heavy_check_mark:                                                       | N/A                                                                      |
 | `room_user_payload`                                                      | [components.RoomUserPayload](../../models/components/roomuserpayload.md) | :heavy_check_mark:                                                       | N/A                                                                      |
 
-
 ### Response
 
 **[operations.CreateRoomUserResponse](../../models/operations/createroomuserresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~get_user~~
 
@@ -303,8 +297,6 @@ if res.get_room_user_response is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
@@ -312,15 +304,16 @@ if res.get_room_user_response is not None:
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 | `user_id`          | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.GetRoomUserResponse](../../models/operations/getroomuserresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~update_user~~
 
@@ -350,8 +343,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter                                                                            | Type                                                                                 | Required                                                                             | Description                                                                          |
@@ -360,15 +351,16 @@ if res is not None:
 | `user_id`                                                                            | *str*                                                                                | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `room_user_update_payload`                                                           | [components.RoomUserUpdatePayload](../../models/components/roomuserupdatepayload.md) | :heavy_check_mark:                                                                   | N/A                                                                                  |
 
-
 ### Response
 
 **[operations.UpdateRoomUserResponse](../../models/operations/updateroomuserresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
 | errors.SDKError | 4xx-5xx         | */*             |
+
 
 ## ~~delete_user~~
 
@@ -394,8 +386,6 @@ if res is not None:
 
 ```
 
-
-
 ### Parameters
 
 | Parameter          | Type               | Required           | Description        |
@@ -403,10 +393,10 @@ if res is not None:
 | `id`               | *str*              | :heavy_check_mark: | N/A                |
 | `user_id`          | *str*              | :heavy_check_mark: | N/A                |
 
-
 ### Response
 
 **[operations.DeleteRoomUserResponse](../../models/operations/deleteroomuserresponse.md)**
+
 ### Errors
 
 | Error Object    | Status Code     | Content Type    |
