@@ -15,6 +15,7 @@ class RecordingStatus(str, Enum):
     WAITING = 'waiting'
     READY = 'ready'
     FAILED = 'failed'
+    DELETED = 'deleted'
     NONE = 'none'
 
 

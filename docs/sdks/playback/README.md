@@ -23,7 +23,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.playback.get(id='<value>')
+res = s.playback.get(id='<id>')
 
 if res.playback_info is not None:
     # handle response

@@ -151,7 +151,7 @@ s = livepeer.Livepeer(
 
 res = None
 try:
-    res = s.playback.get(id='<value>')
+    res = s.playback.get(id='<id>')
 
 except errors.Error as e:
     # handle exception
@@ -456,8 +456,30 @@ if res.stream is not None:
 ```
 <!-- End Authentication [security] -->
 
+<!-- Start Summary [summary] -->
+## Summary
+
+Livepeer API Reference: Welcome to the Livepeer API reference docs. Here you will find all the
+endpoints exposed on the standard Livepeer API, learn how to use them and
+what they return.
+<!-- End Summary [summary] -->
+
+<!-- Start Table of Contents [toc] -->
+## Table of Contents
+
+* [SDK Installation](#sdk-installation)
+* [SDK Example Usage](#sdk-example-usage)
+* [Available Resources and Operations](#available-resources-and-operations)
+* [Error Handling](#error-handling)
+* [Server Selection](#server-selection)
+* [Custom HTTP Client](#custom-http-client)
+* [Authentication](#authentication)
+<!-- End Table of Contents [toc] -->
+
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
+
+The SDK can be installed using the *pip* package manager, with dependencies and metadata stored in the `setup.py` file.
 
 ```bash
 pip install git+https://github.com/livepeer/livepeer-python.git
@@ -553,6 +575,66 @@ if res.stream is not None:
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
 
+<details open>
+<summary>Available methods</summary>
+
+### [access_control](docs/sdks/accesscontrol/README.md)
+
+* [create](docs/sdks/accesscontrol/README.md#create) - Create a signing key
+* [get_all](docs/sdks/accesscontrol/README.md#get_all) - Retrieves signing keys
+* [delete](docs/sdks/accesscontrol/README.md#delete) - Delete Signing Key
+* [get](docs/sdks/accesscontrol/README.md#get) - Retrieves a signing key
+* [update](docs/sdks/accesscontrol/README.md#update) - Update a signing key
+
+### [asset](docs/sdks/asset/README.md)
+
+* [get_all](docs/sdks/asset/README.md#get_all) - Retrieve assets
+* [create](docs/sdks/asset/README.md#create) - Upload an asset
+* [create_via_url](docs/sdks/asset/README.md#create_via_url) - Upload asset via URL
+* [get](docs/sdks/asset/README.md#get) - Retrieves an asset
+* [update](docs/sdks/asset/README.md#update) - Patch an asset
+* [delete](docs/sdks/asset/README.md#delete) - Delete an asset
+
+
+### [metrics](docs/sdks/metrics/README.md)
+
+* [get_realtime_viewership](docs/sdks/metrics/README.md#get_realtime_viewership) - Query realtime viewership
+* [get_viewership](docs/sdks/metrics/README.md#get_viewership) - Query viewership metrics
+* [get_creator_viewership](docs/sdks/metrics/README.md#get_creator_viewership) - Query creator viewership metrics
+* [get_public_viewership](docs/sdks/metrics/README.md#get_public_viewership) - Query public total views metrics
+* [get_usage](docs/sdks/metrics/README.md#get_usage) - Query usage metrics
+
+### [multistream](docs/sdks/multistream/README.md)
+
+* [get_all](docs/sdks/multistream/README.md#get_all) - Retrieve Multistream Targets
+* [create](docs/sdks/multistream/README.md#create) - Create a multistream target
+* [get](docs/sdks/multistream/README.md#get) - Retrieve a multistream target
+* [update](docs/sdks/multistream/README.md#update) - Update Multistream Target
+* [delete](docs/sdks/multistream/README.md#delete) - Delete a multistream target
+
+### [playback](docs/sdks/playback/README.md)
+
+* [get](docs/sdks/playback/README.md#get) - Retrieve Playback Info
+
+### [~~room~~](docs/sdks/room/README.md)
+
+* [~~create~~](docs/sdks/room/README.md#create) - Create a room :warning: **Deprecated**
+* [~~get~~](docs/sdks/room/README.md#get) - Retrieve a room :warning: **Deprecated**
+* [~~delete~~](docs/sdks/room/README.md#delete) - Delete a room :warning: **Deprecated**
+* [~~start_egress~~](docs/sdks/room/README.md#start_egress) - Start room RTMP egress :warning: **Deprecated**
+* [~~stop_egress~~](docs/sdks/room/README.md#stop_egress) - Stop room RTMP egress :warning: **Deprecated**
+* [~~create_user~~](docs/sdks/room/README.md#create_user) - Create a room user :warning: **Deprecated**
+* [~~get_user~~](docs/sdks/room/README.md#get_user) - Get user details :warning: **Deprecated**
+* [~~update_user~~](docs/sdks/room/README.md#update_user) - Update a room user :warning: **Deprecated**
+* [~~delete_user~~](docs/sdks/room/README.md#delete_user) - Remove a user from the room :warning: **Deprecated**
+
+### [session](docs/sdks/session/README.md)
+
+* [get_clips](docs/sdks/session/README.md#get_clips) - Retrieve clips of a session
+* [get_all](docs/sdks/session/README.md#get_all) - Retrieve sessions
+* [get](docs/sdks/session/README.md#get) - Retrieve a session
+* [get_recorded](docs/sdks/session/README.md#get_recorded) - Retrieve Recorded Sessions
+
 ### [stream](docs/sdks/stream/README.md)
 
 * [create](docs/sdks/stream/README.md#create) - Create a stream
@@ -567,13 +649,14 @@ if res.stream is not None:
 * [add_multistream_target](docs/sdks/stream/README.md#add_multistream_target) - Add a multistream target
 * [remove_multistream_target](docs/sdks/stream/README.md#remove_multistream_target) - Remove a multistream target
 
-### [multistream](docs/sdks/multistream/README.md)
+### [task](docs/sdks/task/README.md)
 
-* [get_all](docs/sdks/multistream/README.md#get_all) - Retrieve Multistream Targets
-* [create](docs/sdks/multistream/README.md#create) - Create a multistream target
-* [get](docs/sdks/multistream/README.md#get) - Retrieve a multistream target
-* [update](docs/sdks/multistream/README.md#update) - Update Multistream Target
-* [delete](docs/sdks/multistream/README.md#delete) - Delete a multistream target
+* [get_all](docs/sdks/task/README.md#get_all) - Retrieve Tasks
+* [get](docs/sdks/task/README.md#get) - Retrieve a Task
+
+### [transcode](docs/sdks/transcode/README.md)
+
+* [create](docs/sdks/transcode/README.md#create) - Transcode a video
 
 ### [webhook](docs/sdks/webhook/README.md)
 
@@ -586,62 +669,7 @@ if res.stream is not None:
 * [get_log](docs/sdks/webhook/README.md#get_log) - Retrieve a webhook log
 * [resend_log](docs/sdks/webhook/README.md#resend_log) - Resend a webhook
 
-### [asset](docs/sdks/asset/README.md)
-
-* [get_all](docs/sdks/asset/README.md#get_all) - Retrieve assets
-* [create](docs/sdks/asset/README.md#create) - Upload an asset
-* [create_via_url](docs/sdks/asset/README.md#create_via_url) - Upload asset via URL
-* [get](docs/sdks/asset/README.md#get) - Retrieves an asset
-* [update](docs/sdks/asset/README.md#update) - Patch an asset
-* [delete](docs/sdks/asset/README.md#delete) - Delete an asset
-
-### [session](docs/sdks/session/README.md)
-
-* [get_clips](docs/sdks/session/README.md#get_clips) - Retrieve clips of a session
-* [get_all](docs/sdks/session/README.md#get_all) - Retrieve sessions
-* [get](docs/sdks/session/README.md#get) - Retrieve a session
-* [get_recorded](docs/sdks/session/README.md#get_recorded) - Retrieve Recorded Sessions
-
-### [room](docs/sdks/room/README.md)
-
-* [~~create~~](docs/sdks/room/README.md#create) - Create a room :warning: **Deprecated**
-* [~~get~~](docs/sdks/room/README.md#get) - Retrieve a room :warning: **Deprecated**
-* [~~delete~~](docs/sdks/room/README.md#delete) - Delete a room :warning: **Deprecated**
-* [~~start_egress~~](docs/sdks/room/README.md#start_egress) - Start room RTMP egress :warning: **Deprecated**
-* [~~stop_egress~~](docs/sdks/room/README.md#stop_egress) - Stop room RTMP egress :warning: **Deprecated**
-* [~~create_user~~](docs/sdks/room/README.md#create_user) - Create a room user :warning: **Deprecated**
-* [~~get_user~~](docs/sdks/room/README.md#get_user) - Get user details :warning: **Deprecated**
-* [~~update_user~~](docs/sdks/room/README.md#update_user) - Update a room user :warning: **Deprecated**
-* [~~delete_user~~](docs/sdks/room/README.md#delete_user) - Remove a user from the room :warning: **Deprecated**
-
-### [metrics](docs/sdks/metrics/README.md)
-
-* [get_realtime_viewership](docs/sdks/metrics/README.md#get_realtime_viewership) - Query realtime viewership
-* [get_viewership](docs/sdks/metrics/README.md#get_viewership) - Query viewership metrics
-* [get_creator_viewership](docs/sdks/metrics/README.md#get_creator_viewership) - Query creator viewership metrics
-* [get_public_viewership](docs/sdks/metrics/README.md#get_public_viewership) - Query public total views metrics
-* [get_usage](docs/sdks/metrics/README.md#get_usage) - Query usage metrics
-
-### [access_control](docs/sdks/accesscontrol/README.md)
-
-* [create](docs/sdks/accesscontrol/README.md#create) - Create a signing key
-* [get_all](docs/sdks/accesscontrol/README.md#get_all) - Retrieves signing keys
-* [delete](docs/sdks/accesscontrol/README.md#delete) - Delete Signing Key
-* [get](docs/sdks/accesscontrol/README.md#get) - Retrieves a signing key
-* [update](docs/sdks/accesscontrol/README.md#update) - Update a signing key
-
-### [task](docs/sdks/task/README.md)
-
-* [get_all](docs/sdks/task/README.md#get_all) - Retrieve Tasks
-* [get](docs/sdks/task/README.md#get) - Retrieve a Task
-
-### [transcode](docs/sdks/transcode/README.md)
-
-* [create](docs/sdks/transcode/README.md#create) - Transcode a video
-
-### [playback](docs/sdks/playback/README.md)
-
-* [get](docs/sdks/playback/README.md#get) - Retrieve Playback Info
+</details>
 <!-- End Available Resources and Operations [operations] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->

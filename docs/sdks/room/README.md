@@ -69,7 +69,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.get(id='<value>')
+res = s.room.get(id='<id>')
 
 if res.room is not None:
     # handle response
@@ -110,7 +110,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.delete(id='<value>')
+res = s.room.delete(id='<id>')
 
 if res is not None:
     # handle response
@@ -154,7 +154,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.start_egress(id='<value>', room_egress_payload=components.RoomEgressPayload(
+res = s.room.start_egress(id='<id>', room_egress_payload=components.RoomEgressPayload(
     stream_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
 ))
 
@@ -198,7 +198,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.stop_egress(id='<value>')
+res = s.room.stop_egress(id='<id>')
 
 if res is not None:
     # handle response
@@ -243,7 +243,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.create_user(id='<value>', room_user_payload=components.RoomUserPayload(
+res = s.room.create_user(id='<id>', room_user_payload=components.RoomUserPayload(
     name='name',
     can_publish=True,
     can_publish_data=True,
@@ -289,7 +289,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.get_user(id='<value>', user_id='<value>')
+res = s.room.get_user(id='<id>', user_id='<value>')
 
 if res.get_room_user_response is not None:
     # handle response
@@ -332,7 +332,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.update_user(id='<value>', user_id='<value>', room_user_update_payload=components.RoomUserUpdatePayload(
+res = s.room.update_user(id='<id>', user_id='<value>', room_user_update_payload=components.RoomUserUpdatePayload(
     can_publish=True,
     can_publish_data=True,
 ))
@@ -378,7 +378,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.room.delete_user(id='<value>', user_id='<value>')
+res = s.room.delete_user(id='<id>', user_id='<value>')
 
 if res is not None:
     # handle response

@@ -114,7 +114,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.webhook.get(id='<value>')
+res = s.webhook.get(id='<id>')
 
 if res.webhook is not None:
     # handle response
@@ -154,7 +154,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.webhook.update(id='<value>', webhook=components.WebhookInput(
+res = s.webhook.update(id='<id>', webhook=components.WebhookInput(
     name='test_webhook',
     url='https://my-service.com/webhook',
     project_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
@@ -204,7 +204,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.webhook.delete(id='<value>')
+res = s.webhook.delete(id='<id>')
 
 if res.webhook is not None:
     # handle response
@@ -243,7 +243,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.webhook.get_logs(id='<value>')
+res = s.webhook.get_logs(id='<id>')
 
 if res.data is not None:
     # handle response
@@ -282,7 +282,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.webhook.get_log(id='<value>', log_id='<value>')
+res = s.webhook.get_log(id='<id>', log_id='<value>')
 
 if res.webhook_log is not None:
     # handle response
@@ -325,7 +325,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.webhook.resend_log(id='<value>', log_id='<value>')
+res = s.webhook.resend_log(id='<id>', log_id='<value>')
 
 if res.webhook_log is not None:
     # handle response
