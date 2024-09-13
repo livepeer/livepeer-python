@@ -102,7 +102,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.multistream.get(id='<value>')
+res = s.multistream.get(id='<id>')
 
 if res.multistream_target is not None:
     # handle response
@@ -142,7 +142,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.multistream.update(id='<value>', multistream_target_patch_payload=components.MultistreamTargetPatchPayload(
+res = s.multistream.update(id='<id>', multistream_target_patch_payload=components.MultistreamTargetPatchPayload(
     url='rtmps://live.my-service.tv/channel/secretKey',
 ))
 
@@ -186,7 +186,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.multistream.delete(id='<value>')
+res = s.multistream.delete(id='<id>')
 
 if res is not None:
     # handle response

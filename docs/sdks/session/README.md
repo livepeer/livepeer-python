@@ -26,7 +26,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.session.get_clips(id='<value>')
+res = s.session.get_clips(id='<id>')
 
 if res.data is not None:
     # handle response
@@ -98,7 +98,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.session.get(id='<value>')
+res = s.session.get(id='<id>')
 
 if res.session is not None:
     # handle response

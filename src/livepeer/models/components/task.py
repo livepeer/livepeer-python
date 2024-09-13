@@ -314,6 +314,8 @@ class Task:
     r"""ID of the input asset"""
     output_asset_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('outputAssetId'), 'exclude': lambda f: f is None }})
     r"""ID of the output asset"""
+    project_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('projectId'), 'exclude': lambda f: f is None }})
+    r"""ID of the project"""
     requester_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('requesterId'), 'exclude': lambda f: f is None }})
     r"""ID of the requester hash(IP + SALT + PlaybackId)"""
     params: Optional[Params] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('params'), 'exclude': lambda f: f is None }})

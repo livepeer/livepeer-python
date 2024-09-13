@@ -188,7 +188,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.get(id='<value>')
+res = s.stream.get(id='<id>')
 
 if res.stream is not None:
     # handle response
@@ -228,7 +228,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.update(id='<value>', stream_patch_payload=components.StreamPatchPayload(
+res = s.stream.update(id='<id>', stream_patch_payload=components.StreamPatchPayload(
     record=False,
     multistream=components.Multistream(
         targets=[
@@ -324,7 +324,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.delete(id='<value>')
+res = s.stream.delete(id='<id>')
 
 if res is not None:
     # handle response
@@ -371,7 +371,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.terminate(id='<value>')
+res = s.stream.terminate(id='<id>')
 
 if res is not None:
     # handle response
@@ -417,7 +417,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.start_pull(id='<value>')
+res = s.stream.start_pull(id='<id>')
 
 if res is not None:
     # handle response
@@ -502,7 +502,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.get_clips(id='<value>')
+res = s.stream.get_clips(id='<id>')
 
 if res.data is not None:
     # handle response
@@ -542,7 +542,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.add_multistream_target(id='<value>', target_add_payload=components.TargetAddPayload(
+res = s.stream.add_multistream_target(id='<id>', target_add_payload=components.TargetAddPayload(
     profile='720p0',
     video_only=False,
     id='PUSH123',
@@ -590,7 +590,7 @@ s = livepeer.Livepeer(
 )
 
 
-res = s.stream.remove_multistream_target(id='<value>', target_id='<value>')
+res = s.stream.remove_multistream_target(id='<id>', target_id='<value>')
 
 if res is not None:
     # handle response
