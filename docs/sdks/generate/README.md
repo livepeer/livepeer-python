@@ -22,13 +22,12 @@ Generate images from text prompts.
 
 ```python
 from livepeer import Livepeer
-from livepeer.models import operations
 
-s = Livepeer()
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
 
-res = s.generate.text_to_image(security=operations.GenTextToImageSecurity(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
+res = s.generate.text_to_image(request={
     "prompt": "<value>",
 })
 
@@ -40,11 +39,10 @@ if res.image_response is not None:
 
 ### Parameters
 
-| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `request`                                                                              | [components.TextToImageParams](../../models/components/texttoimageparams.md)           | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
-| `security`                                                                             | [operations.GenTextToImageSecurity](../../models/operations/gentexttoimagesecurity.md) | :heavy_check_mark:                                                                     | The security requirements to use for the request.                                      |
-| `retries`                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                       | :heavy_minus_sign:                                                                     | Configuration to override the default retry behavior of the client.                    |
+| Parameter                                                                    | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `request`                                                                    | [components.TextToImageParams](../../models/components/texttoimageparams.md) | :heavy_check_mark:                                                           | The request object to use for the request.                                   |
+| `retries`                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)             | :heavy_minus_sign:                                                           | Configuration to override the default retry behavior of the client.          |
 
 ### Response
 
@@ -69,13 +67,12 @@ Apply image transformations to a provided image.
 
 ```python
 from livepeer import Livepeer
-from livepeer.models import operations
 
-s = Livepeer()
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
 
-res = s.generate.image_to_image(security=operations.GenImageToImageSecurity(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
+res = s.generate.image_to_image(request={
     "prompt": "<value>",
     "image": {
         "file_name": "example.file",
@@ -91,11 +88,10 @@ if res.image_response is not None:
 
 ### Parameters
 
-| Parameter                                                                                | Type                                                                                     | Required                                                                                 | Description                                                                              |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `request`                                                                                | [components.BodyGenImageToImage](../../models/components/bodygenimagetoimage.md)         | :heavy_check_mark:                                                                       | The request object to use for the request.                                               |
-| `security`                                                                               | [operations.GenImageToImageSecurity](../../models/operations/genimagetoimagesecurity.md) | :heavy_check_mark:                                                                       | The security requirements to use for the request.                                        |
-| `retries`                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                         | :heavy_minus_sign:                                                                       | Configuration to override the default retry behavior of the client.                      |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `request`                                                                        | [components.BodyGenImageToImage](../../models/components/bodygenimagetoimage.md) | :heavy_check_mark:                                                               | The request object to use for the request.                                       |
+| `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |
 
 ### Response
 
@@ -120,13 +116,12 @@ Generate a video from a provided image.
 
 ```python
 from livepeer import Livepeer
-from livepeer.models import operations
 
-s = Livepeer()
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
 
-res = s.generate.image_to_video(security=operations.GenImageToVideoSecurity(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
+res = s.generate.image_to_video(request={
     "image": {
         "file_name": "example.file",
         "content": open("example.file", "rb"),
@@ -141,11 +136,10 @@ if res.video_response is not None:
 
 ### Parameters
 
-| Parameter                                                                                | Type                                                                                     | Required                                                                                 | Description                                                                              |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `request`                                                                                | [components.BodyGenImageToVideo](../../models/components/bodygenimagetovideo.md)         | :heavy_check_mark:                                                                       | The request object to use for the request.                                               |
-| `security`                                                                               | [operations.GenImageToVideoSecurity](../../models/operations/genimagetovideosecurity.md) | :heavy_check_mark:                                                                       | The security requirements to use for the request.                                        |
-| `retries`                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                         | :heavy_minus_sign:                                                                       | Configuration to override the default retry behavior of the client.                      |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `request`                                                                        | [components.BodyGenImageToVideo](../../models/components/bodygenimagetovideo.md) | :heavy_check_mark:                                                               | The request object to use for the request.                                       |
+| `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |
 
 ### Response
 
@@ -170,13 +164,12 @@ Upscale an image by increasing its resolution.
 
 ```python
 from livepeer import Livepeer
-from livepeer.models import operations
 
-s = Livepeer()
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
 
-res = s.generate.upscale(security=operations.GenUpscaleSecurity(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
+res = s.generate.upscale(request={
     "prompt": "<value>",
     "image": {
         "file_name": "example.file",
@@ -192,11 +185,10 @@ if res.image_response is not None:
 
 ### Parameters
 
-| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `request`                                                                      | [components.BodyGenUpscale](../../models/components/bodygenupscale.md)         | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
-| `security`                                                                     | [operations.GenUpscaleSecurity](../../models/operations/genupscalesecurity.md) | :heavy_check_mark:                                                             | The security requirements to use for the request.                              |
-| `retries`                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)               | :heavy_minus_sign:                                                             | Configuration to override the default retry behavior of the client.            |
+| Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `request`                                                              | [components.BodyGenUpscale](../../models/components/bodygenupscale.md) | :heavy_check_mark:                                                     | The request object to use for the request.                             |
+| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |
 
 ### Response
 
@@ -221,13 +213,12 @@ Transcribe audio files to text.
 
 ```python
 from livepeer import Livepeer
-from livepeer.models import operations
 
-s = Livepeer()
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
 
-res = s.generate.audio_to_text(security=operations.GenAudioToTextSecurity(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
+res = s.generate.audio_to_text(request={
     "audio": {
         "file_name": "example.file",
         "content": open("example.file", "rb"),
@@ -242,11 +233,10 @@ if res.text_response is not None:
 
 ### Parameters
 
-| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `request`                                                                              | [components.BodyGenAudioToText](../../models/components/bodygenaudiototext.md)         | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
-| `security`                                                                             | [operations.GenAudioToTextSecurity](../../models/operations/genaudiototextsecurity.md) | :heavy_check_mark:                                                                     | The security requirements to use for the request.                                      |
-| `retries`                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                       | :heavy_minus_sign:                                                                     | Configuration to override the default retry behavior of the client.                    |
+| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `request`                                                                      | [components.BodyGenAudioToText](../../models/components/bodygenaudiototext.md) | :heavy_check_mark:                                                             | The request object to use for the request.                                     |
+| `retries`                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)               | :heavy_minus_sign:                                                             | Configuration to override the default retry behavior of the client.            |
 
 ### Response
 
@@ -272,13 +262,12 @@ Segment objects in an image.
 
 ```python
 from livepeer import Livepeer
-from livepeer.models import operations
 
-s = Livepeer()
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
 
-res = s.generate.segment_anything2(security=operations.GenSegmentAnything2Security(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
+res = s.generate.segment_anything2(request={
     "image": {
         "file_name": "example.file",
         "content": open("example.file", "rb"),
@@ -293,11 +282,10 @@ if res.masks_response is not None:
 
 ### Parameters
 
-| Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `request`                                                                                        | [components.BodyGenSegmentAnything2](../../models/components/bodygensegmentanything2.md)         | :heavy_check_mark:                                                                               | The request object to use for the request.                                                       |
-| `security`                                                                                       | [operations.GenSegmentAnything2Security](../../models/operations/gensegmentanything2security.md) | :heavy_check_mark:                                                                               | The security requirements to use for the request.                                                |
-| `retries`                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                 | :heavy_minus_sign:                                                                               | Configuration to override the default retry behavior of the client.                              |
+| Parameter                                                                                | Type                                                                                     | Required                                                                                 | Description                                                                              |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `request`                                                                                | [components.BodyGenSegmentAnything2](../../models/components/bodygensegmentanything2.md) | :heavy_check_mark:                                                                       | The request object to use for the request.                                               |
+| `retries`                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                         | :heavy_minus_sign:                                                                       | Configuration to override the default retry behavior of the client.                      |
 
 ### Response
 

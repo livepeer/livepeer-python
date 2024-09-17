@@ -1,14 +1,15 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: 435fd84a2b3131f1117db532d7dc36aa
+  docChecksum: a4f46cb330dd59f1f60caa6eaccdbd3b
   docVersion: 1.0.0
-  speakeasyVersion: 1.398.1
+  speakeasyVersion: 1.399.0
   generationVersion: 2.415.8
-  releaseVersion: 0.2.0
-  configChecksum: 274e324c9ee60c7fda251c90665003b3
+  releaseVersion: 0.3.0
+  configChecksum: e2a3f034034c8b68bbb6d9b34363d9f6
   repoURL: https://github.com/livepeer/livepeer-python.git
   installationURL: https://github.com/livepeer/livepeer-python.git
+  published: true
 features:
   python:
     additionalDependencies: 1.0.0
@@ -26,7 +27,6 @@ features:
     globalSecurityFlattening: 1.0.0
     globalServerURLs: 3.0.0
     inputOutputModels: 3.0.0
-    methodSecurity: 3.0.0
     multipartFileContentType: 1.0.0
     nameOverrides: 3.0.0
     nullables: 1.0.0
@@ -289,17 +289,11 @@ generatedFiles:
   - docs/models/operations/deletewebhookresponse.md
   - docs/models/operations/from_.md
   - docs/models/operations/genaudiototextresponse.md
-  - docs/models/operations/genaudiototextsecurity.md
   - docs/models/operations/genimagetoimageresponse.md
-  - docs/models/operations/genimagetoimagesecurity.md
   - docs/models/operations/genimagetovideoresponse.md
-  - docs/models/operations/genimagetovideosecurity.md
   - docs/models/operations/gensegmentanything2response.md
-  - docs/models/operations/gensegmentanything2security.md
   - docs/models/operations/gentexttoimageresponse.md
-  - docs/models/operations/gentexttoimagesecurity.md
   - docs/models/operations/genupscaleresponse.md
-  - docs/models/operations/genupscalesecurity.md
   - docs/models/operations/getassetrequest.md
   - docs/models/operations/getassetresponse.md
   - docs/models/operations/getassetsresponse.md

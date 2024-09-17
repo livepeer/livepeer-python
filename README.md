@@ -17,7 +17,7 @@ The SDK can be installed with either *pip* or *poetry* package managers.
 *PIP* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
 
 ```bash
-pip install git+https://github.com/livepeer/livepeer-python.git
+pip install livepeer
 ```
 
 ### Poetry
@@ -25,7 +25,7 @@ pip install git+https://github.com/livepeer/livepeer-python.git
 *Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
 
 ```bash
-poetry add git+https://github.com/livepeer/livepeer-python.git
+poetry add livepeer
 ```
 <!-- End SDK Installation [installation] -->
 
@@ -175,13 +175,12 @@ Certain SDK methods accept file objects as part of a request body or multi-part 
 
 ```python
 from livepeer import Livepeer
-from livepeer.models import operations
 
-s = Livepeer()
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
 
-res = s.generate.image_to_image(security=operations.GenImageToImageSecurity(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
+res = s.generate.image_to_image(request={
     "prompt": "<value>",
     "image": {
         "file_name": "example.file",
@@ -576,27 +575,6 @@ if res.stream is not None:
     pass
 
 ```
-
-### Per-Operation Security Schemes
-
-Some operations in this SDK require the security scheme to be specified at the request level. For example:
-```python
-from livepeer import Livepeer
-from livepeer.models import operations
-
-s = Livepeer()
-
-res = s.generate.text_to_image(security=operations.GenTextToImageSecurity(
-    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-), request={
-    "prompt": "<value>",
-})
-
-if res.image_response is not None:
-    # handle response
-    pass
-
-```
 <!-- End Authentication [security] -->
 
 <!-- Start Summary [summary] -->
@@ -610,39 +588,17 @@ what they return.
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
 
-- [Livepeer Python Library](#livepeer-python-library)
-  - [Documentation](#documentation)
-  - [SDK Installation](#sdk-installation)
-    - [PIP](#pip)
-    - [Poetry](#poetry)
-  - [SDK Example Usage](#sdk-example-usage)
-    - [Example](#example)
-  - [Available Resources and Operations](#available-resources-and-operations)
-    - [access\_control](#access_control)
-    - [asset](#asset)
-    - [generate](#generate)
-    - [metrics](#metrics)
-    - [multistream](#multistream)
-    - [playback](#playback)
-    - [~~room~~](#room)
-    - [session](#session)
-    - [stream](#stream)
-    - [task](#task)
-    - [transcode](#transcode)
-    - [webhook](#webhook)
-  - [File uploads](#file-uploads)
-  - [Retries](#retries)
-  - [Error Handling](#error-handling)
-    - [Example](#example-1)
-  - [Custom HTTP Client](#custom-http-client)
-  - [Authentication](#authentication)
-    - [Per-Client Security Schemes](#per-client-security-schemes)
-    - [Per-Operation Security Schemes](#per-operation-security-schemes)
-  - [Summary](#summary)
-  - [Table of Contents](#table-of-contents)
-  - [IDE Support](#ide-support)
-    - [PyCharm](#pycharm)
-  - [Debugging](#debugging)
+* [SDK Installation](#sdk-installation)
+* [IDE Support](#ide-support)
+* [SDK Example Usage](#sdk-example-usage)
+* [Available Resources and Operations](#available-resources-and-operations)
+* [File uploads](#file-uploads)
+* [Retries](#retries)
+* [Error Handling](#error-handling)
+* [Server Selection](#server-selection)
+* [Custom HTTP Client](#custom-http-client)
+* [Authentication](#authentication)
+* [Debugging](#debugging)
 <!-- End Table of Contents [toc] -->
 
 <!-- Start IDE Support [idesupport] -->

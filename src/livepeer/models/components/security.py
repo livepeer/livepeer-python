@@ -3,17 +3,17 @@
 from __future__ import annotations
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, SecurityMetadata
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import TypedDict
+from typing_extensions import Annotated
 
 
 class SecurityTypedDict(TypedDict):
-    api_key: NotRequired[str]
+    api_key: str
 
 
 class Security(BaseModel):
     api_key: Annotated[
-        Optional[str],
+        str,
         FieldMetadata(
             security=SecurityMetadata(
                 scheme=True,
@@ -22,4 +22,4 @@ class Security(BaseModel):
                 field_name="Authorization",
             )
         ),
-    ] = None
+    ]
