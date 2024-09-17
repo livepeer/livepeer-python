@@ -129,6 +129,209 @@ if res.stream is not None:
 - [get](docs/sdks/playback/README.md#get) - Retrieve Playback Info
 <!-- End Available Resources and Operations [operations] -->
 
+<!-- Start File uploads [file-upload] -->
+## File uploads
+
+Certain SDK methods accept file objects as part of a request body or multi-part request. It is possible and typically recommended to upload files as a stream rather than reading the entire contents into memory. This avoids excessive memory consumption and potentially crashing with out-of-memory errors when working with very large files. The following example demonstrates how to attach a file stream to a request.
+
+> [!TIP]
+>
+> For endpoints that handle file uploads bytes arrays can also be used. However, using streams is recommended for large files.
+>
+
+```python
+from livepeer import Livepeer
+from livepeer.models import operations
+
+s = Livepeer()
+
+res = s.generate.image_to_image(security=operations.GenImageToImageSecurity(
+    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
+), request={
+    "prompt": "<value>",
+    "image": {
+        "file_name": "example.file",
+        "content": open("example.file", "rb"),
+    },
+})
+
+if res.image_response is not None:
+    # handle response
+    pass
+
+```
+<!-- End File uploads [file-upload] -->
+
+<!-- Start Retries [retries] -->
+## Retries
+
+Some of the endpoints in this SDK support retries. If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API. However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
+
+To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
+```python
+from livepeer import Livepeer
+from livepeer.models import components
+from livepeer.utils import BackoffStrategy, RetryConfig
+
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+res = s.stream.create(request={
+    "name": "test_stream",
+    "pull": {
+        "source": "https://myservice.com/live/stream.flv",
+        "headers": {
+            "Authorization": "Bearer 123",
+        },
+        "location": {
+            "lat": 39.739,
+            "lon": -104.988,
+        },
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
+        },
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
+    ],
+    "record": False,
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
+        ],
+    },
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
+        ],
+    },
+},
+    RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
+
+if res.stream is not None:
+    # handle response
+    pass
+
+```
+
+If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
+```python
+from livepeer import Livepeer
+from livepeer.models import components
+from livepeer.utils import BackoffStrategy, RetryConfig
+
+s = Livepeer(
+    retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+res = s.stream.create(request={
+    "name": "test_stream",
+    "pull": {
+        "source": "https://myservice.com/live/stream.flv",
+        "headers": {
+            "Authorization": "Bearer 123",
+        },
+        "location": {
+            "lat": 39.739,
+            "lon": -104.988,
+        },
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
+        },
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
+    ],
+    "record": False,
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
+        ],
+    },
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
+        ],
+    },
+})
+
+if res.stream is not None:
+    # handle response
+    pass
+
+```
+<!-- End Retries [retries] -->
+
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
@@ -142,28 +345,27 @@ Handling errors in this SDK should largely match your expectations.  All operati
 ### Example
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import errors
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
 res = None
 try:
-    res = s.playback.get(id='<id>')
+    res = s.playback.get(id="<id>")
+
+    if res.playback_info is not None:
+        # handle response
+        pass
 
 except errors.Error as e:
-    # handle exception
+    # handle e.data: errors.ErrorData
     raise(e)
 except errors.SDKError as e:
     # handle exception
     raise(e)
-
-if res.playback_info is not None:
-    # handle response
-    pass
-
 ```
 <!-- End Error Handling [errors] -->
 
@@ -181,79 +383,78 @@ You can override the default server globally by passing a server index to the `s
 #### Example
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     server_idx=0,
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.create(request=components.NewStreamPayload(
-    name='test_stream',
-    pull=components.Pull(
-        source='https://myservice.com/live/stream.flv',
-        headers={
-            'Authorization': 'Bearer 123',
+res = s.stream.create(request={
+    "name": "test_stream",
+    "pull": {
+        "source": "https://myservice.com/live/stream.flv",
+        "headers": {
+            "Authorization": "Bearer 123",
         },
-        location=components.Location(
-            lat=39.739,
-            lon=-104.988,
-        ),
-    ),
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+        "location": {
+            "lat": 39.739,
+            "lon": -104.988,
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.FfmpegProfile(
-            width=1280,
-            name='720p',
-            height=720,
-            bitrate=3000000,
-            fps=30,
-            fps_den=1,
-            quality=23,
-            gop='2',
-            profile=components.Profile.H264_BASELINE,
-        ),
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
+        },
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
     ],
-    record=False,
-    recording_spec=components.NewStreamPayloadRecordingSpec(
-        profiles=[
-            components.TranscodeProfile(
-                bitrate=3000000,
-                width=1280,
-                name='720p',
-                height=720,
-                quality=23,
-                fps=30,
-                fps_den=1,
-                gop='2',
-                profile=components.TranscodeProfileProfile.H264_BASELINE,
-                encoder=components.TranscodeProfileEncoder.H_264,
-            ),
+    "record": False,
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
         ],
-    ),
-    multistream=components.Multistream(
-        targets=[
-            components.Target(
-                profile='720p',
-                video_only=False,
-                id='PUSH123',
-                spec=components.TargetSpec(
-                    url='rtmps://live.my-service.tv/channel/secretKey',
-                    name='My target',
-                ),
-            ),
+    },
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
         ],
-    ),
-))
+    },
+})
 
 if res.stream is not None:
     # handle response
@@ -266,79 +467,78 @@ if res.stream is not None:
 
 The default server can also be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     server_url="https://livepeer.studio/api",
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.create(request=components.NewStreamPayload(
-    name='test_stream',
-    pull=components.Pull(
-        source='https://myservice.com/live/stream.flv',
-        headers={
-            'Authorization': 'Bearer 123',
+res = s.stream.create(request={
+    "name": "test_stream",
+    "pull": {
+        "source": "https://myservice.com/live/stream.flv",
+        "headers": {
+            "Authorization": "Bearer 123",
         },
-        location=components.Location(
-            lat=39.739,
-            lon=-104.988,
-        ),
-    ),
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+        "location": {
+            "lat": 39.739,
+            "lon": -104.988,
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.FfmpegProfile(
-            width=1280,
-            name='720p',
-            height=720,
-            bitrate=3000000,
-            fps=30,
-            fps_den=1,
-            quality=23,
-            gop='2',
-            profile=components.Profile.H264_BASELINE,
-        ),
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
+        },
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
     ],
-    record=False,
-    recording_spec=components.NewStreamPayloadRecordingSpec(
-        profiles=[
-            components.TranscodeProfile(
-                bitrate=3000000,
-                width=1280,
-                name='720p',
-                height=720,
-                quality=23,
-                fps=30,
-                fps_den=1,
-                gop='2',
-                profile=components.TranscodeProfileProfile.H264_BASELINE,
-                encoder=components.TranscodeProfileEncoder.H_264,
-            ),
+    "record": False,
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
         ],
-    ),
-    multistream=components.Multistream(
-        targets=[
-            components.Target(
-                profile='720p',
-                video_only=False,
-                id='PUSH123',
-                spec=components.TargetSpec(
-                    url='rtmps://live.my-service.tv/channel/secretKey',
-                    name='My target',
-                ),
-            ),
+    },
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
         ],
-    ),
-))
+    },
+})
 
 if res.stream is not None:
     # handle response
@@ -350,16 +550,81 @@ if res.stream is not None:
 <!-- Start Custom HTTP Client [http-client] -->
 ## Custom HTTP Client
 
-The Python SDK makes API calls using the [requests](https://pypi.org/project/requests/) HTTP library.  In order to provide a convenient way to configure timeouts, cookies, proxies, custom headers, and other low-level configuration, you can initialize the SDK client with a custom `requests.Session` object.
+The Python SDK makes API calls using the [httpx](https://www.python-httpx.org/) HTTP library.  In order to provide a convenient way to configure timeouts, cookies, proxies, custom headers, and other low-level configuration, you can initialize the SDK client with your own HTTP client instance.
+Depending on whether you are using the sync or async version of the SDK, you can pass an instance of `HttpClient` or `AsyncHttpClient` respectively, which are Protocol's ensuring that the client has the necessary methods to make API calls.
+This allows you to wrap the client with your own custom logic, such as adding custom headers, logging, or error handling, or you can just pass an instance of `httpx.Client` or `httpx.AsyncClient` directly.
 
 For example, you could specify a header for every request that this sdk makes as follows:
 ```python
-import livepeer
-import requests
+from livepeer import Livepeer
+import httpx
 
-http_client = requests.Session()
-http_client.headers.update({'x-custom-header': 'someValue'})
-s = livepeer.Livepeer(client=http_client)
+http_client = httpx.Client(headers={"x-custom-header": "someValue"})
+s = Livepeer(client=http_client)
+```
+
+or you could wrap the client with your own custom logic:
+```python
+from livepeer import Livepeer
+from livepeer.httpclient import AsyncHttpClient
+import httpx
+
+class CustomClient(AsyncHttpClient):
+    client: AsyncHttpClient
+
+    def __init__(self, client: AsyncHttpClient):
+        self.client = client
+
+    async def send(
+        self,
+        request: httpx.Request,
+        *,
+        stream: bool = False,
+        auth: Union[
+            httpx._types.AuthTypes, httpx._client.UseClientDefault, None
+        ] = httpx.USE_CLIENT_DEFAULT,
+        follow_redirects: Union[
+            bool, httpx._client.UseClientDefault
+        ] = httpx.USE_CLIENT_DEFAULT,
+    ) -> httpx.Response:
+        request.headers["Client-Level-Header"] = "added by client"
+
+        return await self.client.send(
+            request, stream=stream, auth=auth, follow_redirects=follow_redirects
+        )
+
+    def build_request(
+        self,
+        method: str,
+        url: httpx._types.URLTypes,
+        *,
+        content: Optional[httpx._types.RequestContent] = None,
+        data: Optional[httpx._types.RequestData] = None,
+        files: Optional[httpx._types.RequestFiles] = None,
+        json: Optional[Any] = None,
+        params: Optional[httpx._types.QueryParamTypes] = None,
+        headers: Optional[httpx._types.HeaderTypes] = None,
+        cookies: Optional[httpx._types.CookieTypes] = None,
+        timeout: Union[
+            httpx._types.TimeoutTypes, httpx._client.UseClientDefault
+        ] = httpx.USE_CLIENT_DEFAULT,
+        extensions: Optional[httpx._types.RequestExtensions] = None,
+    ) -> httpx.Request:
+        return self.client.build_request(
+            method,
+            url,
+            content=content,
+            data=data,
+            files=files,
+            json=json,
+            params=params,
+            headers=headers,
+            cookies=cookies,
+            timeout=timeout,
+            extensions=extensions,
+        )
+
+s = Livepeer(async_client=CustomClient(httpx.AsyncClient()))
 ```
 <!-- End Custom HTTP Client [http-client] -->
 
@@ -376,80 +641,100 @@ This SDK supports the following security scheme globally:
 
 To authenticate with the API the `api_key` parameter must be set when initializing the SDK client instance. For example:
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.create(request=components.NewStreamPayload(
-    name='test_stream',
-    pull=components.Pull(
-        source='https://myservice.com/live/stream.flv',
-        headers={
-            'Authorization': 'Bearer 123',
+res = s.stream.create(request={
+    "name": "test_stream",
+    "pull": {
+        "source": "https://myservice.com/live/stream.flv",
+        "headers": {
+            "Authorization": "Bearer 123",
         },
-        location=components.Location(
-            lat=39.739,
-            lon=-104.988,
-        ),
-    ),
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+        "location": {
+            "lat": 39.739,
+            "lon": -104.988,
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.FfmpegProfile(
-            width=1280,
-            name='720p',
-            height=720,
-            bitrate=3000000,
-            fps=30,
-            fps_den=1,
-            quality=23,
-            gop='2',
-            profile=components.Profile.H264_BASELINE,
-        ),
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
+        },
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
     ],
-    record=False,
-    recording_spec=components.NewStreamPayloadRecordingSpec(
-        profiles=[
-            components.TranscodeProfile(
-                bitrate=3000000,
-                width=1280,
-                name='720p',
-                height=720,
-                quality=23,
-                fps=30,
-                fps_den=1,
-                gop='2',
-                profile=components.TranscodeProfileProfile.H264_BASELINE,
-                encoder=components.TranscodeProfileEncoder.H_264,
-            ),
+    "record": False,
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
         ],
-    ),
-    multistream=components.Multistream(
-        targets=[
-            components.Target(
-                profile='720p',
-                video_only=False,
-                id='PUSH123',
-                spec=components.TargetSpec(
-                    url='rtmps://live.my-service.tv/channel/secretKey',
-                    name='My target',
-                ),
-            ),
+    },
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
         ],
-    ),
-))
+    },
+})
 
 if res.stream is not None:
+    # handle response
+    pass
+
+```
+
+### Per-Operation Security Schemes
+
+Some operations in this SDK require the security scheme to be specified at the request level. For example:
+```python
+from livepeer import Livepeer
+from livepeer.models import operations
+
+s = Livepeer()
+
+res = s.generate.text_to_image(security=operations.GenTextToImageSecurity(
+    http_bearer="<YOUR_BEARER_TOKEN_HERE>",
+), request={
+    "prompt": "<value>",
+})
+
+if res.image_response is not None:
     # handle response
     pass
 
@@ -468,23 +753,49 @@ what they return.
 ## Table of Contents
 
 * [SDK Installation](#sdk-installation)
+* [IDE Support](#ide-support)
 * [SDK Example Usage](#sdk-example-usage)
 * [Available Resources and Operations](#available-resources-and-operations)
+* [File uploads](#file-uploads)
+* [Retries](#retries)
 * [Error Handling](#error-handling)
 * [Server Selection](#server-selection)
 * [Custom HTTP Client](#custom-http-client)
 * [Authentication](#authentication)
+* [Debugging](#debugging)
 <!-- End Table of Contents [toc] -->
 
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
 
-The SDK can be installed using the *pip* package manager, with dependencies and metadata stored in the `setup.py` file.
+The SDK can be installed with either *pip* or *poetry* package managers.
+
+### PIP
+
+*PIP* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
 
 ```bash
 pip install git+https://github.com/livepeer/livepeer-python.git
 ```
+
+### Poetry
+
+*Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
+
+```bash
+poetry add git+https://github.com/livepeer/livepeer-python.git
+```
 <!-- End SDK Installation [installation] -->
+
+<!-- Start IDE Support [idesupport] -->
+## IDE Support
+
+### PyCharm
+
+Generally, the SDK will work well with most IDEs out of the box. However, when using PyCharm, you can enjoy much better integration with Pydantic by installing an additional plugin.
+
+- [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
+<!-- End IDE Support [idesupport] -->
 
 <!-- Start SDK Example Usage [usage] -->
 ## SDK Example Usage
@@ -492,83 +803,166 @@ pip install git+https://github.com/livepeer/livepeer-python.git
 ### Example
 
 ```python
-import livepeer
+# Synchronous Example
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.create(request=components.NewStreamPayload(
-    name='test_stream',
-    pull=components.Pull(
-        source='https://myservice.com/live/stream.flv',
-        headers={
-            'Authorization': 'Bearer 123',
+res = s.stream.create(request={
+    "name": "test_stream",
+    "pull": {
+        "source": "https://myservice.com/live/stream.flv",
+        "headers": {
+            "Authorization": "Bearer 123",
         },
-        location=components.Location(
-            lat=39.739,
-            lon=-104.988,
-        ),
-    ),
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+        "location": {
+            "lat": 39.739,
+            "lon": -104.988,
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.FfmpegProfile(
-            width=1280,
-            name='720p',
-            height=720,
-            bitrate=3000000,
-            fps=30,
-            fps_den=1,
-            quality=23,
-            gop='2',
-            profile=components.Profile.H264_BASELINE,
-        ),
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
+        },
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
     ],
-    record=False,
-    recording_spec=components.NewStreamPayloadRecordingSpec(
-        profiles=[
-            components.TranscodeProfile(
-                bitrate=3000000,
-                width=1280,
-                name='720p',
-                height=720,
-                quality=23,
-                fps=30,
-                fps_den=1,
-                gop='2',
-                profile=components.TranscodeProfileProfile.H264_BASELINE,
-                encoder=components.TranscodeProfileEncoder.H_264,
-            ),
+    "record": False,
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
         ],
-    ),
-    multistream=components.Multistream(
-        targets=[
-            components.Target(
-                profile='720p',
-                video_only=False,
-                id='PUSH123',
-                spec=components.TargetSpec(
-                    url='rtmps://live.my-service.tv/channel/secretKey',
-                    name='My target',
-                ),
-            ),
+    },
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
         ],
-    ),
-))
+    },
+})
 
 if res.stream is not None:
     # handle response
     pass
+```
 
+</br>
+
+The same SDK client can also be used to make asychronous requests by importing asyncio.
+```python
+# Asynchronous Example
+import asyncio
+from livepeer import Livepeer
+from livepeer.models import components
+
+async def main():
+    s = Livepeer(
+        api_key="<YOUR_BEARER_TOKEN_HERE>",
+    )
+    res = await s.stream.create_async(request={
+        "name": "test_stream",
+        "pull": {
+            "source": "https://myservice.com/live/stream.flv",
+            "headers": {
+                "Authorization": "Bearer 123",
+            },
+            "location": {
+                "lat": 39.739,
+                "lon": -104.988,
+            },
+        },
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
+            },
+            "refresh_interval": 600,
+        },
+        "profiles": [
+            {
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "fps": 30,
+                "fps_den": 1,
+                "quality": 23,
+                "gop": "2",
+                "profile": components.Profile.H264_BASELINE,
+            },
+        ],
+        "record": False,
+        "recording_spec": {
+            "profiles": [
+                {
+                    "bitrate": 3000000,
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+            ],
+        },
+        "multistream": {
+            "targets": [
+                {
+                    "profile": "720p",
+                    "video_only": False,
+                    "id": "PUSH123",
+                    "spec": {
+                        "url": "rtmps://live.my-service.tv/channel/secretKey",
+                        "name": "My target",
+                    },
+                },
+            ],
+        },
+    })
+    if res.stream is not None:
+        # handle response
+        pass
+
+asyncio.run(main())
 ```
 <!-- End SDK Example Usage [usage] -->
 
@@ -594,6 +988,15 @@ if res.stream is not None:
 * [get](docs/sdks/asset/README.md#get) - Retrieves an asset
 * [update](docs/sdks/asset/README.md#update) - Patch an asset
 * [delete](docs/sdks/asset/README.md#delete) - Delete an asset
+
+### [generate](docs/sdks/generate/README.md)
+
+* [text_to_image](docs/sdks/generate/README.md#text_to_image) - Text To Image
+* [image_to_image](docs/sdks/generate/README.md#image_to_image) - Image To Image
+* [image_to_video](docs/sdks/generate/README.md#image_to_video) - Image To Video
+* [upscale](docs/sdks/generate/README.md#upscale) - Upscale
+* [audio_to_text](docs/sdks/generate/README.md#audio_to_text) - Audio To Text
+* [segment_anything2](docs/sdks/generate/README.md#segment_anything2) - Segment Anything 2
 
 
 ### [metrics](docs/sdks/metrics/README.md)
@@ -671,6 +1074,21 @@ if res.stream is not None:
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
+
+<!-- Start Debugging [debug] -->
+## Debugging
+
+You can setup your SDK to emit debug logs for SDK requests and responses.
+
+You can pass your own logger class directly into your SDK.
+```python
+from livepeer import Livepeer
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+s = Livepeer(debug_logger=logging.getLogger("livepeer"))
+```
+<!-- End Debugging [debug] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 

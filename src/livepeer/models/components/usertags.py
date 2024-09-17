@@ -3,6 +3,14 @@
 from __future__ import annotations
 from typing import List, Union
 
+
+UserTags3TypedDict = Union[str, float]
+
+
 UserTags3 = Union[str, float]
+
+
+UserTagsTypedDict = Union[str, float, List[UserTags3TypedDict]]
+
 
 UserTags = Union[str, float, List[UserTags3]]

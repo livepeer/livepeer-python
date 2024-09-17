@@ -27,12 +27,11 @@ Create a multiparticipant livestreaming room.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.room.create()
 
@@ -41,6 +40,12 @@ if res.create_room_response is not None:
     pass
 
 ```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -62,14 +67,13 @@ Retrieve a room
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.get(id='<id>')
+res = s.room.get(id="<id>")
 
 if res.room is not None:
     # handle response
@@ -79,9 +83,10 @@ if res.room is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -103,14 +108,13 @@ Delete a room
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.delete(id='<id>')
+res = s.room.delete(id="<id>")
 
 if res is not None:
     # handle response
@@ -120,9 +124,10 @@ if res is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -146,17 +151,15 @@ This allows you to leverage livestreaming features like recording and HLS output
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import components
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.start_egress(id='<id>', room_egress_payload=components.RoomEgressPayload(
-    stream_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
-))
+res = s.room.start_egress(id="<id>", room_egress_payload={
+    "stream_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+})
 
 if res is not None:
     # handle response
@@ -170,6 +173,7 @@ if res is not None:
 | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | `id`                                                                         | *str*                                                                        | :heavy_check_mark:                                                           | N/A                                                                          |
 | `room_egress_payload`                                                        | [components.RoomEgressPayload](../../models/components/roomegresspayload.md) | :heavy_check_mark:                                                           | N/A                                                                          |
+| `retries`                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)             | :heavy_minus_sign:                                                           | Configuration to override the default retry behavior of the client.          |
 
 ### Response
 
@@ -191,14 +195,13 @@ Stop room RTMP egress
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.stop_egress(id='<id>')
+res = s.room.stop_egress(id="<id>")
 
 if res is not None:
     # handle response
@@ -208,9 +211,10 @@ if res is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -235,19 +239,17 @@ Alternatively the joining token can be used with a custom app.
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import components
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.create_user(id='<id>', room_user_payload=components.RoomUserPayload(
-    name='name',
-    can_publish=True,
-    can_publish_data=True,
-))
+res = s.room.create_user(id="<id>", room_user_payload={
+    "name": "name",
+    "can_publish": True,
+    "can_publish_data": True,
+})
 
 if res.room_user_response is not None:
     # handle response
@@ -261,6 +263,7 @@ if res.room_user_response is not None:
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
 | `id`                                                                     | *str*                                                                    | :heavy_check_mark:                                                       | N/A                                                                      |
 | `room_user_payload`                                                      | [components.RoomUserPayload](../../models/components/roomuserpayload.md) | :heavy_check_mark:                                                       | N/A                                                                      |
+| `retries`                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)         | :heavy_minus_sign:                                                       | Configuration to override the default retry behavior of the client.      |
 
 ### Response
 
@@ -282,14 +285,13 @@ Get user details
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.get_user(id='<id>', user_id='<value>')
+res = s.room.get_user(id="<id>", user_id="<value>")
 
 if res.get_room_user_response is not None:
     # handle response
@@ -299,10 +301,11 @@ if res.get_room_user_response is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
-| `user_id`          | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `user_id`                                                           | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -324,18 +327,16 @@ Update properties for a user.
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import components
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.update_user(id='<id>', user_id='<value>', room_user_update_payload=components.RoomUserUpdatePayload(
-    can_publish=True,
-    can_publish_data=True,
-))
+res = s.room.update_user(id="<id>", user_id="<value>", room_user_update_payload={
+    "can_publish": True,
+    "can_publish_data": True,
+})
 
 if res is not None:
     # handle response
@@ -350,6 +351,7 @@ if res is not None:
 | `id`                                                                                 | *str*                                                                                | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `user_id`                                                                            | *str*                                                                                | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `room_user_update_payload`                                                           | [components.RoomUserUpdatePayload](../../models/components/roomuserupdatepayload.md) | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `retries`                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                     | :heavy_minus_sign:                                                                   | Configuration to override the default retry behavior of the client.                  |
 
 ### Response
 
@@ -371,14 +373,13 @@ Remove a user from the room
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.room.delete_user(id='<id>', user_id='<value>')
+res = s.room.delete_user(id="<id>", user_id="<value>")
 
 if res is not None:
     # handle response
@@ -388,10 +389,11 @@ if res is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
-| `user_id`          | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `user_id`                                                           | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 

@@ -137,53 +137,52 @@ This endpoint currently supports the following output types:
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.transcode.create(request=components.TranscodePayload(
-    input=components.Input1(
-        url='https://s3.amazonaws.com/bucket/file.mp4',
-    ),
-    storage=components.Storage1(
-        type=components.StorageType.S3,
-        endpoint='https://gateway.storjshare.io',
-        bucket='outputbucket',
-        credentials=components.StorageCredentials(
-            access_key_id='AKIAIOSFODNN7EXAMPLE',
-            secret_access_key='wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
-        ),
-    ),
-    outputs=components.Outputs(
-        hls=components.Hls(
-            path='/samplevideo/hls',
-        ),
-        mp4=components.Mp4(
-            path='/samplevideo/mp4',
-        ),
-        fmp4=components.Fmp4(
-            path='/samplevideo/fmp4',
-        ),
-    ),
-    profiles=[
-        components.TranscodeProfile(
-            bitrate=3000000,
-            width=1280,
-            name='720p',
-            height=720,
-            quality=23,
-            fps=30,
-            fps_den=1,
-            gop='2',
-            profile=components.TranscodeProfileProfile.H264_BASELINE,
-            encoder=components.TranscodeProfileEncoder.H_264,
-        ),
+res = s.transcode.create(request={
+    "input": {
+        "url": "https://s3.amazonaws.com/bucket/file.mp4",
+    },
+    "storage": {
+        "type": components.StorageType.S3,
+        "endpoint": "https://gateway.storjshare.io",
+        "bucket": "outputbucket",
+        "credentials": {
+            "access_key_id": "AKIAIOSFODNN7EXAMPLE",
+            "secret_access_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        },
+    },
+    "outputs": {
+        "hls": {
+            "path": "/samplevideo/hls",
+        },
+        "mp4": {
+            "path": "/samplevideo/mp4",
+        },
+        "fmp4": {
+            "path": "/samplevideo/fmp4",
+        },
+    },
+    "profiles": [
+        {
+            "bitrate": 3000000,
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "quality": 23,
+            "fps": 30,
+            "fps_den": 1,
+            "gop": "2",
+            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+            "encoder": components.TranscodeProfileEncoder.H_264,
+        },
     ],
-))
+})
 
 if res.task is not None:
     # handle response
@@ -196,6 +195,7 @@ if res.task is not None:
 | Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `request`                                                                  | [components.TranscodePayload](../../models/components/transcodepayload.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
+| `retries`                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)           | :heavy_minus_sign:                                                         | Configuration to override the default retry behavior of the client.        |
 
 ### Response
 

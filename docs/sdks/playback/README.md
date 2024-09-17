@@ -16,14 +16,13 @@ Retrieve Playback Info
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.playback.get(id='<id>')
+res = s.playback.get(id="<id>")
 
 if res.playback_info is not None:
     # handle response
@@ -36,6 +35,7 @@ if res.playback_info is not None:
 | Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | The playback ID from the asset or livestream, e.g. `eaw4nk06ts2d0mzb`. |
+| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |
 
 ### Response
 

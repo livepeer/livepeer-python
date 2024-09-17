@@ -39,78 +39,77 @@ also be added upon the creation of a new stream by adding
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.create(request=components.NewStreamPayload(
-    name='test_stream',
-    pull=components.Pull(
-        source='https://myservice.com/live/stream.flv',
-        headers={
-            'Authorization': 'Bearer 123',
+res = s.stream.create(request={
+    "name": "test_stream",
+    "pull": {
+        "source": "https://myservice.com/live/stream.flv",
+        "headers": {
+            "Authorization": "Bearer 123",
         },
-        location=components.Location(
-            lat=39.739,
-            lon=-104.988,
-        ),
-    ),
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+        "location": {
+            "lat": 39.739,
+            "lon": -104.988,
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.FfmpegProfile(
-            width=1280,
-            name='720p',
-            height=720,
-            bitrate=3000000,
-            fps=30,
-            fps_den=1,
-            quality=23,
-            gop='2',
-            profile=components.Profile.H264_BASELINE,
-        ),
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
+        },
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
     ],
-    record=False,
-    recording_spec=components.NewStreamPayloadRecordingSpec(
-        profiles=[
-            components.TranscodeProfile(
-                bitrate=3000000,
-                width=1280,
-                name='720p',
-                height=720,
-                quality=23,
-                fps=30,
-                fps_den=1,
-                gop='2',
-                profile=components.TranscodeProfileProfile.H264_BASELINE,
-                encoder=components.TranscodeProfileEncoder.H_264,
-            ),
+    "record": False,
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
         ],
-    ),
-    multistream=components.Multistream(
-        targets=[
-            components.Target(
-                profile='720p',
-                video_only=False,
-                id='PUSH123',
-                spec=components.TargetSpec(
-                    url='rtmps://live.my-service.tv/channel/secretKey',
-                    name='My target',
-                ),
-            ),
+    },
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
         ],
-    ),
-))
+    },
+})
 
 if res.stream is not None:
     # handle response
@@ -123,6 +122,7 @@ if res.stream is not None:
 | Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `request`                                                                  | [components.NewStreamPayload](../../models/components/newstreampayload.md) | :heavy_check_mark:                                                         | The request object to use for the request.                                 |
+| `retries`                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)           | :heavy_minus_sign:                                                         | Configuration to override the default retry behavior of the client.        |
 
 ### Response
 
@@ -142,12 +142,11 @@ Retrieve streams
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.stream.get_all()
 
@@ -159,9 +158,10 @@ if res.data is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `streamsonly`      | *Optional[str]*    | :heavy_minus_sign: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `streamsonly`                                                       | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -181,14 +181,13 @@ Retrieve a stream
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.get(id='<id>')
+res = s.stream.get(id="<id>")
 
 if res.stream is not None:
     # handle response
@@ -198,9 +197,10 @@ if res.stream is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the stream                                                    |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -220,67 +220,66 @@ Update a stream
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.update(id='<id>', stream_patch_payload=components.StreamPatchPayload(
-    record=False,
-    multistream=components.Multistream(
-        targets=[
-            components.Target(
-                profile='720p',
-                video_only=False,
-                id='PUSH123',
-                spec=components.TargetSpec(
-                    url='rtmps://live.my-service.tv/channel/secretKey',
-                    name='My target',
-                ),
-            ),
+res = s.stream.update(id="<id>", stream_patch_payload={
+    "record": False,
+    "multistream": {
+        "targets": [
+            {
+                "profile": "720p",
+                "video_only": False,
+                "id": "PUSH123",
+                "spec": {
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "name": "My target",
+                },
+            },
         ],
-    ),
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+    },
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.FfmpegProfile(
-            width=1280,
-            name='720p',
-            height=720,
-            bitrate=3000000,
-            fps=30,
-            fps_den=1,
-            quality=23,
-            gop='2',
-            profile=components.Profile.H264_BASELINE,
-        ),
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "bitrate": 3000000,
+            "fps": 30,
+            "fps_den": 1,
+            "quality": 23,
+            "gop": "2",
+            "profile": components.Profile.H264_BASELINE,
+        },
     ],
-    recording_spec=components.RecordingSpec(
-        profiles=[
-            components.TranscodeProfile(
-                bitrate=3000000,
-                width=1280,
-                name='720p',
-                height=720,
-                quality=23,
-                fps=30,
-                fps_den=1,
-                gop='2',
-                profile=components.TranscodeProfileProfile.H264_BASELINE,
-                encoder=components.TranscodeProfileEncoder.H_264,
-            ),
+    "recording_spec": {
+        "profiles": [
+            {
+                "bitrate": 3000000,
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
         ],
-    ),
-))
+    },
+})
 
 if res is not None:
     # handle response
@@ -294,6 +293,7 @@ if res is not None:
 | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
 | `id`                                                                           | *str*                                                                          | :heavy_check_mark:                                                             | ID of the stream                                                               |
 | `stream_patch_payload`                                                         | [components.StreamPatchPayload](../../models/components/streampatchpayload.md) | :heavy_check_mark:                                                             | N/A                                                                            |
+| `retries`                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)               | :heavy_minus_sign:                                                             | Configuration to override the default retry behavior of the client.            |
 
 ### Response
 
@@ -317,14 +317,13 @@ using the PATCH stream API.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.delete(id='<id>')
+res = s.stream.delete(id="<id>")
 
 if res is not None:
     # handle response
@@ -334,9 +333,10 @@ if res is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the stream                                                    |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -364,14 +364,13 @@ terminated.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.terminate(id='<id>')
+res = s.stream.terminate(id="<id>")
 
 if res is not None:
     # handle response
@@ -381,9 +380,10 @@ if res is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the stream                                                    |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -410,14 +410,13 @@ started.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.start_pull(id='<id>')
+res = s.stream.start_pull(id="<id>")
 
 if res is not None:
     # handle response
@@ -427,9 +426,10 @@ if res is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the stream   |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the stream                                                    |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -449,21 +449,19 @@ Create a clip
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import components
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.create_clip(request=components.ClipPayload(
-    playback_id='eaw4nk06ts2d0mzb',
-    start_time=1587667174725,
-    end_time=1587667174725,
-    name='My Clip',
-    session_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
-))
+res = s.stream.create_clip(request={
+    "playback_id": "eaw4nk06ts2d0mzb",
+    "start_time": 1587667174725,
+    "end_time": 1587667174725,
+    "name": "My Clip",
+    "session_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+})
 
 if res.data is not None:
     # handle response
@@ -473,9 +471,10 @@ if res.data is not None:
 
 ### Parameters
 
-| Parameter                                                        | Type                                                             | Required                                                         | Description                                                      |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `request`                                                        | [components.ClipPayload](../../models/components/clippayload.md) | :heavy_check_mark:                                               | The request object to use for the request.                       |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [components.ClipPayload](../../models/components/clippayload.md)    | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -495,14 +494,13 @@ Retrieve clips of a livestream
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.get_clips(id='<id>')
+res = s.stream.get_clips(id="<id>")
 
 if res.data is not None:
     # handle response
@@ -512,9 +510,10 @@ if res.data is not None:
 
 ### Parameters
 
-| Parameter                                              | Type                                                   | Required                                               | Description                                            |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `id`                                                   | *str*                                                  | :heavy_check_mark:                                     | ID of the parent stream or playbackId of parent stream |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the parent stream or playbackId of parent stream              |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -534,23 +533,21 @@ Add a multistream target
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import components
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.add_multistream_target(id='<id>', target_add_payload=components.TargetAddPayload(
-    profile='720p0',
-    video_only=False,
-    id='PUSH123',
-    spec=components.TargetAddPayloadSpec(
-        url='rtmps://live.my-service.tv/channel/secretKey',
-        name='My target',
-    ),
-))
+res = s.stream.add_multistream_target(id="<id>", target_add_payload={
+    "profile": "720p0",
+    "video_only": False,
+    "id": "PUSH123",
+    "spec": {
+        "url": "rtmps://live.my-service.tv/channel/secretKey",
+        "name": "My target",
+    },
+})
 
 if res is not None:
     # handle response
@@ -564,6 +561,7 @@ if res is not None:
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `id`                                                                       | *str*                                                                      | :heavy_check_mark:                                                         | ID of the parent stream                                                    |
 | `target_add_payload`                                                       | [components.TargetAddPayload](../../models/components/targetaddpayload.md) | :heavy_check_mark:                                                         | N/A                                                                        |
+| `retries`                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)           | :heavy_minus_sign:                                                         | Configuration to override the default retry behavior of the client.        |
 
 ### Response
 
@@ -583,14 +581,13 @@ Remove a multistream target
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.stream.remove_multistream_target(id='<id>', target_id='<value>')
+res = s.stream.remove_multistream_target(id="<id>", target_id="<value>")
 
 if res is not None:
     # handle response
@@ -600,10 +597,11 @@ if res is not None:
 
 ### Parameters
 
-| Parameter                    | Type                         | Required                     | Description                  |
-| ---------------------------- | ---------------------------- | ---------------------------- | ---------------------------- |
-| `id`                         | *str*                        | :heavy_check_mark:           | ID of the parent stream      |
-| `target_id`                  | *str*                        | :heavy_check_mark:           | ID of the multistream target |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the parent stream                                             |
+| `target_id`                                                         | *str*                                                               | :heavy_check_mark:                                                  | ID of the multistream target                                        |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
