@@ -14,9 +14,8 @@ generation:
 python:
   version: 0.1.3
   additionalDependencies:
-    dependencies: {}
-    extraDependencies:
-      dev: {}
+    dev: {}
+    main: {}
   author: Livepeer
   clientServerStatusCodesAsErrors: true
   description: Python Client SDK for Livepeer Studio
@@ -36,4 +35,4 @@ python:
   packageName: livepeer
   projectUrls: {}
   responseFormat: envelope-http
-  templateVersion: v1
+  templateVersion: v2
