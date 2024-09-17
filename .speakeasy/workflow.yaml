@@ -11,5 +11,8 @@ targets:
     livepeer-python:
         target: python
         source: livepeer-studio-api
+        publish:
+            pypi:
+                token: $pypi_token
         codeSamples:
             output: codeSamples.yaml

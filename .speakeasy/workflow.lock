@@ -2,17 +2,16 @@ speakeasyVersion: 1.398.1
 sources:
     livepeer-studio-api:
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:4b9cf816291813d8e2cc6a6bc0b84573224121924de2b094e1c6e246c05e8e8b
-        sourceBlobDigest: sha256:104269b95ffedc0b19be5a85dbfcdbcbe24bf20624d243c7b6e508fe6ea00a2a
+        sourceRevisionDigest: sha256:a3526ec2de6aec694c70ec0f0eabff4e4fd3bed4c106366a7e9ec4d127f93adb
+        sourceBlobDigest: sha256:2f90b2238bc559477e75134c6c63fe740188463a049ff343c3a0d252ccbd7645
         tags:
             - latest
-            - main
 targets:
     livepeer-python:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:4b9cf816291813d8e2cc6a6bc0b84573224121924de2b094e1c6e246c05e8e8b
-        sourceBlobDigest: sha256:104269b95ffedc0b19be5a85dbfcdbcbe24bf20624d243c7b6e508fe6ea00a2a
+        sourceRevisionDigest: sha256:a3526ec2de6aec694c70ec0f0eabff4e4fd3bed4c106366a7e9ec4d127f93adb
+        sourceBlobDigest: sha256:2f90b2238bc559477e75134c6c63fe740188463a049ff343c3a0d252ccbd7645
     my-first-target:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api
