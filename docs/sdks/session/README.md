@@ -19,14 +19,13 @@ Retrieve clips of a session
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.session.get_clips(id='<id>')
+res = s.session.get_clips(id="<id>")
 
 if res.data is not None:
     # handle response
@@ -36,9 +35,10 @@ if res.data is not None:
 
 ### Parameters
 
-| Parameter                | Type                     | Required                 | Description              |
-| ------------------------ | ------------------------ | ------------------------ | ------------------------ |
-| `id`                     | *str*                    | :heavy_check_mark:       | ID of the parent session |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the parent session                                            |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -58,12 +58,11 @@ Retrieve sessions
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.session.get_all()
 
@@ -72,6 +71,12 @@ if res.data is not None:
     pass
 
 ```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -91,14 +96,13 @@ Retrieve a session
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.session.get(id='<id>')
+res = s.session.get(id="<id>")
 
 if res.session is not None:
     # handle response
@@ -108,9 +112,10 @@ if res.session is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | ID of the session  |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | ID of the session                                                   |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -130,14 +135,13 @@ Retrieve Recorded Sessions
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.session.get_recorded(parent_id='<value>', record=True)
+res = s.session.get_recorded(parent_id="<value>", record=True)
 
 if res.data is not None:
     # handle response
@@ -151,6 +155,7 @@ if res.data is not None:
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | `parent_id`                                                            | *str*                                                                  | :heavy_check_mark:                                                     | ID of the parent stream                                                |                                                                        |
 | `record`                                                               | [Optional[operations.Record]](../../models/operations/record.md)       | :heavy_minus_sign:                                                     | Flag indicating if the response should only include recorded<br/>sessions<br/> | true                                                                   |
+| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |                                                                        |
 
 ### Response
 

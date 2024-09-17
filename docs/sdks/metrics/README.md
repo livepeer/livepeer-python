@@ -21,12 +21,11 @@ Requires a private (non-CORS) API key to be used.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.metrics.get_realtime_viewership()
 
@@ -43,6 +42,7 @@ if res.data is not None:
 | `playback_id`                                                                                                                                         | *Optional[str]*                                                                                                                                       | :heavy_minus_sign:                                                                                                                                    | The playback ID to filter the query results. This can be a canonical<br/>playback ID from Livepeer assets or streams, or dStorage identifiers<br/>for assets<br/> |
 | `creator_id`                                                                                                                                          | *Optional[str]*                                                                                                                                       | :heavy_minus_sign:                                                                                                                                    | The creator ID to filter the query results                                                                                                            |
 | `breakdown_by`                                                                                                                                        | List[[operations.BreakdownBy](../../models/operations/breakdownby.md)]                                                                                | :heavy_minus_sign:                                                                                                                                    | The list of fields to break down the query results. Specify this<br/>query-string multiple times to break down by multiple fields.<br/>               |
+| `retries`                                                                                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                      | :heavy_minus_sign:                                                                                                                                    | Configuration to override the default retry behavior of the client.                                                                                   |
 
 ### Response
 
@@ -63,15 +63,13 @@ Requires a private (non-CORS) API key to be used.
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import operations
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.metrics.get_viewership(request=operations.GetViewershipMetricsRequest())
+res = s.metrics.get_viewership(request={})
 
 if res.data is not None:
     # handle response
@@ -84,6 +82,7 @@ if res.data is not None:
 | Parameter                                                                                        | Type                                                                                             | Required                                                                                         | Description                                                                                      |
 | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
 | `request`                                                                                        | [operations.GetViewershipMetricsRequest](../../models/operations/getviewershipmetricsrequest.md) | :heavy_check_mark:                                                                               | The request object to use for the request.                                                       |
+| `retries`                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                 | :heavy_minus_sign:                                                                               | Configuration to override the default retry behavior of the client.                              |
 
 ### Response
 
@@ -104,15 +103,13 @@ Requires a proof of ownership to be sent in the request, which for now is just t
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import operations
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.metrics.get_creator_viewership(request=operations.GetCreatorViewershipMetricsRequest())
+res = s.metrics.get_creator_viewership(request={})
 
 if res.data is not None:
     # handle response
@@ -125,6 +122,7 @@ if res.data is not None:
 | Parameter                                                                                                      | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
 | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `request`                                                                                                      | [operations.GetCreatorViewershipMetricsRequest](../../models/operations/getcreatorviewershipmetricsrequest.md) | :heavy_check_mark:                                                                                             | The request object to use for the request.                                                                     |
+| `retries`                                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                               | :heavy_minus_sign:                                                                                             | Configuration to override the default retry behavior of the client.                                            |
 
 ### Response
 
@@ -147,14 +145,13 @@ unauthenticated.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.metrics.get_public_viewership(playback_id='<value>')
+res = s.metrics.get_public_viewership(playback_id="<value>")
 
 if res.data is not None:
     # handle response
@@ -167,6 +164,7 @@ if res.data is not None:
 | Parameter                                                                                                                                             | Type                                                                                                                                                  | Required                                                                                                                                              | Description                                                                                                                                           |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `playback_id`                                                                                                                                         | *str*                                                                                                                                                 | :heavy_check_mark:                                                                                                                                    | The playback ID to filter the query results. This can be a canonical<br/>playback ID from Livepeer assets or streams, or dStorage identifiers<br/>for assets<br/> |
+| `retries`                                                                                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                      | :heavy_minus_sign:                                                                                                                                    | Configuration to override the default retry behavior of the client.                                                                                   |
 
 ### Response
 
@@ -186,15 +184,13 @@ Query usage metrics
 ### Example Usage
 
 ```python
-import livepeer
-from livepeer.models import operations
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.metrics.get_usage(request=operations.GetUsageMetricsRequest())
+res = s.metrics.get_usage(request={})
 
 if res.usage_metric is not None:
     # handle response
@@ -207,6 +203,7 @@ if res.usage_metric is not None:
 | Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
 | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `request`                                                                              | [operations.GetUsageMetricsRequest](../../models/operations/getusagemetricsrequest.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
+| `retries`                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                       | :heavy_minus_sign:                                                                     | Configuration to override the default retry behavior of the client.                    |
 
 ### Response
 

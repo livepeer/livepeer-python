@@ -23,12 +23,11 @@ Retrieve a Webhook
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.webhook.get_all()
 
@@ -37,6 +36,12 @@ if res.data is not None:
     pass
 
 ```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -57,25 +62,24 @@ To create a new webhook, you need to make an API call with the events you want t
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.webhook.create(request=components.WebhookInput(
-    name='test_webhook',
-    url='https://my-service.com/webhook',
-    project_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
-    events=[
+res = s.webhook.create(request={
+    "name": "test_webhook",
+    "url": "https://my-service.com/webhook",
+    "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+    "events": [
         components.Events.STREAM_STARTED,
         components.Events.STREAM_IDLE,
     ],
-    shared_secret='my-secret',
-    stream_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
-))
+    "shared_secret": "my-secret",
+    "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+})
 
 if res.webhook is not None:
     # handle response
@@ -85,9 +89,10 @@ if res.webhook is not None:
 
 ### Parameters
 
-| Parameter                                                          | Type                                                               | Required                                                           | Description                                                        |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| `request`                                                          | [components.WebhookInput](../../models/components/webhookinput.md) | :heavy_check_mark:                                                 | The request object to use for the request.                         |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [components.WebhookInput](../../models/components/webhookinput.md)  | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -107,14 +112,13 @@ Retrieve a webhook
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.webhook.get(id='<id>')
+res = s.webhook.get(id="<id>")
 
 if res.webhook is not None:
     # handle response
@@ -124,9 +128,10 @@ if res.webhook is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -146,25 +151,24 @@ Update a webhook
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.webhook.update(id='<id>', webhook=components.WebhookInput(
-    name='test_webhook',
-    url='https://my-service.com/webhook',
-    project_id='aac12556-4d65-4d34-9fb6-d1f0985eb0a9',
-    events=[
+res = s.webhook.update(id="<id>", webhook={
+    "name": "test_webhook",
+    "url": "https://my-service.com/webhook",
+    "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+    "events": [
         components.Events.STREAM_STARTED,
         components.Events.STREAM_IDLE,
     ],
-    shared_secret='my-secret',
-    stream_id='de7818e7-610a-4057-8f6f-b785dc1e6f88',
-))
+    "shared_secret": "my-secret",
+    "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+})
 
 if res.webhook is not None:
     # handle response
@@ -174,10 +178,11 @@ if res.webhook is not None:
 
 ### Parameters
 
-| Parameter                                                          | Type                                                               | Required                                                           | Description                                                        |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| `id`                                                               | *str*                                                              | :heavy_check_mark:                                                 | N/A                                                                |
-| `webhook`                                                          | [components.WebhookInput](../../models/components/webhookinput.md) | :heavy_check_mark:                                                 | N/A                                                                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `webhook`                                                           | [components.WebhookInput](../../models/components/webhookinput.md)  | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -197,14 +202,13 @@ Delete a webhook
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.webhook.delete(id='<id>')
+res = s.webhook.delete(id="<id>")
 
 if res.webhook is not None:
     # handle response
@@ -214,9 +218,10 @@ if res.webhook is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -236,14 +241,13 @@ Retrieve webhook logs
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.webhook.get_logs(id='<id>')
+res = s.webhook.get_logs(id="<id>")
 
 if res.data is not None:
     # handle response
@@ -253,9 +257,10 @@ if res.data is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -275,14 +280,13 @@ Retrieve a webhook log
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.webhook.get_log(id='<id>', log_id='<value>')
+res = s.webhook.get_log(id="<id>", log_id="<value>")
 
 if res.webhook_log is not None:
     # handle response
@@ -292,10 +296,11 @@ if res.webhook_log is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
-| `log_id`           | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `log_id`                                                            | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -318,14 +323,13 @@ to check or fix the behaviour in your handler.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.webhook.resend_log(id='<id>', log_id='<value>')
+res = s.webhook.resend_log(id="<id>", log_id="<value>")
 
 if res.webhook_log is not None:
     # handle response
@@ -335,10 +339,11 @@ if res.webhook_log is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *str*              | :heavy_check_mark: | N/A                |
-| `log_id`           | *str*              | :heavy_check_mark: | N/A                |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `log_id`                                                            | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 

@@ -21,12 +21,11 @@ Retrieve assets
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
-
 
 res = s.asset.get_all()
 
@@ -35,6 +34,12 @@ if res.data is not None:
     pass
 
 ```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -125,40 +130,39 @@ definition above.
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.asset.create(request=components.NewAssetPayload(
-    name='filename.mp4',
-    static_mp4=True,
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+res = s.asset.create(request={
+    "name": "filename.mp4",
+    "static_mp4": True,
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.TranscodeProfile(
-            bitrate=3000000,
-            width=1280,
-            name='720p',
-            height=720,
-            quality=23,
-            fps=30,
-            fps_den=1,
-            gop='2',
-            profile=components.TranscodeProfileProfile.H264_BASELINE,
-            encoder=components.TranscodeProfileEncoder.H_264,
-        ),
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "bitrate": 3000000,
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "quality": 23,
+            "fps": 30,
+            "fps_den": 1,
+            "gop": "2",
+            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+            "encoder": components.TranscodeProfileEncoder.H_264,
+        },
     ],
-))
+})
 
 if res.data is not None:
     # handle response
@@ -171,6 +175,7 @@ if res.data is not None:
 | Parameter                                                                | Type                                                                     | Required                                                                 | Description                                                              |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
 | `request`                                                                | [components.NewAssetPayload](../../models/components/newassetpayload.md) | :heavy_check_mark:                                                       | The request object to use for the request.                               |
+| `retries`                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)         | :heavy_minus_sign:                                                       | Configuration to override the default retry behavior of the client.      |
 
 ### Response
 
@@ -190,41 +195,40 @@ Upload asset via URL
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.asset.create_via_url(request=components.NewAssetFromURLPayload(
-    name='filename.mp4',
-    url='https://s3.amazonaws.com/my-bucket/path/filename.mp4',
-    static_mp4=True,
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+res = s.asset.create_via_url(request={
+    "name": "filename.mp4",
+    "url": "https://s3.amazonaws.com/my-bucket/path/filename.mp4",
+    "static_mp4": True,
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
         },
-        refresh_interval=600,
-    ),
-    profiles=[
-        components.TranscodeProfile(
-            bitrate=3000000,
-            width=1280,
-            name='720p',
-            height=720,
-            quality=23,
-            fps=30,
-            fps_den=1,
-            gop='2',
-            profile=components.TranscodeProfileProfile.H264_BASELINE,
-            encoder=components.TranscodeProfileEncoder.H_264,
-        ),
+        "refresh_interval": 600,
+    },
+    "profiles": [
+        {
+            "bitrate": 3000000,
+            "width": 1280,
+            "name": "720p",
+            "height": 720,
+            "quality": 23,
+            "fps": 30,
+            "fps_den": 1,
+            "gop": "2",
+            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+            "encoder": components.TranscodeProfileEncoder.H_264,
+        },
     ],
-))
+})
 
 if res.two_hundred_application_json_data is not None:
     # handle response
@@ -237,6 +241,7 @@ if res.two_hundred_application_json_data is not None:
 | Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
 | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `request`                                                                              | [components.NewAssetFromURLPayload](../../models/components/newassetfromurlpayload.md) | :heavy_check_mark:                                                                     | The request object to use for the request.                                             |
+| `retries`                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                       | :heavy_minus_sign:                                                                     | Configuration to override the default retry behavior of the client.                    |
 
 ### Response
 
@@ -256,14 +261,13 @@ Retrieves an asset
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.asset.get(asset_id='<value>')
+res = s.asset.get(asset_id="<value>")
 
 if res.asset is not None:
     # handle response
@@ -273,9 +277,10 @@ if res.asset is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `asset_id`         | *str*              | :heavy_check_mark: | ID of the asset    |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `asset_id`                                                          | *str*                                                               | :heavy_check_mark:                                                  | ID of the asset                                                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -295,25 +300,24 @@ Patch an asset
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 from livepeer.models import components
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.asset.update(asset_id='<value>', asset_patch_payload=components.AssetPatchPayload(
-    name='filename.mp4',
-    playback_policy=components.PlaybackPolicy(
-        type=components.Type.WEBHOOK,
-        webhook_id='1bde4o2i6xycudoy',
-        webhook_context={
-            'streamerId': 'my-custom-id',
+res = s.asset.update(asset_id="<value>", asset_patch_payload={
+    "name": "filename.mp4",
+    "playback_policy": {
+        "type": components.Type.WEBHOOK,
+        "webhook_id": "1bde4o2i6xycudoy",
+        "webhook_context": {
+            "streamerId": "my-custom-id",
         },
-        refresh_interval=600,
-    ),
-))
+        "refresh_interval": 600,
+    },
+})
 
 if res.asset is not None:
     # handle response
@@ -327,6 +331,7 @@ if res.asset is not None:
 | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | `asset_id`                                                                   | *str*                                                                        | :heavy_check_mark:                                                           | ID of the asset                                                              |
 | `asset_patch_payload`                                                        | [components.AssetPatchPayload](../../models/components/assetpatchpayload.md) | :heavy_check_mark:                                                           | N/A                                                                          |
+| `retries`                                                                    | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)             | :heavy_minus_sign:                                                           | Configuration to override the default retry behavior of the client.          |
 
 ### Response
 
@@ -346,14 +351,13 @@ Delete an asset
 ### Example Usage
 
 ```python
-import livepeer
+from livepeer import Livepeer
 
-s = livepeer.Livepeer(
+s = Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
 )
 
-
-res = s.asset.delete(asset_id='<value>')
+res = s.asset.delete(asset_id="<value>")
 
 if res is not None:
     # handle response
@@ -363,9 +367,10 @@ if res is not None:
 
 ### Parameters
 
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `asset_id`         | *str*              | :heavy_check_mark: | ID of the asset    |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `asset_id`                                                          | *str*                                                               | :heavy_check_mark:                                                  | ID of the asset                                                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 

@@ -1,36 +1,46 @@
 lockVersion: 2.0.0
 id: 8c3ff122-1fb8-439c-8680-989f956dfd8d
 management:
-  docChecksum: e8b82c62c9be457f6f83c2439fa0c612
+  docChecksum: 435fd84a2b3131f1117db532d7dc36aa
   docVersion: 1.0.0
-  speakeasyVersion: 1.396.6
-  generationVersion: 2.415.6
-  releaseVersion: 0.1.3
-  configChecksum: 4bfa4dc8c3f990808dc7f8e9f2d55938
+  speakeasyVersion: 1.398.1
+  generationVersion: 2.415.8
+  releaseVersion: 0.2.0
+  configChecksum: 274e324c9ee60c7fda251c90665003b3
   repoURL: https://github.com/livepeer/livepeer-python.git
   installationURL: https://github.com/livepeer/livepeer-python.git
 features:
   python:
-    additionalDependencies: 0.1.0
-    additionalProperties: 0.1.0
-    constsAndDefaults: 0.1.4
-    core: 4.8.9
-    deprecations: 2.81.1
-    flattening: 2.81.1
-    globalSecurity: 2.83.7
-    globalSecurityCallbacks: 0.1.0
-    globalSecurityFlattening: 0.1.0
-    globalServerURLs: 2.82.2
-    inputOutputModels: 2.83.1
-    nameOverrides: 2.81.2
-    nullables: 0.1.0
-    responseFormat: 0.1.0
-    sdkHooks: 0.1.0
-    unions: 2.82.9
+    additionalDependencies: 1.0.0
+    additionalProperties: 1.0.1
+    constsAndDefaults: 1.0.2
+    core: 5.5.3
+    defaultEnabledRetries: 0.2.0
+    deprecations: 3.0.0
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.3.1
+    errorUnions: 1.0.2
+    flattening: 3.0.0
+    globalSecurity: 3.0.2
+    globalSecurityCallbacks: 1.0.0
+    globalSecurityFlattening: 1.0.0
+    globalServerURLs: 3.0.0
+    inputOutputModels: 3.0.0
+    methodSecurity: 3.0.0
+    multipartFileContentType: 1.0.0
+    nameOverrides: 3.0.0
+    nullables: 1.0.0
+    responseFormat: 1.0.0
+    retries: 3.0.2
+    sdkHooks: 1.0.0
+    unions: 3.0.2
+    uploadStreams: 1.0.0
 generatedFiles:
   - .gitattributes
+  - .vscode/settings.json
   - CONTRIBUTING.md
   - USAGE.md
+  - docs/models/components/apierror.md
   - docs/models/components/asset.md
   - docs/models/components/assetipfs.md
   - docs/models/components/assetnftmetadata.md
@@ -48,7 +58,17 @@ generatedFiles:
   - docs/models/components/attestationipfs.md
   - docs/models/components/attestations.md
   - docs/models/components/attestationstorage.md
+  - docs/models/components/audio.md
+  - docs/models/components/bodygenaudiototext.md
+  - docs/models/components/bodygenimagetoimage.md
+  - docs/models/components/bodygenimagetovideo.md
+  - docs/models/components/bodygenimagetovideoimage.md
+  - docs/models/components/bodygensegmentanything2.md
+  - docs/models/components/bodygensegmentanything2image.md
+  - docs/models/components/bodygenupscale.md
+  - docs/models/components/bodygenupscaleimage.md
   - docs/models/components/catalystpipelinestrategy.md
+  - docs/models/components/chunk.md
   - docs/models/components/clip.md
   - docs/models/components/clippayload.md
   - docs/models/components/clipstrategy.md
@@ -76,6 +96,8 @@ generatedFiles:
   - docs/models/components/hls.md
   - docs/models/components/hrn.md
   - docs/models/components/httpmetadata.md
+  - docs/models/components/image.md
+  - docs/models/components/imageresponse.md
   - docs/models/components/input.md
   - docs/models/components/input1.md
   - docs/models/components/input2.md
@@ -91,7 +113,10 @@ generatedFiles:
   - docs/models/components/ismobile1.md
   - docs/models/components/lastfailure.md
   - docs/models/components/live.md
+  - docs/models/components/loc.md
   - docs/models/components/location.md
+  - docs/models/components/masksresponse.md
+  - docs/models/components/media.md
   - docs/models/components/message.md
   - docs/models/components/meta.md
   - docs/models/components/mp4.md
@@ -181,6 +206,8 @@ generatedFiles:
   - docs/models/components/taskstorage.md
   - docs/models/components/tasktype.md
   - docs/models/components/taskupload.md
+  - docs/models/components/textresponse.md
+  - docs/models/components/texttoimageparams.md
   - docs/models/components/three.md
   - docs/models/components/tracks.md
   - docs/models/components/transcodefile.md
@@ -197,12 +224,42 @@ generatedFiles:
   - docs/models/components/usagemetric.md
   - docs/models/components/usertags.md
   - docs/models/components/usertags3.md
+  - docs/models/components/validationerror.md
   - docs/models/components/version.md
+  - docs/models/components/videoresponse.md
   - docs/models/components/videospec.md
   - docs/models/components/viewershipmetric.md
   - docs/models/components/webhook.md
   - docs/models/components/webhooklog.md
   - docs/models/errors/error.md
+  - docs/models/errors/genaudiototextgenerateresponse422responsebody.md
+  - docs/models/errors/genaudiototextgenerateresponse500responsebody.md
+  - docs/models/errors/genaudiototextgenerateresponsebody.md
+  - docs/models/errors/genaudiototextgenerateresponseresponsebody.md
+  - docs/models/errors/genaudiototextresponsebody.md
+  - docs/models/errors/genimagetoimagegenerateresponse500responsebody.md
+  - docs/models/errors/genimagetoimagegenerateresponsebody.md
+  - docs/models/errors/genimagetoimagegenerateresponseresponsebody.md
+  - docs/models/errors/genimagetoimageresponsebody.md
+  - docs/models/errors/genimagetovideogenerateresponse500responsebody.md
+  - docs/models/errors/genimagetovideogenerateresponsebody.md
+  - docs/models/errors/genimagetovideogenerateresponseresponsebody.md
+  - docs/models/errors/genimagetovideoresponsebody.md
+  - docs/models/errors/gensegmentanything2generateresponse500responsebody.md
+  - docs/models/errors/gensegmentanything2generateresponsebody.md
+  - docs/models/errors/gensegmentanything2generateresponseresponsebody.md
+  - docs/models/errors/gensegmentanything2responsebody.md
+  - docs/models/errors/gentexttoimagegenerateresponse500responsebody.md
+  - docs/models/errors/gentexttoimagegenerateresponsebody.md
+  - docs/models/errors/gentexttoimagegenerateresponseresponsebody.md
+  - docs/models/errors/gentexttoimageresponsebody.md
+  - docs/models/errors/genupscalegenerateresponse500responsebody.md
+  - docs/models/errors/genupscalegenerateresponsebody.md
+  - docs/models/errors/genupscalegenerateresponseresponsebody.md
+  - docs/models/errors/genupscaleresponsebody.md
+  - docs/models/errors/httperror.md
+  - docs/models/errors/httpvalidationerror.md
+  - docs/models/errors/studioapierror.md
   - docs/models/operations/addmultistreamtargetrequest.md
   - docs/models/operations/addmultistreamtargetresponse.md
   - docs/models/operations/breakdownby.md
@@ -231,6 +288,18 @@ generatedFiles:
   - docs/models/operations/deletewebhookrequest.md
   - docs/models/operations/deletewebhookresponse.md
   - docs/models/operations/from_.md
+  - docs/models/operations/genaudiototextresponse.md
+  - docs/models/operations/genaudiototextsecurity.md
+  - docs/models/operations/genimagetoimageresponse.md
+  - docs/models/operations/genimagetoimagesecurity.md
+  - docs/models/operations/genimagetovideoresponse.md
+  - docs/models/operations/genimagetovideosecurity.md
+  - docs/models/operations/gensegmentanything2response.md
+  - docs/models/operations/gensegmentanything2security.md
+  - docs/models/operations/gentexttoimageresponse.md
+  - docs/models/operations/gentexttoimagesecurity.md
+  - docs/models/operations/genupscaleresponse.md
+  - docs/models/operations/genupscalesecurity.md
   - docs/models/operations/getassetrequest.md
   - docs/models/operations/getassetresponse.md
   - docs/models/operations/getassetsresponse.md
@@ -324,8 +393,10 @@ generatedFiles:
   - docs/models/operations/uploadassetdataoutput.md
   - docs/models/operations/uploadassetresponse.md
   - docs/models/operations/uploadassettask.md
+  - docs/models/utils/retryconfig.md
   - docs/sdks/accesscontrol/README.md
   - docs/sdks/asset/README.md
+  - docs/sdks/generate/README.md
   - docs/sdks/livepeer/README.md
   - docs/sdks/metrics/README.md
   - docs/sdks/multistream/README.md
@@ -336,22 +407,34 @@ generatedFiles:
   - docs/sdks/task/README.md
   - docs/sdks/transcode/README.md
   - docs/sdks/webhook/README.md
+  - poetry.toml
   - py.typed
   - pylintrc
+  - pyproject.toml
+  - scripts/compile.sh
+  - scripts/prepare-readme.py
   - scripts/publish.sh
-  - setup.py
   - src/livepeer/__init__.py
   - src/livepeer/_hooks/__init__.py
   - src/livepeer/_hooks/sdkhooks.py
   - src/livepeer/_hooks/types.py
   - src/livepeer/accesscontrol.py
   - src/livepeer/asset.py
+  - src/livepeer/basesdk.py
+  - src/livepeer/generate.py
+  - src/livepeer/httpclient.py
   - src/livepeer/metrics.py
-  - src/livepeer/models/__init__.py
   - src/livepeer/models/components/__init__.py
+  - src/livepeer/models/components/apierror.py
   - src/livepeer/models/components/asset.py
   - src/livepeer/models/components/asset_patch_payload.py
   - src/livepeer/models/components/attestation.py
+  - src/livepeer/models/components/body_genaudiototext.py
+  - src/livepeer/models/components/body_genimagetoimage.py
+  - src/livepeer/models/components/body_genimagetovideo.py
+  - src/livepeer/models/components/body_gensegmentanything2.py
+  - src/livepeer/models/components/body_genupscale.py
+  - src/livepeer/models/components/chunk.py
   - src/livepeer/models/components/clip_payload.py
   - src/livepeer/models/components/create_room_response.py
   - src/livepeer/models/components/creator_id.py
@@ -361,9 +444,12 @@ generatedFiles:
   - src/livepeer/models/components/ffmpeg_profile.py
   - src/livepeer/models/components/get_room_user_response.py
   - src/livepeer/models/components/httpmetadata.py
+  - src/livepeer/models/components/imageresponse.py
   - src/livepeer/models/components/input_creator_id.py
   - src/livepeer/models/components/ipfs_export_params.py
   - src/livepeer/models/components/ipfs_file_info.py
+  - src/livepeer/models/components/masksresponse.py
+  - src/livepeer/models/components/media.py
   - src/livepeer/models/components/multistream.py
   - src/livepeer/models/components/multistream_target.py
   - src/livepeer/models/components/multistream_target_input.py
@@ -393,16 +479,29 @@ generatedFiles:
   - src/livepeer/models/components/target_add_payload.py
   - src/livepeer/models/components/target_output.py
   - src/livepeer/models/components/task.py
+  - src/livepeer/models/components/textresponse.py
+  - src/livepeer/models/components/texttoimageparams.py
   - src/livepeer/models/components/transcode_payload.py
   - src/livepeer/models/components/transcode_profile.py
   - src/livepeer/models/components/usage_metric.py
   - src/livepeer/models/components/usertags.py
+  - src/livepeer/models/components/validationerror.py
+  - src/livepeer/models/components/videoresponse.py
   - src/livepeer/models/components/viewership_metric.py
   - src/livepeer/models/components/webhook.py
   - src/livepeer/models/components/webhook_log.py
   - src/livepeer/models/errors/__init__.py
   - src/livepeer/models/errors/error.py
+  - src/livepeer/models/errors/genaudiototext.py
+  - src/livepeer/models/errors/genimagetoimage.py
+  - src/livepeer/models/errors/genimagetovideo.py
+  - src/livepeer/models/errors/gensegmentanything2.py
+  - src/livepeer/models/errors/gentexttoimage.py
+  - src/livepeer/models/errors/genupscale.py
+  - src/livepeer/models/errors/httperror.py
+  - src/livepeer/models/errors/httpvalidationerror.py
   - src/livepeer/models/errors/sdkerror.py
+  - src/livepeer/models/errors/studio_api_error.py
   - src/livepeer/models/operations/__init__.py
   - src/livepeer/models/operations/addmultistreamtarget.py
   - src/livepeer/models/operations/createclip.py
@@ -419,6 +518,12 @@ generatedFiles:
   - src/livepeer/models/operations/deletesigningkey.py
   - src/livepeer/models/operations/deletestream.py
   - src/livepeer/models/operations/deletewebhook.py
+  - src/livepeer/models/operations/genaudiototext.py
+  - src/livepeer/models/operations/genimagetoimage.py
+  - src/livepeer/models/operations/genimagetovideo.py
+  - src/livepeer/models/operations/gensegmentanything2.py
+  - src/livepeer/models/operations/gentexttoimage.py
+  - src/livepeer/models/operations/genupscale.py
   - src/livepeer/models/operations/getasset.py
   - src/livepeer/models/operations/getassets.py
   - src/livepeer/models/operations/getclips.py
@@ -463,6 +568,7 @@ generatedFiles:
   - src/livepeer/models/operations/uploadasset.py
   - src/livepeer/multistream.py
   - src/livepeer/playback.py
+  - src/livepeer/py.typed
   - src/livepeer/room.py
   - src/livepeer/sdk.py
   - src/livepeer/sdkconfiguration.py
@@ -470,9 +576,23 @@ generatedFiles:
   - src/livepeer/stream.py
   - src/livepeer/task.py
   - src/livepeer/transcode.py
+  - src/livepeer/types/__init__.py
+  - src/livepeer/types/basemodel.py
   - src/livepeer/utils/__init__.py
+  - src/livepeer/utils/annotations.py
+  - src/livepeer/utils/enums.py
+  - src/livepeer/utils/eventstreaming.py
+  - src/livepeer/utils/forms.py
+  - src/livepeer/utils/headers.py
+  - src/livepeer/utils/logger.py
+  - src/livepeer/utils/metadata.py
+  - src/livepeer/utils/queryparams.py
+  - src/livepeer/utils/requestbodies.py
   - src/livepeer/utils/retries.py
-  - src/livepeer/utils/utils.py
+  - src/livepeer/utils/security.py
+  - src/livepeer/utils/serializers.py
+  - src/livepeer/utils/url.py
+  - src/livepeer/utils/values.py
   - src/livepeer/webhook.py
 examples:
   createStream:
@@ -991,3 +1111,109 @@ examples:
           application/json: {"type": "vod", "meta": {"live": 0, "playbackPolicy": {"type": "webhook", "webhookId": "1bde4o2i6xycudoy", "webhookContext": {"streamerId": "my-custom-id"}, "refreshInterval": 600}, "source": [], "dvrPlayback": [], "attestation": {"id": "5b9e63bb-6fd0-4bea-aff2-cc5d4eb9cad0", "primaryType": "VideoAttestation", "domain": {"name": "Verifiable Video", "version": "1"}, "message": {"video": "5b9e63bb-6fd0-4bea-aff2-cc5d4eb9cad0", "attestations": [], "signer": "1311768467294899700", "timestamp": 1587667174725}, "signature": "1311768467294899700", "createdAt": 1587667174725, "signatureType": "eip712", "storage": {"ipfs": {"updatedAt": 1587667174725}, "status": {"phase": "ready", "progress": 0.5, "errorMessage": "Failed to update storage", "tasks": {"pending": "09F8B46C-61A0-4254-9875-F71F4C605BC7", "last": "09F8B46C-61A0-4254-9875-F71F4C605BC7", "failed": "09F8B46C-61A0-4254-9875-F71F4C605BC7"}}}}}}
         "404":
           application/json: {"errors": ["[\"id not provided\",\"Account not found\"]"]}
+        default:
+          application/json: {"errors": ["[\"id not provided\",\"Account not found\"]"]}
+  genTextToImage:
+    speakeasy-default-gen-text-to-image:
+      requestBody:
+        application/json: {"prompt": "<value>"}
+      responses:
+        "200":
+          application/json: {"images": []}
+        "400":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "401":
+          application/json: {"": {}}
+        "422":
+          application/json: {"": {}}
+        "500":
+          application/json: {"": {}}
+        default:
+          application/json: {"": {}}
+  genImageToImage:
+    speakeasy-default-gen-image-to-image:
+      requestBody:
+        multipart/form-data: {"prompt": "<value>", "image": {}}
+      responses:
+        "200":
+          application/json: {"images": []}
+        "400":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "401":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "422":
+          application/json: {"": {}}
+        "500":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        default:
+          application/json: {"": {}}
+  genImageToVideo:
+    speakeasy-default-gen-image-to-video:
+      requestBody:
+        multipart/form-data: {"image": {}}
+      responses:
+        "200":
+          application/json: {"images": []}
+        "400":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "401":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "422":
+          application/json: {"": {}}
+        "500":
+          application/json: {"": {}}
+        default:
+          application/json: {"": {}}
+  genUpscale:
+    speakeasy-default-gen-upscale:
+      requestBody:
+        multipart/form-data: {"prompt": "<value>", "image": {}}
+      responses:
+        "200":
+          application/json: {"images": []}
+        "400":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "401":
+          application/json: {"": {}}
+        "422":
+          application/json: {"": {}}
+        "500":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        default:
+          application/json: {"": {}}
+  genAudioToText:
+    speakeasy-default-gen-audio-to-text:
+      requestBody:
+        multipart/form-data: {"audio": {}}
+      responses:
+        "200":
+          application/json: {"text": "<value>", "chunks": []}
+        "400":
+          application/json: {"": {}}
+        "401":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "413":
+          application/json: {"": {}}
+        "422":
+          application/json: {"": {}}
+        "500":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        default:
+          application/json: {"": {}}
+  genSegmentAnything2:
+    speakeasy-default-gen-segment-anything2:
+      requestBody:
+        multipart/form-data: {"image": {}}
+      responses:
+        "200":
+          application/json: {"masks": "<value>", "scores": "<value>", "logits": "<value>"}
+        "400":
+          application/json: {"": {}}
+        "401":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        "422":
+          application/json: {"": {}}
+        "500":
+          application/json: {"detail": {"msg": "<value>"}, "": {}}
+        default:
+          application/json: {"": {}}
