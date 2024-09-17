@@ -95,13 +95,12 @@ actions:
           label: genAudioToText
           source: |-
             from livepeer import Livepeer
-            from livepeer.models import operations
 
-            s = Livepeer()
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
 
-            res = s.generate.audio_to_text(security=operations.GenAudioToTextSecurity(
-                http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-            ), request={
+            res = s.generate.audio_to_text(request={
                 "audio": {
                     "file_name": "example.file",
                     "content": open("example.file", "rb"),
@@ -118,13 +117,12 @@ actions:
           label: genImageToImage
           source: |-
             from livepeer import Livepeer
-            from livepeer.models import operations
 
-            s = Livepeer()
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
 
-            res = s.generate.image_to_image(security=operations.GenImageToImageSecurity(
-                http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-            ), request={
+            res = s.generate.image_to_image(request={
                 "prompt": "<value>",
                 "image": {
                     "file_name": "example.file",
@@ -142,13 +140,12 @@ actions:
           label: genImageToVideo
           source: |-
             from livepeer import Livepeer
-            from livepeer.models import operations
 
-            s = Livepeer()
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
 
-            res = s.generate.image_to_video(security=operations.GenImageToVideoSecurity(
-                http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-            ), request={
+            res = s.generate.image_to_video(request={
                 "image": {
                     "file_name": "example.file",
                     "content": open("example.file", "rb"),
@@ -165,13 +162,12 @@ actions:
           label: genSegmentAnything2
           source: |-
             from livepeer import Livepeer
-            from livepeer.models import operations
 
-            s = Livepeer()
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
 
-            res = s.generate.segment_anything2(security=operations.GenSegmentAnything2Security(
-                http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-            ), request={
+            res = s.generate.segment_anything2(request={
                 "image": {
                     "file_name": "example.file",
                     "content": open("example.file", "rb"),
@@ -188,13 +184,12 @@ actions:
           label: genTextToImage
           source: |-
             from livepeer import Livepeer
-            from livepeer.models import operations
 
-            s = Livepeer()
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
 
-            res = s.generate.text_to_image(security=operations.GenTextToImageSecurity(
-                http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-            ), request={
+            res = s.generate.text_to_image(request={
                 "prompt": "<value>",
             })
 
@@ -208,13 +203,12 @@ actions:
           label: genUpscale
           source: |-
             from livepeer import Livepeer
-            from livepeer.models import operations
 
-            s = Livepeer()
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
 
-            res = s.generate.upscale(security=operations.GenUpscaleSecurity(
-                http_bearer="<YOUR_BEARER_TOKEN_HERE>",
-            ), request={
+            res = s.generate.upscale(request={
                 "prompt": "<value>",
                 "image": {
                     "file_name": "example.file",

@@ -7,28 +7,9 @@ from livepeer.models.components import (
 )
 from livepeer.models.errors import studio_api_error as errors_studio_api_error
 from livepeer.types import BaseModel
-from livepeer.utils import FieldMetadata, SecurityMetadata
 import pydantic
 from typing import Optional, TypedDict
 from typing_extensions import Annotated, NotRequired
-
-
-class GenTextToImageSecurityTypedDict(TypedDict):
-    http_bearer: str
-
-
-class GenTextToImageSecurity(BaseModel):
-    http_bearer: Annotated[
-        str,
-        FieldMetadata(
-            security=SecurityMetadata(
-                scheme=True,
-                scheme_type="http",
-                sub_type="bearer",
-                field_name="Authorization",
-            )
-        ),
-    ]
 
 
 class GenTextToImageResponseTypedDict(TypedDict):

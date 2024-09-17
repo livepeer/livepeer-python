@@ -1,17 +1,18 @@
-speakeasyVersion: 1.398.1
+speakeasyVersion: 1.399.0
 sources:
     livepeer-studio-api:
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:a3526ec2de6aec694c70ec0f0eabff4e4fd3bed4c106366a7e9ec4d127f93adb
-        sourceBlobDigest: sha256:2f90b2238bc559477e75134c6c63fe740188463a049ff343c3a0d252ccbd7645
+        sourceRevisionDigest: sha256:05b8e6f32af10787d3e904f94a0924c304ec1dd8357de9351eebd75f8ea9c3ca
+        sourceBlobDigest: sha256:aa27f19cd706fdbc92320eea5ca4d28aefd20557554f78a6fa0393320d8ee1d6
         tags:
             - latest
+            - main
 targets:
     livepeer-python:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:a3526ec2de6aec694c70ec0f0eabff4e4fd3bed4c106366a7e9ec4d127f93adb
-        sourceBlobDigest: sha256:2f90b2238bc559477e75134c6c63fe740188463a049ff343c3a0d252ccbd7645
+        sourceRevisionDigest: sha256:05b8e6f32af10787d3e904f94a0924c304ec1dd8357de9351eebd75f8ea9c3ca
+        sourceBlobDigest: sha256:aa27f19cd706fdbc92320eea5ca4d28aefd20557554f78a6fa0393320d8ee1d6
     my-first-target:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api
@@ -31,5 +32,8 @@ workflow:
         livepeer-python:
             target: python
             source: livepeer-studio-api
+            publish:
+                pypi:
+                    token: $pypi_token
             codeSamples:
                 output: codeSamples.yaml

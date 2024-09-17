@@ -59,7 +59,7 @@ class Livepeer(BaseSDK):
 
     def __init__(
         self,
-        api_key: Optional[Union[Optional[str], Callable[[], Optional[str]]]] = None,
+        api_key: Union[str, Callable[[], str]],
         server_idx: Optional[int] = None,
         server_url: Optional[str] = None,
         url_params: Optional[Dict[str, str]] = None,

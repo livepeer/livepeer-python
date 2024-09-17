@@ -14,10 +14,6 @@ class Generate(BaseSDK):
     def text_to_image(
         self,
         *,
-        security: Union[
-            operations.GenTextToImageSecurity,
-            operations.GenTextToImageSecurityTypedDict,
-        ],
         request: Union[
             components.TextToImageParams, components.TextToImageParamsTypedDict
         ],
@@ -29,7 +25,6 @@ class Generate(BaseSDK):
 
         Generate images from text prompts.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -58,9 +53,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenTextToImageSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.TextToImageParams
             ),
@@ -79,7 +72,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genTextToImage",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -141,10 +134,6 @@ class Generate(BaseSDK):
     async def text_to_image_async(
         self,
         *,
-        security: Union[
-            operations.GenTextToImageSecurity,
-            operations.GenTextToImageSecurityTypedDict,
-        ],
         request: Union[
             components.TextToImageParams, components.TextToImageParamsTypedDict
         ],
@@ -156,7 +145,6 @@ class Generate(BaseSDK):
 
         Generate images from text prompts.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -185,9 +173,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenTextToImageSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.TextToImageParams
             ),
@@ -206,7 +192,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genTextToImage",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -268,10 +254,6 @@ class Generate(BaseSDK):
     def image_to_image(
         self,
         *,
-        security: Union[
-            operations.GenImageToImageSecurity,
-            operations.GenImageToImageSecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenImageToImage, components.BodyGenImageToImageTypedDict
         ],
@@ -283,7 +265,6 @@ class Generate(BaseSDK):
 
         Apply image transformations to a provided image.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -312,9 +293,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenImageToImageSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenImageToImage
             ),
@@ -333,7 +312,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genImageToImage",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -396,10 +375,6 @@ class Generate(BaseSDK):
     async def image_to_image_async(
         self,
         *,
-        security: Union[
-            operations.GenImageToImageSecurity,
-            operations.GenImageToImageSecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenImageToImage, components.BodyGenImageToImageTypedDict
         ],
@@ -411,7 +386,6 @@ class Generate(BaseSDK):
 
         Apply image transformations to a provided image.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -440,9 +414,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenImageToImageSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenImageToImage
             ),
@@ -461,7 +433,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genImageToImage",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -524,10 +496,6 @@ class Generate(BaseSDK):
     def image_to_video(
         self,
         *,
-        security: Union[
-            operations.GenImageToVideoSecurity,
-            operations.GenImageToVideoSecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenImageToVideo, components.BodyGenImageToVideoTypedDict
         ],
@@ -539,7 +507,6 @@ class Generate(BaseSDK):
 
         Generate a video from a provided image.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -568,9 +535,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenImageToVideoSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenImageToVideo
             ),
@@ -589,7 +554,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genImageToVideo",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -652,10 +617,6 @@ class Generate(BaseSDK):
     async def image_to_video_async(
         self,
         *,
-        security: Union[
-            operations.GenImageToVideoSecurity,
-            operations.GenImageToVideoSecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenImageToVideo, components.BodyGenImageToVideoTypedDict
         ],
@@ -667,7 +628,6 @@ class Generate(BaseSDK):
 
         Generate a video from a provided image.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -696,9 +656,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenImageToVideoSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenImageToVideo
             ),
@@ -717,7 +675,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genImageToVideo",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -780,9 +738,6 @@ class Generate(BaseSDK):
     def upscale(
         self,
         *,
-        security: Union[
-            operations.GenUpscaleSecurity, operations.GenUpscaleSecurityTypedDict
-        ],
         request: Union[components.BodyGenUpscale, components.BodyGenUpscaleTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -792,7 +747,6 @@ class Generate(BaseSDK):
 
         Upscale an image by increasing its resolution.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -821,7 +775,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(security, operations.GenUpscaleSecurity),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenUpscale
             ),
@@ -838,7 +792,9 @@ class Generate(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
-                operation_id="genUpscale", oauth2_scopes=[], security_source=security
+                operation_id="genUpscale",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -900,9 +856,6 @@ class Generate(BaseSDK):
     async def upscale_async(
         self,
         *,
-        security: Union[
-            operations.GenUpscaleSecurity, operations.GenUpscaleSecurityTypedDict
-        ],
         request: Union[components.BodyGenUpscale, components.BodyGenUpscaleTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -912,7 +865,6 @@ class Generate(BaseSDK):
 
         Upscale an image by increasing its resolution.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -941,7 +893,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(security, operations.GenUpscaleSecurity),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenUpscale
             ),
@@ -958,7 +910,9 @@ class Generate(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
-                operation_id="genUpscale", oauth2_scopes=[], security_source=security
+                operation_id="genUpscale",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -1020,10 +974,6 @@ class Generate(BaseSDK):
     def audio_to_text(
         self,
         *,
-        security: Union[
-            operations.GenAudioToTextSecurity,
-            operations.GenAudioToTextSecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenAudioToText, components.BodyGenAudioToTextTypedDict
         ],
@@ -1035,7 +985,6 @@ class Generate(BaseSDK):
 
         Transcribe audio files to text.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1064,9 +1013,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenAudioToTextSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenAudioToText
             ),
@@ -1085,7 +1032,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genAudioToText",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "413", "422", "4XX", "500", "5XX"],
@@ -1153,10 +1100,6 @@ class Generate(BaseSDK):
     async def audio_to_text_async(
         self,
         *,
-        security: Union[
-            operations.GenAudioToTextSecurity,
-            operations.GenAudioToTextSecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenAudioToText, components.BodyGenAudioToTextTypedDict
         ],
@@ -1168,7 +1111,6 @@ class Generate(BaseSDK):
 
         Transcribe audio files to text.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1197,9 +1139,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenAudioToTextSecurity
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenAudioToText
             ),
@@ -1218,7 +1158,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genAudioToText",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "413", "422", "4XX", "500", "5XX"],
@@ -1286,10 +1226,6 @@ class Generate(BaseSDK):
     def segment_anything2(
         self,
         *,
-        security: Union[
-            operations.GenSegmentAnything2Security,
-            operations.GenSegmentAnything2SecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenSegmentAnything2,
             components.BodyGenSegmentAnything2TypedDict,
@@ -1302,7 +1238,6 @@ class Generate(BaseSDK):
 
         Segment objects in an image.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1331,9 +1266,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenSegmentAnything2Security
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenSegmentAnything2
             ),
@@ -1352,7 +1285,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genSegmentAnything2",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
@@ -1416,10 +1349,6 @@ class Generate(BaseSDK):
     async def segment_anything2_async(
         self,
         *,
-        security: Union[
-            operations.GenSegmentAnything2Security,
-            operations.GenSegmentAnything2SecurityTypedDict,
-        ],
         request: Union[
             components.BodyGenSegmentAnything2,
             components.BodyGenSegmentAnything2TypedDict,
@@ -1432,7 +1361,6 @@ class Generate(BaseSDK):
 
         Segment objects in an image.
 
-        :param security:
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1461,9 +1389,7 @@ class Generate(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
-            security=utils.get_pydantic_model(
-                security, operations.GenSegmentAnything2Security
-            ),
+            security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "multipart", components.BodyGenSegmentAnything2
             ),
@@ -1482,7 +1408,7 @@ class Generate(BaseSDK):
             hook_ctx=HookContext(
                 operation_id="genSegmentAnything2",
                 oauth2_scopes=[],
-                security_source=security,
+                security_source=self.sdk_configuration.security,
             ),
             request=req,
             error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
