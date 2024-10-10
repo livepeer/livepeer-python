@@ -33,6 +33,16 @@ from .genimagetovideo import (
     GenImageToVideoResponseBody,
     GenImageToVideoResponseBodyUnion,
 )
+from .genllm import (
+    GenLLMGenerateResponse500ResponseBody,
+    GenLLMGenerateResponse500ResponseBodyUnion,
+    GenLLMGenerateResponseBody,
+    GenLLMGenerateResponseBodyUnion,
+    GenLLMGenerateResponseResponseBody,
+    GenLLMGenerateResponseResponseBodyUnion,
+    GenLLMResponseBody,
+    GenLLMResponseBodyUnion,
+)
 from .gensegmentanything2 import (
     GenSegmentAnything2GenerateResponse500ResponseBody,
     GenSegmentAnything2GenerateResponse500ResponseBodyUnion,
@@ -97,6 +107,14 @@ __all__ = [
     "GenImageToVideoGenerateResponseResponseBodyUnion",
     "GenImageToVideoResponseBody",
     "GenImageToVideoResponseBodyUnion",
+    "GenLLMGenerateResponse500ResponseBody",
+    "GenLLMGenerateResponse500ResponseBodyUnion",
+    "GenLLMGenerateResponseBody",
+    "GenLLMGenerateResponseBodyUnion",
+    "GenLLMGenerateResponseResponseBody",
+    "GenLLMGenerateResponseResponseBodyUnion",
+    "GenLLMResponseBody",
+    "GenLLMResponseBodyUnion",
     "GenSegmentAnything2GenerateResponse500ResponseBody",
     "GenSegmentAnything2GenerateResponse500ResponseBodyUnion",
     "GenSegmentAnything2GenerateResponseBody",

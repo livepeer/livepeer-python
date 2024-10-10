@@ -73,6 +73,7 @@ from .body_genimagetovideo import (
     BodyGenImageToVideoImageTypedDict,
     BodyGenImageToVideoTypedDict,
 )
+from .body_genllm import BodyGenLLM, BodyGenLLMTypedDict
 from .body_gensegmentanything2 import (
     BodyGenSegmentAnything2,
     BodyGenSegmentAnything2Image,
@@ -129,6 +130,7 @@ from .ipfs_export_params import (
     PinataTypedDict,
 )
 from .ipfs_file_info import IpfsFileInfo, IpfsFileInfoTypedDict
+from .llmresponse import LLMResponse, LLMResponseTypedDict
 from .masksresponse import MasksResponse, MasksResponseTypedDict
 from .media import Media, MediaTypedDict
 from .multistream import Multistream, MultistreamTypedDict
@@ -414,6 +416,8 @@ __all__ = [
     "BodyGenImageToVideoImage",
     "BodyGenImageToVideoImageTypedDict",
     "BodyGenImageToVideoTypedDict",
+    "BodyGenLLM",
+    "BodyGenLLMTypedDict",
     "BodyGenSegmentAnything2",
     "BodyGenSegmentAnything2Image",
     "BodyGenSegmentAnything2ImageTypedDict",
@@ -504,6 +508,8 @@ __all__ = [
     "IsMobile",
     "IsMobile1",
     "IsMobileTypedDict",
+    "LLMResponse",
+    "LLMResponseTypedDict",
     "LastFailure",
     "LastFailureTypedDict",
     "Live",

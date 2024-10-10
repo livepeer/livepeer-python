@@ -110,6 +110,22 @@ class StudioAPIErrorData(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
+    http_meta25: Annotated[
+        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
+    ] = None
+
+    http_meta26: Annotated[
+        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
+    ] = None
+
+    http_meta27: Annotated[
+        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
+    ] = None
+
+    http_meta28: Annotated[
+        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
+    ] = None
+
     errors: Optional[List[str]] = None
 
 

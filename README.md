@@ -85,6 +85,7 @@ if res.stream is not None:
 * [upscale](docs/sdks/generate/README.md#upscale) - Upscale
 * [audio_to_text](docs/sdks/generate/README.md#audio_to_text) - Audio To Text
 * [segment_anything2](docs/sdks/generate/README.md#segment_anything2) - Segment Anything 2
+* [llm](docs/sdks/generate/README.md#llm) - LLM
 
 
 ### [metrics](docs/sdks/metrics/README.md)
@@ -263,7 +264,7 @@ res = s.stream.create(request={
     "multistream": {
         "targets": [
             {
-                "profile": "720p",
+                "profile": "720p0",
                 "video_only": False,
                 "id": "PUSH123",
                 "spec": {
@@ -346,7 +347,7 @@ res = s.stream.create(request={
     "multistream": {
         "targets": [
             {
-                "profile": "720p",
+                "profile": "720p0",
                 "video_only": False,
                 "id": "PUSH123",
                 "spec": {
@@ -558,7 +559,7 @@ res = s.stream.create(request={
     "multistream": {
         "targets": [
             {
-                "profile": "720p",
+                "profile": "720p0",
                 "video_only": False,
                 "id": "PUSH123",
                 "spec": {

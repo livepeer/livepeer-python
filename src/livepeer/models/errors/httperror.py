@@ -92,6 +92,18 @@ class HTTPErrorData(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
+    http_meta19: Annotated[
+        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
+    ] = None
+
+    http_meta20: Annotated[
+        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
+    ] = None
+
+    http_meta21: Annotated[
+        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
+    ] = None
+
 
 class HTTPError(Exception):
     r"""HTTP error response model."""

@@ -63,7 +63,7 @@ class BodyGenSegmentAnything2(BaseModel):
     r"""Image to segment."""
 
     model_id: Annotated[Optional[str], FieldMetadata(multipart=True)] = (
-        "facebook/sam2-hiera-large:"
+        "facebook/sam2-hiera-large"
     )
     r"""Hugging Face model ID used for image generation."""
 
