@@ -13,6 +13,7 @@ Operations related to AI generate api
 * [upscale](#upscale) - Upscale
 * [audio_to_text](#audio_to_text) - Audio To Text
 * [segment_anything2](#segment_anything2) - Segment Anything 2
+* [llm](#llm) - LLM
 
 ## text_to_image
 
@@ -300,3 +301,48 @@ if res.masks_response is not None:
 | errors.GenSegmentAnything2GenerateResponseResponseBody    | 422                                                       | application/json                                          |
 | errors.GenSegmentAnything2GenerateResponse500ResponseBody | 500                                                       | application/json                                          |
 | errors.SDKError                                           | 4xx-5xx                                                   | */*                                                       |
+
+
+## llm
+
+Generate text using a language model.
+
+### Example Usage
+
+```python
+from livepeer import Livepeer
+
+s = Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+)
+
+res = s.generate.llm(request={
+    "prompt": "<value>",
+})
+
+if res.llm_response is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [components.BodyGenLLM](../../models/components/bodygenllm.md)      | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[operations.GenLLMResponse](../../models/operations/genllmresponse.md)**
+
+### Errors
+
+| Error Object                                 | Status Code                                  | Content Type                                 |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| errors.GenLLMResponseBody                    | 400                                          | application/json                             |
+| errors.GenLLMGenerateResponseBody            | 401                                          | application/json                             |
+| errors.GenLLMGenerateResponseResponseBody    | 422                                          | application/json                             |
+| errors.GenLLMGenerateResponse500ResponseBody | 500                                          | application/json                             |
+| errors.SDKError                              | 4xx-5xx                                      | */*                                          |

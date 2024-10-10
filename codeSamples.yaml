@@ -88,7 +88,7 @@ actions:
             if res is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/audio-to-text"]["post"]
+  - target: $["paths"]["/api/generate/audio-to-text"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -110,7 +110,7 @@ actions:
             if res.text_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/image-to-image"]["post"]
+  - target: $["paths"]["/api/generate/image-to-image"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -133,7 +133,7 @@ actions:
             if res.image_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/image-to-video"]["post"]
+  - target: $["paths"]["/api/generate/image-to-video"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -155,7 +155,26 @@ actions:
             if res.video_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/segment-anything-2"]["post"]
+  - target: $["paths"]["/api/generate/llm"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: genLLM
+          source: |-
+            from livepeer import Livepeer
+
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.generate.llm(request={
+                "prompt": "<value>",
+            })
+
+            if res.llm_response is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/api/generate/segment-anything-2"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -177,7 +196,7 @@ actions:
             if res.masks_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/text-to-image"]["post"]
+  - target: $["paths"]["/api/generate/text-to-image"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -196,7 +215,7 @@ actions:
             if res.image_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/upscale"]["post"]
+  - target: $["paths"]["/api/generate/upscale"]["post"]
     update:
       x-codeSamples:
         - lang: python

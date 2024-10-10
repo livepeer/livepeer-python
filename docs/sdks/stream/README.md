@@ -99,7 +99,7 @@ res = s.stream.create(request={
     "multistream": {
         "targets": [
             {
-                "profile": "720p",
+                "profile": "720p0",
                 "video_only": False,
                 "id": "PUSH123",
                 "spec": {
@@ -232,7 +232,7 @@ res = s.stream.update(id="<id>", stream_patch_payload={
     "multistream": {
         "targets": [
             {
-                "profile": "720p",
+                "profile": "720p0",
                 "video_only": False,
                 "id": "PUSH123",
                 "spec": {
