@@ -61,7 +61,7 @@ res = s.stream.create(request={
     "multistream": {
         "targets": [
             {
-                "profile": "720p",
+                "profile": "720p0",
                 "video_only": False,
                 "id": "PUSH123",
                 "spec": {
@@ -144,7 +144,7 @@ async def main():
         "multistream": {
             "targets": [
                 {
-                    "profile": "720p",
+                    "profile": "720p0",
                     "video_only": False,
                     "id": "PUSH123",
                     "spec": {

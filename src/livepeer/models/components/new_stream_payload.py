@@ -11,8 +11,8 @@ from .usertags import UserTags, UserTagsTypedDict
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Dict, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Dict, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class NewStreamPayloadRecordingSpecTypedDict(TypedDict):

@@ -49,7 +49,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.access_control.delete(key_id="<value>")
+            res = s.access_control.delete(key_id="<id>")
 
             if res is not None:
                 # handle response
@@ -66,7 +66,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.access_control.get(key_id="<value>")
+            res = s.access_control.get(key_id="<id>")
 
             if res.signing_key is not None:
                 # handle response
@@ -83,12 +83,12 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.access_control.update(key_id="<value>", request_body={})
+            res = s.access_control.update(key_id="<id>", request_body={})
 
             if res is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/audio-to-text"]["post"]
+  - target: $["paths"]["/api/generate/audio-to-text"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -110,7 +110,7 @@ actions:
             if res.text_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/image-to-image"]["post"]
+  - target: $["paths"]["/api/generate/image-to-image"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -133,7 +133,7 @@ actions:
             if res.image_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/image-to-video"]["post"]
+  - target: $["paths"]["/api/generate/image-to-video"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -155,7 +155,26 @@ actions:
             if res.video_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/segment-anything-2"]["post"]
+  - target: $["paths"]["/api/generate/llm"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: genLLM
+          source: |-
+            from livepeer import Livepeer
+
+            s = Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            )
+
+            res = s.generate.llm(request={
+                "prompt": "<value>",
+            })
+
+            if res.llm_response is not None:
+                # handle response
+                pass
+  - target: $["paths"]["/api/generate/segment-anything-2"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -177,7 +196,7 @@ actions:
             if res.masks_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/text-to-image"]["post"]
+  - target: $["paths"]["/api/generate/text-to-image"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -196,7 +215,7 @@ actions:
             if res.image_response is not None:
                 # handle response
                 pass
-  - target: $["paths"]["/api/beta/generate/upscale"]["post"]
+  - target: $["paths"]["/api/generate/upscale"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -317,6 +336,18 @@ actions:
                         "profile": components.TranscodeProfileProfile.H264_BASELINE,
                         "encoder": components.TranscodeProfileEncoder.H_264,
                     },
+                    {
+                        "width": 1280,
+                        "name": "720p",
+                        "height": 720,
+                        "bitrate": 3000000,
+                        "quality": 23,
+                        "fps": 30,
+                        "fps_den": 1,
+                        "gop": "2",
+                        "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                        "encoder": components.TranscodeProfileEncoder.H_264,
+                    },
                 ],
             })
 
@@ -335,7 +366,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.asset.delete(asset_id="<value>")
+            res = s.asset.delete(asset_id="<id>")
 
             if res is not None:
                 # handle response
@@ -352,7 +383,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.asset.get(asset_id="<value>")
+            res = s.asset.get(asset_id="<id>")
 
             if res.asset is not None:
                 # handle response
@@ -370,7 +401,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.asset.update(asset_id="<value>", asset_patch_payload={
+            res = s.asset.update(asset_id="<id>", asset_patch_payload={
                 "name": "filename.mp4",
                 "playback_policy": {
                     "type": components.Type.WEBHOOK,
@@ -488,7 +519,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.metrics.get_public_viewership(playback_id="<value>")
+            res = s.metrics.get_public_viewership(playback_id="<id>")
 
             if res.data is not None:
                 # handle response
@@ -597,168 +628,6 @@ actions:
             res = s.playback.get(id="<id>")
 
             if res.playback_info is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: createRoom
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.create()
-
-            if res.create_room_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteRoom
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.delete(id="<id>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getRoom
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.get(id="<id>")
-
-            if res.room is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/egress"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: stopRoomEgress
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.stop_egress(id="<id>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/egress"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: startRoomEgress
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.start_egress(id="<id>", room_egress_payload={
-                "stream_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
-            })
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: createRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.create_user(id="<id>", room_user_payload={
-                "name": "name",
-                "can_publish": True,
-                "can_publish_data": True,
-            })
-
-            if res.room_user_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.delete_user(id="<id>", user_id="<value>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.get_user(id="<id>", user_id="<value>")
-
-            if res.get_room_user_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["put"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: updateRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.update_user(id="<id>", user_id="<value>", room_user_update_payload={
-                "can_publish": True,
-                "can_publish_data": True,
-            })
-
-            if res is not None:
                 # handle response
                 pass
   - target: $["paths"]["/session"]["get"]
@@ -890,12 +759,24 @@ actions:
                             "profile": components.TranscodeProfileProfile.H264_BASELINE,
                             "encoder": components.TranscodeProfileEncoder.H_264,
                         },
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "quality": 23,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "gop": "2",
+                            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                            "encoder": components.TranscodeProfileEncoder.H_264,
+                        },
                     ],
                 },
                 "multistream": {
                     "targets": [
                         {
-                            "profile": "720p",
+                            "profile": "720p0",
                             "video_only": False,
                             "id": "PUSH123",
                             "spec": {
@@ -962,7 +843,7 @@ actions:
                 "multistream": {
                     "targets": [
                         {
-                            "profile": "720p",
+                            "profile": "720p0",
                             "video_only": False,
                             "id": "PUSH123",
                             "spec": {
@@ -992,6 +873,28 @@ actions:
                         "gop": "2",
                         "profile": components.Profile.H264_BASELINE,
                     },
+                    {
+                        "width": 1280,
+                        "name": "720p",
+                        "height": 720,
+                        "bitrate": 3000000,
+                        "fps": 30,
+                        "fps_den": 1,
+                        "quality": 23,
+                        "gop": "2",
+                        "profile": components.Profile.H264_BASELINE,
+                    },
+                    {
+                        "width": 1280,
+                        "name": "720p",
+                        "height": 720,
+                        "bitrate": 3000000,
+                        "fps": 30,
+                        "fps_den": 1,
+                        "quality": 23,
+                        "gop": "2",
+                        "profile": components.Profile.H264_BASELINE,
+                    },
                 ],
                 "recording_spec": {
                     "profiles": [
@@ -1007,8 +910,21 @@ actions:
                             "profile": components.TranscodeProfileProfile.H264_BASELINE,
                             "encoder": components.TranscodeProfileEncoder.H_264,
                         },
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "quality": 23,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "gop": "2",
+                            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                            "encoder": components.TranscodeProfileEncoder.H_264,
+                        },
                     ],
                 },
+                "name": "test_stream",
             })
 
             if res is not None:
@@ -1068,7 +984,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.stream.remove_multistream_target(id="<id>", target_id="<value>")
+            res = s.stream.remove_multistream_target(id="<id>", target_id="<id>")
 
             if res is not None:
                 # handle response
@@ -1119,7 +1035,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.session.get_recorded(parent_id="<value>", record=True)
+            res = s.session.get_recorded(parent_id="<id>", record=True)
 
             if res.data is not None:
                 # handle response
@@ -1153,7 +1069,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.task.get(task_id="<value>")
+            res = s.task.get(task_id="<id>")
 
             if res.task is not None:
                 # handle response
@@ -1176,12 +1092,9 @@ actions:
                     "url": "https://s3.amazonaws.com/bucket/file.mp4",
                 },
                 "storage": {
-                    "type": components.StorageType.S3,
-                    "endpoint": "https://gateway.storjshare.io",
-                    "bucket": "outputbucket",
+                    "type": components.TranscodePayloadStorageType.WEB3_STORAGE,
                     "credentials": {
-                        "access_key_id": "AKIAIOSFODNN7EXAMPLE",
-                        "secret_access_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                        "proof": "EaJlcm9vdHOAZ3ZlcnNpb24BmgIBcRIg2uxHpcPYSWNtifMKFkPC7IEDvFDCxCd3ADViv0coV7SnYXNYRO2hA0AnblHEW38s3lSlcwaDjPn",
                     },
                 },
                 "outputs": {
@@ -1350,7 +1263,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.webhook.get_log(id="<id>", log_id="<value>")
+            res = s.webhook.get_log(id="<id>", log_id="<id>")
 
             if res.webhook_log is not None:
                 # handle response
@@ -1367,7 +1280,7 @@ actions:
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
             )
 
-            res = s.webhook.resend_log(id="<id>", log_id="<value>")
+            res = s.webhook.resend_log(id="<id>", log_id="<id>")
 
             if res.webhook_log is not None:
                 # handle response

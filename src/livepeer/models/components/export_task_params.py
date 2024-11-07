@@ -3,8 +3,8 @@
 from __future__ import annotations
 from .ipfs_export_params import IpfsExportParams, IpfsExportParamsTypedDict
 from livepeer.types import BaseModel
-from typing import Dict, Optional, TypedDict, Union
-from typing_extensions import NotRequired
+from typing import Dict, Optional, Union
+from typing_extensions import NotRequired, TypedDict
 
 
 class ExportTaskParams2TypedDict(TypedDict):

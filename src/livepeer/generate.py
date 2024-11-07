@@ -44,7 +44,7 @@ class Generate(BaseSDK):
 
         req = self.build_request(
             method="POST",
-            path="/api/beta/generate/text-to-image",
+            path="/api/generate/text-to-image",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -112,22 +112,24 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenTextToImageGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenTextToImageResponse(
                 studio_api_error=utils.unmarshal_json(
-                    http_res.text, Optional[errors.StudioAPIError]
+                    http_res.text, Optional[components.StudioAPIError]
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -164,7 +166,7 @@ class Generate(BaseSDK):
 
         req = self.build_request_async(
             method="POST",
-            path="/api/beta/generate/text-to-image",
+            path="/api/generate/text-to-image",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -232,22 +234,24 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenTextToImageGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenTextToImageResponse(
                 studio_api_error=utils.unmarshal_json(
-                    http_res.text, Optional[errors.StudioAPIError]
+                    http_res.text, Optional[components.StudioAPIError]
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -284,7 +288,7 @@ class Generate(BaseSDK):
 
         req = self.build_request(
             method="POST",
-            path="/api/beta/generate/image-to-image",
+            path="/api/generate/image-to-image",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -353,8 +357,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenImageToImageGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenImageToImageResponse(
@@ -365,10 +370,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -405,7 +411,7 @@ class Generate(BaseSDK):
 
         req = self.build_request_async(
             method="POST",
-            path="/api/beta/generate/image-to-image",
+            path="/api/generate/image-to-image",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -474,8 +480,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenImageToImageGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenImageToImageResponse(
@@ -486,10 +493,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -526,7 +534,7 @@ class Generate(BaseSDK):
 
         req = self.build_request(
             method="POST",
-            path="/api/beta/generate/image-to-video",
+            path="/api/generate/image-to-video",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -595,8 +603,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenImageToVideoGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenImageToVideoResponse(
@@ -607,10 +616,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -647,7 +657,7 @@ class Generate(BaseSDK):
 
         req = self.build_request_async(
             method="POST",
-            path="/api/beta/generate/image-to-video",
+            path="/api/generate/image-to-video",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -716,8 +726,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenImageToVideoGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenImageToVideoResponse(
@@ -728,10 +739,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -766,7 +778,7 @@ class Generate(BaseSDK):
 
         req = self.build_request(
             method="POST",
-            path="/api/beta/generate/upscale",
+            path="/api/generate/upscale",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -834,8 +846,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenUpscaleGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenUpscaleResponse(
@@ -846,10 +859,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -884,7 +898,7 @@ class Generate(BaseSDK):
 
         req = self.build_request_async(
             method="POST",
-            path="/api/beta/generate/upscale",
+            path="/api/generate/upscale",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -952,8 +966,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenUpscaleGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenUpscaleResponse(
@@ -964,10 +979,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1004,7 +1020,7 @@ class Generate(BaseSDK):
 
         req = self.build_request(
             method="POST",
-            path="/api/beta/generate/audio-to-text",
+            path="/api/generate/audio-to-text",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1078,8 +1094,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenAudioToTextGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenAudioToTextResponse(
@@ -1090,10 +1107,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1130,7 +1148,7 @@ class Generate(BaseSDK):
 
         req = self.build_request_async(
             method="POST",
-            path="/api/beta/generate/audio-to-text",
+            path="/api/generate/audio-to-text",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1204,8 +1222,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenAudioToTextGenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenAudioToTextResponse(
@@ -1216,10 +1235,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1257,7 +1277,7 @@ class Generate(BaseSDK):
 
         req = self.build_request(
             method="POST",
-            path="/api/beta/generate/segment-anything-2",
+            path="/api/generate/segment-anything-2",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1327,8 +1347,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenSegmentAnything2GenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenSegmentAnything2Response(
@@ -1339,10 +1360,11 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1380,7 +1402,7 @@ class Generate(BaseSDK):
 
         req = self.build_request_async(
             method="POST",
-            path="/api/beta/generate/segment-anything-2",
+            path="/api/generate/segment-anything-2",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1450,8 +1472,9 @@ class Generate(BaseSDK):
             data.http_meta = components.HTTPMetadata(request=req, response=http_res)
             raise errors.GenSegmentAnything2GenerateResponse500ResponseBody(data=data)
         if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GenSegmentAnything2Response(
@@ -1462,9 +1485,246 @@ class Generate(BaseSDK):
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
+            http_res,
+        )
+
+    def llm(
+        self,
+        *,
+        request: Union[components.BodyGenLLM, components.BodyGenLLMTypedDict],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+    ) -> operations.GenLLMResponse:
+        r"""LLM
+
+        Generate text using a language model.
+
+        :param request: The request object to send.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, components.BodyGenLLM)
+        request = cast(components.BodyGenLLM, request)
+
+        req = self.build_request(
+            method="POST",
+            path="/api/generate/llm",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "form", components.BodyGenLLM
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                operation_id="genLLM",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
+            retry_config=retry_config,
+        )
+
+        data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.GenLLMResponse(
+                llm_response=utils.unmarshal_json(
+                    http_res.text, Optional[components.LLMResponse]
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            data = utils.unmarshal_json(http_res.text, errors.GenLLMResponseBodyUnion)
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMResponseBody(data=data)
+        if utils.match_response(http_res, "401", "application/json"):
+            data = utils.unmarshal_json(
+                http_res.text, errors.GenLLMGenerateResponseBodyUnion
+            )
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMGenerateResponseBody(data=data)
+        if utils.match_response(http_res, "422", "application/json"):
+            data = utils.unmarshal_json(
+                http_res.text, errors.GenLLMGenerateResponseResponseBodyUnion
+            )
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMGenerateResponseResponseBody(data=data)
+        if utils.match_response(http_res, "500", "application/json"):
+            data = utils.unmarshal_json(
+                http_res.text, errors.GenLLMGenerateResponse500ResponseBodyUnion
+            )
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMGenerateResponse500ResponseBody(data=data)
+        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.GenLLMResponse(
+                studio_api_error=utils.unmarshal_json(
+                    http_res.text, Optional[errors.StudioAPIError]
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
+        raise errors.SDKError(
+            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
+            http_res.status_code,
+            http_res_text,
+            http_res,
+        )
+
+    async def llm_async(
+        self,
+        *,
+        request: Union[components.BodyGenLLM, components.BodyGenLLMTypedDict],
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+    ) -> operations.GenLLMResponse:
+        r"""LLM
+
+        Generate text using a language model.
+
+        :param request: The request object to send.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, components.BodyGenLLM)
+        request = cast(components.BodyGenLLM, request)
+
+        req = self.build_request_async(
+            method="POST",
+            path="/api/generate/llm",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=True,
+            request_has_path_params=False,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "form", components.BodyGenLLM
+            ),
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429", "500", "502", "503", "504"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                operation_id="genLLM",
+                oauth2_scopes=[],
+                security_source=self.sdk_configuration.security,
+            ),
+            request=req,
+            error_status_codes=["400", "401", "422", "4XX", "500", "5XX"],
+            retry_config=retry_config,
+        )
+
+        data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return operations.GenLLMResponse(
+                llm_response=utils.unmarshal_json(
+                    http_res.text, Optional[components.LLMResponse]
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+        if utils.match_response(http_res, "400", "application/json"):
+            data = utils.unmarshal_json(http_res.text, errors.GenLLMResponseBodyUnion)
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMResponseBody(data=data)
+        if utils.match_response(http_res, "401", "application/json"):
+            data = utils.unmarshal_json(
+                http_res.text, errors.GenLLMGenerateResponseBodyUnion
+            )
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMGenerateResponseBody(data=data)
+        if utils.match_response(http_res, "422", "application/json"):
+            data = utils.unmarshal_json(
+                http_res.text, errors.GenLLMGenerateResponseResponseBodyUnion
+            )
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMGenerateResponseResponseBody(data=data)
+        if utils.match_response(http_res, "500", "application/json"):
+            data = utils.unmarshal_json(
+                http_res.text, errors.GenLLMGenerateResponse500ResponseBodyUnion
+            )
+            data.http_meta = components.HTTPMetadata(request=req, response=http_res)
+            raise errors.GenLLMGenerateResponse500ResponseBody(data=data)
+        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "default", "application/json"):
+            return operations.GenLLMResponse(
+                studio_api_error=utils.unmarshal_json(
+                    http_res.text, Optional[errors.StudioAPIError]
+                ),
+                http_meta=components.HTTPMetadata(request=req, response=http_res),
+            )
+
+        content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
+        raise errors.SDKError(
+            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
+            http_res.status_code,
+            http_res_text,
             http_res,
         )

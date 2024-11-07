@@ -1,9 +1,9 @@
-speakeasyVersion: 1.399.0
+speakeasyVersion: 1.434.0
 sources:
     livepeer-studio-api:
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:05b8e6f32af10787d3e904f94a0924c304ec1dd8357de9351eebd75f8ea9c3ca
-        sourceBlobDigest: sha256:aa27f19cd706fdbc92320eea5ca4d28aefd20557554f78a6fa0393320d8ee1d6
+        sourceRevisionDigest: sha256:8b1a8f7df796dc893e646e4b6678b39b4634783c064d30cc5eab1865604ef08d
+        sourceBlobDigest: sha256:8bdf57f7f10d5e51da7d611bfcc08b2c29912a6b9512de7ffcfaae90a0723183
         tags:
             - latest
             - main
@@ -11,8 +11,8 @@ targets:
     livepeer-python:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api
-        sourceRevisionDigest: sha256:05b8e6f32af10787d3e904f94a0924c304ec1dd8357de9351eebd75f8ea9c3ca
-        sourceBlobDigest: sha256:aa27f19cd706fdbc92320eea5ca4d28aefd20557554f78a6fa0393320d8ee1d6
+        sourceRevisionDigest: sha256:8b1a8f7df796dc893e646e4b6678b39b4634783c064d30cc5eab1865604ef08d
+        sourceBlobDigest: sha256:8bdf57f7f10d5e51da7d611bfcc08b2c29912a6b9512de7ffcfaae90a0723183
     my-first-target:
         source: livepeer-studio-api
         sourceNamespace: livepeer-studio-api

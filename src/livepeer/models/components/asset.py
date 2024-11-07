@@ -11,8 +11,8 @@ from enum import Enum
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Any, List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import Any, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AssetType(str, Enum):

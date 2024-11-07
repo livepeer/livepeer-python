@@ -3,7 +3,8 @@
 from __future__ import annotations
 from enum import Enum
 from livepeer.types import BaseModel
-from typing import TypedDict, Union
+from typing import Union
+from typing_extensions import TypedDict
 
 
 class InputCreatorIDType(str, Enum):

@@ -3,8 +3,8 @@
 from __future__ import annotations
 from livepeer.types import BaseModel
 import pydantic
-from typing import Any, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import Any, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Pinata2TypedDict(TypedDict):
