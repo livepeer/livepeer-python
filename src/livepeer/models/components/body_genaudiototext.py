@@ -5,8 +5,8 @@ import io
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, MultipartFormMetadata
 import pydantic
-from typing import IO, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import IO, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AudioTypedDict(TypedDict):
@@ -38,6 +38,8 @@ class BodyGenAudioToTextTypedDict(TypedDict):
     r"""Uploaded audio file to be transcribed."""
     model_id: NotRequired[str]
     r"""Hugging Face model ID used for transcription."""
+    return_timestamps: NotRequired[str]
+    r"""Return timestamps for the transcribed text. Supported values: 'sentence', 'word', or a string boolean ('true' or 'false'). Default is 'true' ('sentence'). 'false' means no timestamps. 'word' means word-based timestamps."""
 
 
 class BodyGenAudioToText(BaseModel):
@@ -52,3 +54,6 @@ class BodyGenAudioToText(BaseModel):
         "openai/whisper-large-v3"
     )
     r"""Hugging Face model ID used for transcription."""
+
+    return_timestamps: Annotated[Optional[str], FieldMetadata(multipart=True)] = "true"
+    r"""Return timestamps for the transcribed text. Supported values: 'sentence', 'word', or a string boolean ('true' or 'false'). Default is 'true' ('sentence'). 'false' means no timestamps. 'word' means word-based timestamps."""

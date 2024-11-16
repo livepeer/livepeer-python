@@ -48,6 +48,26 @@ class GenAudioToTextGenerateResponse422ResponseBody(Exception):
         )
 
 
+GenAudioToTextGenerateResponse415ResponseBodyUnion = Union[
+    HTTPErrorData, StudioAPIErrorData
+]
+r"""Unsupported Media Type"""
+
+
+class GenAudioToTextGenerateResponse415ResponseBody(Exception):
+    r"""Unsupported Media Type"""
+
+    data: GenAudioToTextGenerateResponse415ResponseBodyUnion
+
+    def __init__(self, data: GenAudioToTextGenerateResponse415ResponseBodyUnion):
+        self.data = data
+
+    def __str__(self) -> str:
+        return utils.marshal_json(
+            self.data, GenAudioToTextGenerateResponse415ResponseBodyUnion
+        )
+
+
 GenAudioToTextGenerateResponseResponseBodyUnion = Union[
     HTTPErrorData, StudioAPIErrorData
 ]

@@ -3,8 +3,8 @@
 from __future__ import annotations
 from livepeer.types import BaseModel
 import pydantic
-from typing import Dict, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Dict, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RequestTypedDict(TypedDict):

@@ -6,8 +6,8 @@ from .transcode_profile import TranscodeProfile, TranscodeProfileTypedDict
 from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
-from typing import List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputType(str, Enum):

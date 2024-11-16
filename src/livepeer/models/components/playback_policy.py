@@ -4,8 +4,8 @@ from __future__ import annotations
 from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
-from typing import Any, Dict, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Any, Dict, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Type(str, Enum):

@@ -5,8 +5,8 @@ import io
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, MultipartFormMetadata
 import pydantic
-from typing import IO, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import IO, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class BodyGenSegmentAnything2ImageTypedDict(TypedDict):
@@ -63,7 +63,7 @@ class BodyGenSegmentAnything2(BaseModel):
     r"""Image to segment."""
 
     model_id: Annotated[Optional[str], FieldMetadata(multipart=True)] = (
-        "facebook/sam2-hiera-large:"
+        "facebook/sam2-hiera-large"
     )
     r"""Hugging Face model ID used for image generation."""
 

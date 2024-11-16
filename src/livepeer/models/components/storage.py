@@ -4,8 +4,8 @@ from __future__ import annotations
 from .spec import Spec, SpecTypedDict
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from pydantic import model_serializer
-from typing import TypedDict, Union
-from typing_extensions import NotRequired
+from typing import Union
+from typing_extensions import NotRequired, TypedDict
 
 
 class Ipfs1TypedDict(TypedDict):
