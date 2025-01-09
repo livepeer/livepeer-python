@@ -24,15 +24,16 @@ Up to 10 signing keys can be generated, after that you must delete at least one 
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.access_control.create()
+    res = livepeer.access_control.create()
 
-if res.signing_key is not None:
-    # handle response
-    pass
+    assert res.signing_key is not None
+
+    # Handle response
+    print(res.signing_key)
 
 ```
 
@@ -48,10 +49,9 @@ if res.signing_key is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_all
 
@@ -62,15 +62,16 @@ Retrieves signing keys
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.access_control.get_all()
+    res = livepeer.access_control.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -86,10 +87,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## delete
 
@@ -100,15 +100,16 @@ Delete Signing Key
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.access_control.delete(key_id="<value>")
+    res = livepeer.access_control.delete(key_id="<value>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -125,10 +126,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -139,15 +139,16 @@ Retrieves a signing key
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.access_control.get(key_id="<value>")
+    res = livepeer.access_control.get(key_id="<value>")
 
-if res.signing_key is not None:
-    # handle response
-    pass
+    assert res.signing_key is not None
+
+    # Handle response
+    print(res.signing_key)
 
 ```
 
@@ -164,10 +165,9 @@ if res.signing_key is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## update
 
@@ -178,15 +178,16 @@ Update a signing key
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.access_control.update(key_id="<value>", request_body={})
+    res = livepeer.access_control.update(key_id="<value>", request_body={})
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -204,6 +205,6 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

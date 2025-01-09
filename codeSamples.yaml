@@ -11,15 +11,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.access_control.get_all()
+                res = livepeer.access_control.get_all()
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/access-control/signing-key"]["post"]
     update:
       x-codeSamples:
@@ -28,15 +29,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.access_control.create()
+                res = livepeer.access_control.create()
 
-            if res.signing_key is not None:
-                # handle response
-                pass
+                assert res.signing_key is not None
+
+                # Handle response
+                print(res.signing_key)
   - target: $["paths"]["/access-control/signing-key/{keyId}"]["delete"]
     update:
       x-codeSamples:
@@ -45,15 +47,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.access_control.delete(key_id="<value>")
+                res = livepeer.access_control.delete(key_id="<id>")
 
-            if res is not None:
-                # handle response
-                pass
+                assert res is not None
+
+                # Handle response
+                print(res)
   - target: $["paths"]["/access-control/signing-key/{keyId}"]["get"]
     update:
       x-codeSamples:
@@ -62,15 +65,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.access_control.get(key_id="<value>")
+                res = livepeer.access_control.get(key_id="<id>")
 
-            if res.signing_key is not None:
-                # handle response
-                pass
+                assert res.signing_key is not None
+
+                # Handle response
+                print(res.signing_key)
   - target: $["paths"]["/access-control/signing-key/{keyId}"]["patch"]
     update:
       x-codeSamples:
@@ -79,16 +83,17 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.access_control.update(key_id="<value>", request_body={})
+                res = livepeer.access_control.update(key_id="<id>", request_body={})
 
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/api/beta/generate/audio-to-text"]["post"]
+                assert res is not None
+
+                # Handle response
+                print(res)
+  - target: $["paths"]["/api/generate/audio-to-text"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -96,21 +101,22 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.generate.audio_to_text(request={
-                "audio": {
-                    "file_name": "example.file",
-                    "content": open("example.file", "rb"),
-                },
-            })
+                res = livepeer.generate.audio_to_text(request={
+                    "audio": {
+                        "file_name": "example.file",
+                        "content": open("example.file", "rb"),
+                    },
+                })
 
-            if res.text_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/api/beta/generate/image-to-image"]["post"]
+                assert res.text_response is not None
+
+                # Handle response
+                print(res.text_response)
+  - target: $["paths"]["/api/generate/image-to-image"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -118,22 +124,23 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.generate.image_to_image(request={
-                "prompt": "<value>",
-                "image": {
-                    "file_name": "example.file",
-                    "content": open("example.file", "rb"),
-                },
-            })
+                res = livepeer.generate.image_to_image(request={
+                    "prompt": "<value>",
+                    "image": {
+                        "file_name": "example.file",
+                        "content": open("example.file", "rb"),
+                    },
+                })
 
-            if res.image_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/api/beta/generate/image-to-video"]["post"]
+                assert res.image_response is not None
+
+                # Handle response
+                print(res.image_response)
+  - target: $["paths"]["/api/generate/image-to-video"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -141,21 +148,42 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.generate.image_to_video(request={
-                "image": {
-                    "file_name": "example.file",
-                    "content": open("example.file", "rb"),
-                },
-            })
+                res = livepeer.generate.image_to_video(request={
+                    "image": {
+                        "file_name": "example.file",
+                        "content": open("example.file", "rb"),
+                    },
+                })
 
-            if res.video_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/api/beta/generate/segment-anything-2"]["post"]
+                assert res.video_response is not None
+
+                # Handle response
+                print(res.video_response)
+  - target: $["paths"]["/api/generate/llm"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: genLLM
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.generate.llm(request={
+                    "prompt": "<value>",
+                })
+
+                assert res.llm_response is not None
+
+                # Handle response
+                print(res.llm_response)
+  - target: $["paths"]["/api/generate/segment-anything-2"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -163,21 +191,22 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.generate.segment_anything2(request={
-                "image": {
-                    "file_name": "example.file",
-                    "content": open("example.file", "rb"),
-                },
-            })
+                res = livepeer.generate.segment_anything2(request={
+                    "image": {
+                        "file_name": "example.file",
+                        "content": open("example.file", "rb"),
+                    },
+                })
 
-            if res.masks_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/api/beta/generate/text-to-image"]["post"]
+                assert res.masks_response is not None
+
+                # Handle response
+                print(res.masks_response)
+  - target: $["paths"]["/api/generate/text-to-image"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -185,18 +214,19 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.generate.text_to_image(request={
-                "prompt": "<value>",
-            })
+                res = livepeer.generate.text_to_image(request={
+                    "prompt": "<value>",
+                })
 
-            if res.image_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/api/beta/generate/upscale"]["post"]
+                assert res.image_response is not None
+
+                # Handle response
+                print(res.image_response)
+  - target: $["paths"]["/api/generate/upscale"]["post"]
     update:
       x-codeSamples:
         - lang: python
@@ -204,21 +234,22 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.generate.upscale(request={
-                "prompt": "<value>",
-                "image": {
-                    "file_name": "example.file",
-                    "content": open("example.file", "rb"),
-                },
-            })
+                res = livepeer.generate.upscale(request={
+                    "prompt": "<value>",
+                    "image": {
+                        "file_name": "example.file",
+                        "content": open("example.file", "rb"),
+                    },
+                })
 
-            if res.image_response is not None:
-                # handle response
-                pass
+                assert res.image_response is not None
+
+                # Handle response
+                print(res.image_response)
   - target: $["paths"]["/asset"]["get"]
     update:
       x-codeSamples:
@@ -227,15 +258,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.asset.get_all()
+                res = livepeer.asset.get_all()
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/asset/request-upload"]["post"]
     update:
       x-codeSamples:
@@ -245,40 +277,41 @@ actions:
             from livepeer import Livepeer
             from livepeer.models import components
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.asset.create(request={
-                "name": "filename.mp4",
-                "static_mp4": True,
-                "playback_policy": {
-                    "type": components.Type.WEBHOOK,
-                    "webhook_id": "1bde4o2i6xycudoy",
-                    "webhook_context": {
-                        "streamerId": "my-custom-id",
+                res = livepeer.asset.create(request={
+                    "name": "filename.mp4",
+                    "static_mp4": True,
+                    "playback_policy": {
+                        "type": components.Type.WEBHOOK,
+                        "webhook_id": "1bde4o2i6xycudoy",
+                        "webhook_context": {
+                            "streamerId": "my-custom-id",
+                        },
+                        "refresh_interval": 600,
                     },
-                    "refresh_interval": 600,
-                },
-                "profiles": [
-                    {
-                        "width": 1280,
-                        "name": "720p",
-                        "height": 720,
-                        "bitrate": 3000000,
-                        "quality": 23,
-                        "fps": 30,
-                        "fps_den": 1,
-                        "gop": "2",
-                        "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                        "encoder": components.TranscodeProfileEncoder.H_264,
-                    },
-                ],
-            })
+                    "profiles": [
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "quality": 23,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "gop": "2",
+                            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                            "encoder": components.TranscodeProfileEncoder.H_264,
+                        },
+                    ],
+                })
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/asset/upload/url"]["post"]
     update:
       x-codeSamples:
@@ -288,41 +321,54 @@ actions:
             from livepeer import Livepeer
             from livepeer.models import components
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.asset.create_via_url(request={
-                "name": "filename.mp4",
-                "static_mp4": True,
-                "playback_policy": {
-                    "type": components.Type.WEBHOOK,
-                    "webhook_id": "1bde4o2i6xycudoy",
-                    "webhook_context": {
-                        "streamerId": "my-custom-id",
+                res = livepeer.asset.create_via_url(request={
+                    "name": "filename.mp4",
+                    "static_mp4": True,
+                    "playback_policy": {
+                        "type": components.Type.WEBHOOK,
+                        "webhook_id": "1bde4o2i6xycudoy",
+                        "webhook_context": {
+                            "streamerId": "my-custom-id",
+                        },
+                        "refresh_interval": 600,
                     },
-                    "refresh_interval": 600,
-                },
-                "url": "https://s3.amazonaws.com/my-bucket/path/filename.mp4",
-                "profiles": [
-                    {
-                        "width": 1280,
-                        "name": "720p",
-                        "height": 720,
-                        "bitrate": 3000000,
-                        "quality": 23,
-                        "fps": 30,
-                        "fps_den": 1,
-                        "gop": "2",
-                        "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                        "encoder": components.TranscodeProfileEncoder.H_264,
-                    },
-                ],
-            })
+                    "url": "https://s3.amazonaws.com/my-bucket/path/filename.mp4",
+                    "profiles": [
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "quality": 23,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "gop": "2",
+                            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                            "encoder": components.TranscodeProfileEncoder.H_264,
+                        },
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "quality": 23,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "gop": "2",
+                            "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                            "encoder": components.TranscodeProfileEncoder.H_264,
+                        },
+                    ],
+                })
 
-            if res.two_hundred_application_json_data is not None:
-                # handle response
-                pass
+                assert res.two_hundred_application_json_data is not None
+
+                # Handle response
+                print(res.two_hundred_application_json_data)
   - target: $["paths"]["/asset/{assetId}"]["delete"]
     update:
       x-codeSamples:
@@ -331,15 +377,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.asset.delete(asset_id="<value>")
+                res = livepeer.asset.delete(asset_id="<id>")
 
-            if res is not None:
-                # handle response
-                pass
+                assert res is not None
+
+                # Handle response
+                print(res)
   - target: $["paths"]["/asset/{assetId}"]["get"]
     update:
       x-codeSamples:
@@ -348,15 +395,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.asset.get(asset_id="<value>")
+                res = livepeer.asset.get(asset_id="<id>")
 
-            if res.asset is not None:
-                # handle response
-                pass
+                assert res.asset is not None
+
+                # Handle response
+                print(res.asset)
   - target: $["paths"]["/asset/{assetId}"]["patch"]
     update:
       x-codeSamples:
@@ -366,25 +414,26 @@ actions:
             from livepeer import Livepeer
             from livepeer.models import components
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.asset.update(asset_id="<value>", asset_patch_payload={
-                "name": "filename.mp4",
-                "playback_policy": {
-                    "type": components.Type.WEBHOOK,
-                    "webhook_id": "1bde4o2i6xycudoy",
-                    "webhook_context": {
-                        "streamerId": "my-custom-id",
+                res = livepeer.asset.update(asset_id="<id>", asset_patch_payload={
+                    "name": "filename.mp4",
+                    "playback_policy": {
+                        "type": components.Type.WEBHOOK,
+                        "webhook_id": "1bde4o2i6xycudoy",
+                        "webhook_context": {
+                            "streamerId": "my-custom-id",
+                        },
+                        "refresh_interval": 600,
                     },
-                    "refresh_interval": 600,
-                },
-            })
+                })
 
-            if res.asset is not None:
-                # handle response
-                pass
+                assert res.asset is not None
+
+                # Handle response
+                print(res.asset)
   - target: $["paths"]["/clip"]["post"]
     update:
       x-codeSamples:
@@ -393,21 +442,22 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.stream.create_clip(request={
-                "playback_id": "eaw4nk06ts2d0mzb",
-                "start_time": 1587667174725,
-                "end_time": 1587667174725,
-                "name": "My Clip",
-                "session_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
-            })
+                res = livepeer.stream.create_clip(request={
+                    "playback_id": "eaw4nk06ts2d0mzb",
+                    "start_time": 1587667174725,
+                    "end_time": 1587667174725,
+                    "name": "My Clip",
+                    "session_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+                })
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/data/usage/query"]["get"]
     update:
       x-codeSamples:
@@ -416,15 +466,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.metrics.get_usage(request={})
+                res = livepeer.metrics.get_usage(request={})
 
-            if res.usage_metric is not None:
-                # handle response
-                pass
+                assert res.usage_metric is not None
+
+                # Handle response
+                print(res.usage_metric)
   - target: $["paths"]["/data/views/now"]["get"]
     update:
       x-codeSamples:
@@ -433,15 +484,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.metrics.get_realtime_viewership()
+                res = livepeer.metrics.get_realtime_viewership()
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/data/views/query"]["get"]
     update:
       x-codeSamples:
@@ -450,15 +502,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.metrics.get_viewership(request={})
+                res = livepeer.metrics.get_viewership(request={})
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/data/views/query/creator"]["get"]
     update:
       x-codeSamples:
@@ -467,15 +520,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.metrics.get_creator_viewership(request={})
+                res = livepeer.metrics.get_creator_viewership(request={})
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/data/views/query/total/{playbackId}"]["get"]
     update:
       x-codeSamples:
@@ -484,15 +538,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.metrics.get_public_viewership(playback_id="<value>")
+                res = livepeer.metrics.get_public_viewership(playback_id="<id>")
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/multistream/target"]["get"]
     update:
       x-codeSamples:
@@ -501,15 +556,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.multistream.get_all()
+                res = livepeer.multistream.get_all()
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/multistream/target"]["post"]
     update:
       x-codeSamples:
@@ -518,17 +574,18 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.multistream.create(request={
-                "url": "rtmps://live.my-service.tv/channel/secretKey",
-            })
+                res = livepeer.multistream.create(request={
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                })
 
-            if res.multistream_target is not None:
-                # handle response
-                pass
+                assert res.multistream_target is not None
+
+                # Handle response
+                print(res.multistream_target)
   - target: $["paths"]["/multistream/target/{id}"]["delete"]
     update:
       x-codeSamples:
@@ -537,15 +594,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.multistream.delete(id="<id>")
+                res = livepeer.multistream.delete(id="<id>")
 
-            if res is not None:
-                # handle response
-                pass
+                assert res is not None
+
+                # Handle response
+                print(res)
   - target: $["paths"]["/multistream/target/{id}"]["get"]
     update:
       x-codeSamples:
@@ -554,15 +612,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.multistream.get(id="<id>")
+                res = livepeer.multistream.get(id="<id>")
 
-            if res.multistream_target is not None:
-                # handle response
-                pass
+                assert res.multistream_target is not None
+
+                # Handle response
+                print(res.multistream_target)
   - target: $["paths"]["/multistream/target/{id}"]["patch"]
     update:
       x-codeSamples:
@@ -571,17 +630,18 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.multistream.update(id="<id>", multistream_target_patch_payload={
-                "url": "rtmps://live.my-service.tv/channel/secretKey",
-            })
+                res = livepeer.multistream.update(id="<id>", multistream_target_patch_payload={
+                    "url": "rtmps://live.my-service.tv/channel/secretKey",
+                })
 
-            if res is not None:
-                # handle response
-                pass
+                assert res is not None
+
+                # Handle response
+                print(res)
   - target: $["paths"]["/playback/{id}"]["get"]
     update:
       x-codeSamples:
@@ -590,177 +650,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.playback.get(id="<id>")
+                res = livepeer.playback.get(id="<id>")
 
-            if res.playback_info is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: createRoom
-          source: |-
-            from livepeer import Livepeer
+                assert res.playback_info is not None
 
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.create()
-
-            if res.create_room_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteRoom
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.delete(id="<id>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getRoom
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.get(id="<id>")
-
-            if res.room is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/egress"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: stopRoomEgress
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.stop_egress(id="<id>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/egress"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: startRoomEgress
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.start_egress(id="<id>", room_egress_payload={
-                "stream_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
-            })
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: createRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.create_user(id="<id>", room_user_payload={
-                "name": "name",
-                "can_publish": True,
-                "can_publish_data": True,
-            })
-
-            if res.room_user_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: deleteRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.delete_user(id="<id>", user_id="<value>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.get_user(id="<id>", user_id="<value>")
-
-            if res.get_room_user_response is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/room/{id}/user/{userId}"]["put"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: updateRoomUser
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.room.update_user(id="<id>", user_id="<value>", room_user_update_payload={
-                "can_publish": True,
-                "can_publish_data": True,
-            })
-
-            if res is not None:
-                # handle response
-                pass
+                # Handle response
+                print(res.playback_info)
   - target: $["paths"]["/session"]["get"]
     update:
       x-codeSamples:
@@ -769,15 +668,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.session.get_all()
+                res = livepeer.session.get_all()
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/session/{id}"]["get"]
     update:
       x-codeSamples:
@@ -786,15 +686,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.session.get(id="<id>")
+                res = livepeer.session.get(id="<id>")
 
-            if res.session is not None:
-                # handle response
-                pass
+                assert res.session is not None
+
+                # Handle response
+                print(res.session)
   - target: $["paths"]["/session/{id}/clips"]["get"]
     update:
       x-codeSamples:
@@ -803,15 +704,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.session.get_clips(id="<id>")
+                res = livepeer.session.get_clips(id="<id>")
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/stream"]["get"]
     update:
       x-codeSamples:
@@ -820,15 +722,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.stream.get_all()
+                res = livepeer.stream.get_all()
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/stream"]["post"]
     update:
       x-codeSamples:
@@ -838,78 +741,86 @@ actions:
             from livepeer import Livepeer
             from livepeer.models import components
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.stream.create(request={
-                "name": "test_stream",
-                "pull": {
-                    "source": "https://myservice.com/live/stream.flv",
-                    "headers": {
-                        "Authorization": "Bearer 123",
+                res = livepeer.stream.create(request={
+                    "name": "test_stream",
+                    "pull": {
+                        "source": "https://myservice.com/live/stream.flv",
+                        "headers": {
+                            "Authorization": "Bearer 123",
+                        },
+                        "location": {
+                            "lat": 39.739,
+                            "lon": -104.988,
+                        },
                     },
-                    "location": {
-                        "lat": 39.739,
-                        "lon": -104.988,
+                    "playback_policy": {
+                        "type": components.Type.WEBHOOK,
+                        "webhook_id": "1bde4o2i6xycudoy",
+                        "webhook_context": {
+                            "streamerId": "my-custom-id",
+                        },
+                        "refresh_interval": 600,
                     },
-                },
-                "playback_policy": {
-                    "type": components.Type.WEBHOOK,
-                    "webhook_id": "1bde4o2i6xycudoy",
-                    "webhook_context": {
-                        "streamerId": "my-custom-id",
-                    },
-                    "refresh_interval": 600,
-                },
-                "profiles": [
-                    {
-                        "width": 1280,
-                        "name": "720p",
-                        "height": 720,
-                        "bitrate": 3000000,
-                        "fps": 30,
-                        "fps_den": 1,
-                        "quality": 23,
-                        "gop": "2",
-                        "profile": components.Profile.H264_BASELINE,
-                    },
-                ],
-                "record": False,
-                "recording_spec": {
                     "profiles": [
                         {
                             "width": 1280,
                             "name": "720p",
                             "height": 720,
                             "bitrate": 3000000,
-                            "quality": 23,
                             "fps": 30,
                             "fps_den": 1,
+                            "quality": 23,
                             "gop": "2",
-                            "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                            "encoder": components.TranscodeProfileEncoder.H_264,
+                            "profile": components.Profile.H264_BASELINE,
                         },
                     ],
-                },
-                "multistream": {
-                    "targets": [
-                        {
-                            "profile": "720p",
-                            "video_only": False,
-                            "id": "PUSH123",
-                            "spec": {
-                                "name": "My target",
-                                "url": "rtmps://live.my-service.tv/channel/secretKey",
+                    "record": False,
+                    "recording_spec": {
+                        "profiles": [
+                            {
+                                "width": 1280,
+                                "name": "720p",
+                                "height": 720,
+                                "bitrate": 3000000,
+                                "quality": 23,
+                                "fps": 30,
+                                "fps_den": 1,
+                                "gop": "2",
+                                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                                "encoder": components.TranscodeProfileEncoder.H_264,
                             },
-                        },
-                    ],
-                },
-            })
+                            {
+                                "width": 1280,
+                                "name": "720p",
+                                "height": 720,
+                                "bitrate": 3000000,
+                                "quality": 23,
+                                "fps": 30,
+                                "fps_den": 1,
+                                "gop": "2",
+                                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                                "encoder": components.TranscodeProfileEncoder.H_264,
+                            },
+                        ],
+                    },
+                    "multistream": {
+                        "targets": [
+                            {
+                                "profile": "720p0",
+                                "id": "PUSH123",
+                            },
+                        ],
+                    },
+                })
 
-            if res.stream is not None:
-                # handle response
-                pass
+                assert res.stream is not None
+
+                # Handle response
+                print(res.stream)
   - target: $["paths"]["/stream/{id}"]["delete"]
     update:
       x-codeSamples:
@@ -918,15 +829,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.stream.delete(id="<id>")
+                res = livepeer.stream.delete(id="<id>")
 
-            if res is not None:
-                # handle response
-                pass
+                assert res is not None
+
+                # Handle response
+                print(res)
   - target: $["paths"]["/stream/{id}"]["get"]
     update:
       x-codeSamples:
@@ -935,15 +847,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.stream.get(id="<id>")
+                res = livepeer.stream.get(id="<id>")
 
-            if res.stream is not None:
-                # handle response
-                pass
+                assert res.stream is not None
+
+                # Handle response
+                print(res.stream)
   - target: $["paths"]["/stream/{id}"]["patch"]
     update:
       x-codeSamples:
@@ -953,47 +866,284 @@ actions:
             from livepeer import Livepeer
             from livepeer.models import components
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.stream.update(id="<id>", stream_patch_payload={
-                "record": False,
-                "multistream": {
-                    "targets": [
-                        {
-                            "profile": "720p",
-                            "video_only": False,
-                            "id": "PUSH123",
-                            "spec": {
-                                "name": "My target",
-                                "url": "rtmps://live.my-service.tv/channel/secretKey",
+                res = livepeer.stream.update(id="<id>", stream_patch_payload={
+                    "record": False,
+                    "multistream": {
+                        "targets": [
+                            {
+                                "profile": "720p0",
+                                "id": "PUSH123",
                             },
+                        ],
+                    },
+                    "playback_policy": {
+                        "type": components.Type.WEBHOOK,
+                        "webhook_id": "1bde4o2i6xycudoy",
+                        "webhook_context": {
+                            "streamerId": "my-custom-id",
+                        },
+                        "refresh_interval": 600,
+                    },
+                    "profiles": [
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "quality": 23,
+                            "gop": "2",
+                            "profile": components.Profile.H264_BASELINE,
+                        },
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "quality": 23,
+                            "gop": "2",
+                            "profile": components.Profile.H264_BASELINE,
+                        },
+                        {
+                            "width": 1280,
+                            "name": "720p",
+                            "height": 720,
+                            "bitrate": 3000000,
+                            "fps": 30,
+                            "fps_den": 1,
+                            "quality": 23,
+                            "gop": "2",
+                            "profile": components.Profile.H264_BASELINE,
                         },
                     ],
-                },
-                "playback_policy": {
-                    "type": components.Type.WEBHOOK,
-                    "webhook_id": "1bde4o2i6xycudoy",
-                    "webhook_context": {
-                        "streamerId": "my-custom-id",
+                    "recording_spec": {
+                        "profiles": [
+                            {
+                                "width": 1280,
+                                "name": "720p",
+                                "height": 720,
+                                "bitrate": 3000000,
+                                "quality": 23,
+                                "fps": 30,
+                                "fps_den": 1,
+                                "gop": "2",
+                                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                                "encoder": components.TranscodeProfileEncoder.H_264,
+                            },
+                            {
+                                "width": 1280,
+                                "name": "720p",
+                                "height": 720,
+                                "bitrate": 3000000,
+                                "quality": 23,
+                                "fps": 30,
+                                "fps_den": 1,
+                                "gop": "2",
+                                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                                "encoder": components.TranscodeProfileEncoder.H_264,
+                            },
+                        ],
                     },
-                    "refresh_interval": 600,
-                },
-                "profiles": [
-                    {
-                        "width": 1280,
-                        "name": "720p",
-                        "height": 720,
-                        "bitrate": 3000000,
-                        "fps": 30,
-                        "fps_den": 1,
-                        "quality": 23,
-                        "gop": "2",
-                        "profile": components.Profile.H264_BASELINE,
+                    "name": "test_stream",
+                })
+
+                assert res is not None
+
+                # Handle response
+                print(res)
+  - target: $["paths"]["/stream/{id}/clips"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getClips
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.stream.get_clips(id="<id>")
+
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
+  - target: $["paths"]["/stream/{id}/create-multistream-target"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: addMultistreamTarget
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.stream.add_multistream_target(id="<id>", target_add_payload={
+                    "profile": "720p0",
+                    "video_only": False,
+                    "id": "PUSH123",
+                    "spec": {
+                        "name": "My target",
+                        "url": "rtmps://live.my-service.tv/channel/secretKey",
                     },
-                ],
-                "recording_spec": {
+                })
+
+                assert res is not None
+
+                # Handle response
+                print(res)
+  - target: $["paths"]["/stream/{id}/multistream/{targetId}"]["delete"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: removeMultistreamTarget
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.stream.remove_multistream_target(id="<id>", target_id="<id>")
+
+                assert res is not None
+
+                # Handle response
+                print(res)
+  - target: $["paths"]["/stream/{id}/start-pull"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: startPullStream
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.stream.start_pull(id="<id>")
+
+                assert res is not None
+
+                # Handle response
+                print(res)
+  - target: $["paths"]["/stream/{id}/terminate"]["delete"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: terminateStream
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.stream.terminate(id="<id>")
+
+                assert res is not None
+
+                # Handle response
+                print(res)
+  - target: $["paths"]["/stream/{parentId}/sessions"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getRecordedSessions
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.session.get_recorded(parent_id="<id>", record=True)
+
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
+  - target: $["paths"]["/task"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getTasks
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.task.get_all()
+
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
+  - target: $["paths"]["/task/{taskId}"]["get"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: getTask
+          source: |-
+            from livepeer import Livepeer
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.task.get(task_id="<id>")
+
+                assert res.task is not None
+
+                # Handle response
+                print(res.task)
+  - target: $["paths"]["/transcode"]["post"]
+    update:
+      x-codeSamples:
+        - lang: python
+          label: transcodeVideo
+          source: |-
+            from livepeer import Livepeer
+            from livepeer.models import components
+
+            with Livepeer(
+                api_key="<YOUR_BEARER_TOKEN_HERE>",
+            ) as livepeer:
+
+                res = livepeer.transcode.create(request={
+                    "input": {
+                        "url": "https://s3.amazonaws.com/bucket/file.mp4",
+                    },
+                    "storage": {
+                        "type": components.TranscodePayloadStorageType.WEB3_STORAGE,
+                        "credentials": {
+                            "proof": "EaJlcm9vdHOAZ3ZlcnNpb24BmgIBcRIg2uxHpcPYSWNtifMKFkPC7IEDvFDCxCd3ADViv0coV7SnYXNYRO2hA0AnblHEW38s3lSlcwaDjPn",
+                        },
+                    },
+                    "outputs": {
+                        "hls": {
+                            "path": "/samplevideo/hls",
+                        },
+                        "mp4": {
+                            "path": "/samplevideo/mp4",
+                        },
+                        "fmp4": {
+                            "path": "/samplevideo/fmp4",
+                        },
+                    },
                     "profiles": [
                         {
                             "width": 1280,
@@ -1008,212 +1158,12 @@ actions:
                             "encoder": components.TranscodeProfileEncoder.H_264,
                         },
                     ],
-                },
-            })
+                })
 
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{id}/clips"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getClips
-          source: |-
-            from livepeer import Livepeer
+                assert res.task is not None
 
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.stream.get_clips(id="<id>")
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{id}/create-multistream-target"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: addMultistreamTarget
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.stream.add_multistream_target(id="<id>", target_add_payload={
-                "profile": "720p0",
-                "video_only": False,
-                "id": "PUSH123",
-                "spec": {
-                    "name": "My target",
-                    "url": "rtmps://live.my-service.tv/channel/secretKey",
-                },
-            })
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{id}/multistream/{targetId}"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: removeMultistreamTarget
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.stream.remove_multistream_target(id="<id>", target_id="<value>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{id}/start-pull"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: startPullStream
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.stream.start_pull(id="<id>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{id}/terminate"]["delete"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: terminateStream
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.stream.terminate(id="<id>")
-
-            if res is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/stream/{parentId}/sessions"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getRecordedSessions
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.session.get_recorded(parent_id="<value>", record=True)
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/task"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getTasks
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.task.get_all()
-
-            if res.data is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/task/{taskId}"]["get"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: getTask
-          source: |-
-            from livepeer import Livepeer
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.task.get(task_id="<value>")
-
-            if res.task is not None:
-                # handle response
-                pass
-  - target: $["paths"]["/transcode"]["post"]
-    update:
-      x-codeSamples:
-        - lang: python
-          label: transcodeVideo
-          source: |-
-            from livepeer import Livepeer
-            from livepeer.models import components
-
-            s = Livepeer(
-                api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
-
-            res = s.transcode.create(request={
-                "input": {
-                    "url": "https://s3.amazonaws.com/bucket/file.mp4",
-                },
-                "storage": {
-                    "type": components.StorageType.S3,
-                    "endpoint": "https://gateway.storjshare.io",
-                    "bucket": "outputbucket",
-                    "credentials": {
-                        "access_key_id": "AKIAIOSFODNN7EXAMPLE",
-                        "secret_access_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-                    },
-                },
-                "outputs": {
-                    "hls": {
-                        "path": "/samplevideo/hls",
-                    },
-                    "mp4": {
-                        "path": "/samplevideo/mp4",
-                    },
-                    "fmp4": {
-                        "path": "/samplevideo/fmp4",
-                    },
-                },
-                "profiles": [
-                    {
-                        "width": 1280,
-                        "name": "720p",
-                        "height": 720,
-                        "bitrate": 3000000,
-                        "quality": 23,
-                        "fps": 30,
-                        "fps_den": 1,
-                        "gop": "2",
-                        "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                        "encoder": components.TranscodeProfileEncoder.H_264,
-                    },
-                ],
-            })
-
-            if res.task is not None:
-                # handle response
-                pass
+                # Handle response
+                print(res.task)
   - target: $["paths"]["/webhook"]["get"]
     update:
       x-codeSamples:
@@ -1222,15 +1172,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.get_all()
+                res = livepeer.webhook.get_all()
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/webhook"]["post"]
     update:
       x-codeSamples:
@@ -1240,25 +1191,26 @@ actions:
             from livepeer import Livepeer
             from livepeer.models import components
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.create(request={
-                "name": "test_webhook",
-                "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
-                "events": [
-                    components.Events.STREAM_STARTED,
-                    components.Events.STREAM_IDLE,
-                ],
-                "url": "https://my-service.com/webhook",
-                "shared_secret": "my-secret",
-                "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
-            })
+                res = livepeer.webhook.create(request={
+                    "name": "test_webhook",
+                    "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+                    "events": [
+                        components.Events.STREAM_STARTED,
+                        components.Events.STREAM_IDLE,
+                    ],
+                    "url": "https://my-service.com/webhook",
+                    "shared_secret": "my-secret",
+                    "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+                })
 
-            if res.webhook is not None:
-                # handle response
-                pass
+                assert res.webhook is not None
+
+                # Handle response
+                print(res.webhook)
   - target: $["paths"]["/webhook/{id}"]["delete"]
     update:
       x-codeSamples:
@@ -1267,15 +1219,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.delete(id="<id>")
+                res = livepeer.webhook.delete(id="<id>")
 
-            if res.webhook is not None:
-                # handle response
-                pass
+                assert res.webhook is not None
+
+                # Handle response
+                print(res.webhook)
   - target: $["paths"]["/webhook/{id}"]["get"]
     update:
       x-codeSamples:
@@ -1284,15 +1237,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.get(id="<id>")
+                res = livepeer.webhook.get(id="<id>")
 
-            if res.webhook is not None:
-                # handle response
-                pass
+                assert res.webhook is not None
+
+                # Handle response
+                print(res.webhook)
   - target: $["paths"]["/webhook/{id}"]["put"]
     update:
       x-codeSamples:
@@ -1302,25 +1256,26 @@ actions:
             from livepeer import Livepeer
             from livepeer.models import components
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.update(id="<id>", webhook={
-                "name": "test_webhook",
-                "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
-                "events": [
-                    components.Events.STREAM_STARTED,
-                    components.Events.STREAM_IDLE,
-                ],
-                "url": "https://my-service.com/webhook",
-                "shared_secret": "my-secret",
-                "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
-            })
+                res = livepeer.webhook.update(id="<id>", webhook={
+                    "name": "test_webhook",
+                    "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+                    "events": [
+                        components.Events.STREAM_STARTED,
+                        components.Events.STREAM_IDLE,
+                    ],
+                    "url": "https://my-service.com/webhook",
+                    "shared_secret": "my-secret",
+                    "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+                })
 
-            if res.webhook is not None:
-                # handle response
-                pass
+                assert res.webhook is not None
+
+                # Handle response
+                print(res.webhook)
   - target: $["paths"]["/webhook/{id}/log"]["get"]
     update:
       x-codeSamples:
@@ -1329,15 +1284,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.get_logs(id="<id>")
+                res = livepeer.webhook.get_logs(id="<id>")
 
-            if res.data is not None:
-                # handle response
-                pass
+                assert res.data is not None
+
+                # Handle response
+                print(res.data)
   - target: $["paths"]["/webhook/{id}/log/{logId}"]["get"]
     update:
       x-codeSamples:
@@ -1346,15 +1302,16 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.get_log(id="<id>", log_id="<value>")
+                res = livepeer.webhook.get_log(id="<id>", log_id="<id>")
 
-            if res.webhook_log is not None:
-                # handle response
-                pass
+                assert res.webhook_log is not None
+
+                # Handle response
+                print(res.webhook_log)
   - target: $["paths"]["/webhook/{id}/log/{logId}/resend"]["post"]
     update:
       x-codeSamples:
@@ -1363,12 +1320,13 @@ actions:
           source: |-
             from livepeer import Livepeer
 
-            s = Livepeer(
+            with Livepeer(
                 api_key="<YOUR_BEARER_TOKEN_HERE>",
-            )
+            ) as livepeer:
 
-            res = s.webhook.resend_log(id="<id>", log_id="<value>")
+                res = livepeer.webhook.resend_log(id="<id>", log_id="<id>")
 
-            if res.webhook_log is not None:
-                # handle response
-                pass
+                assert res.webhook_log is not None
+
+                # Handle response
+                print(res.webhook_log)

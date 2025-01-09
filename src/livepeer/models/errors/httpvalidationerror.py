@@ -17,26 +17,6 @@ class HTTPValidationErrorData(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    http_meta1: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta2: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta3: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta4: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta5: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
     detail: Optional[List[components_validationerror.ValidationError]] = None
 
 

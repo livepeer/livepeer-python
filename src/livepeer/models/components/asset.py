@@ -11,8 +11,8 @@ from enum import Enum
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Any, List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import Any, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class AssetType(str, Enum):
@@ -105,10 +105,12 @@ class Source1(BaseModel):
     encryption: Optional[EncryptionOutput] = None
 
 
-SourceTypedDict = Union[TwoTypedDict, Source1TypedDict, Source3TypedDict]
+SourceTypedDict = TypeAliasType(
+    "SourceTypedDict", Union[TwoTypedDict, Source1TypedDict, Source3TypedDict]
+)
 
 
-Source = Union[Two, Source1, Source3]
+Source = TypeAliasType("Source", Union[Two, Source1, Source3])
 
 
 class AssetNftMetadataTemplate(str, Enum):
@@ -348,7 +350,7 @@ class Tracks(BaseModel):
 class VideoSpecTypedDict(TypedDict):
     r"""Video metadata"""
 
-    format: NotRequired[str]
+    format_: NotRequired[str]
     r"""Format of the asset"""
     duration: NotRequired[float]
     r"""Duration of the asset in seconds (float)"""
@@ -364,7 +366,7 @@ class VideoSpecTypedDict(TypedDict):
 class VideoSpec(BaseModel):
     r"""Video metadata"""
 
-    format: Optional[str] = None
+    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
     r"""Format of the asset"""
 
     duration: Optional[float] = None

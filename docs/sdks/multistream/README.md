@@ -22,15 +22,16 @@ Retrieve Multistream Targets
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.multistream.get_all()
+    res = livepeer.multistream.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -46,10 +47,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## create
 
@@ -60,17 +60,18 @@ Create a multistream target
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.multistream.create(request={
-    "url": "rtmps://live.my-service.tv/channel/secretKey",
-})
+    res = livepeer.multistream.create(request={
+        "url": "rtmps://live.my-service.tv/channel/secretKey",
+    })
 
-if res.multistream_target is not None:
-    # handle response
-    pass
+    assert res.multistream_target is not None
+
+    # Handle response
+    print(res.multistream_target)
 
 ```
 
@@ -87,10 +88,9 @@ if res.multistream_target is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -101,15 +101,16 @@ Retrieve a multistream target
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.multistream.get(id="<id>")
+    res = livepeer.multistream.get(id="<id>")
 
-if res.multistream_target is not None:
-    # handle response
-    pass
+    assert res.multistream_target is not None
+
+    # Handle response
+    print(res.multistream_target)
 
 ```
 
@@ -126,10 +127,9 @@ if res.multistream_target is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## update
 
@@ -140,17 +140,18 @@ Update Multistream Target
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.multistream.update(id="<id>", multistream_target_patch_payload={
-    "url": "rtmps://live.my-service.tv/channel/secretKey",
-})
+    res = livepeer.multistream.update(id="<id>", multistream_target_patch_payload={
+        "url": "rtmps://live.my-service.tv/channel/secretKey",
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -168,10 +169,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## delete
 
@@ -184,15 +184,16 @@ streams before actually deleting it from the API.
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as livepeer:
 
-res = s.multistream.delete(id="<id>")
+    res = livepeer.multistream.delete(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -209,6 +210,6 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

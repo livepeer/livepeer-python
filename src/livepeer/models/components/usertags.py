@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 from typing import List, Union
+from typing_extensions import TypeAliasType
 
 
-UserTags3TypedDict = Union[str, float]
+UserTags3TypedDict = TypeAliasType("UserTags3TypedDict", Union[str, float])
 
 
-UserTags3 = Union[str, float]
+UserTags3 = TypeAliasType("UserTags3", Union[str, float])
 
 
-UserTagsTypedDict = Union[str, float, List[UserTags3TypedDict]]
+UserTagsTypedDict = TypeAliasType(
+    "UserTagsTypedDict", Union[str, float, List[UserTags3TypedDict]]
+)
 
 
-UserTags = Union[str, float, List[UserTags3]]
+UserTags = TypeAliasType("UserTags", Union[str, float, List[UserTags3]])

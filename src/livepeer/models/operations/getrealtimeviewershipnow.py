@@ -3,15 +3,15 @@
 from __future__ import annotations
 from enum import Enum
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     realtime_viewership_metric as components_realtime_viewership_metric,
 )
-from livepeer.models.errors import error as errors_error
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class BreakdownBy(str, Enum):
@@ -73,7 +73,7 @@ class GetRealtimeViewershipNowResponseTypedDict(TypedDict):
         List[components_realtime_viewership_metric.RealtimeViewershipMetricTypedDict]
     ]
     r"""A list of Metric objects"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -87,5 +87,5 @@ class GetRealtimeViewershipNowResponse(BaseModel):
     ] = None
     r"""A list of Metric objects"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""

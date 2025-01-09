@@ -73,6 +73,7 @@ from .body_genimagetovideo import (
     BodyGenImageToVideoImageTypedDict,
     BodyGenImageToVideoTypedDict,
 )
+from .body_genllm import BodyGenLLM, BodyGenLLMTypedDict
 from .body_gensegmentanything2 import (
     BodyGenSegmentAnything2,
     BodyGenSegmentAnything2Image,
@@ -97,6 +98,7 @@ from .creator_id import (
 )
 from .encryption import Encryption, EncryptionTypedDict
 from .encryption_output import EncryptionOutput, EncryptionOutputTypedDict
+from .error import Error, ErrorTypedDict
 from .export_task_params import (
     Custom,
     CustomTypedDict,
@@ -129,6 +131,7 @@ from .ipfs_export_params import (
     PinataTypedDict,
 )
 from .ipfs_file_info import IpfsFileInfo, IpfsFileInfoTypedDict
+from .llmresponse import LLMResponse, LLMResponseTypedDict
 from .masksresponse import MasksResponse, MasksResponseTypedDict
 from .media import Media, MediaTypedDict
 from .multistream import Multistream, MultistreamTypedDict
@@ -249,6 +252,7 @@ from .stream import (
     ThreeTypedDict,
 )
 from .stream_patch_payload import StreamPatchPayload, StreamPatchPayloadTypedDict
+from .studio_api_error import StudioAPIError, StudioAPIErrorTypedDict
 from .target import Target, TargetSpec, TargetSpecTypedDict, TargetTypedDict
 from .target_add_payload import (
     TargetAddPayload,
@@ -414,6 +418,8 @@ __all__ = [
     "BodyGenImageToVideoImage",
     "BodyGenImageToVideoImageTypedDict",
     "BodyGenImageToVideoTypedDict",
+    "BodyGenLLM",
+    "BodyGenLLMTypedDict",
     "BodyGenSegmentAnything2",
     "BodyGenSegmentAnything2Image",
     "BodyGenSegmentAnything2ImageTypedDict",
@@ -453,6 +459,8 @@ __all__ = [
     "EncryptionOutput",
     "EncryptionOutputTypedDict",
     "EncryptionTypedDict",
+    "Error",
+    "ErrorTypedDict",
     "Events",
     "Export",
     "ExportData",
@@ -504,6 +512,8 @@ __all__ = [
     "IsMobile",
     "IsMobile1",
     "IsMobileTypedDict",
+    "LLMResponse",
+    "LLMResponseTypedDict",
     "LastFailure",
     "LastFailureTypedDict",
     "Live",
@@ -645,6 +655,8 @@ __all__ = [
     "StreamTypedDict",
     "StreamUserTags",
     "StreamUserTagsTypedDict",
+    "StudioAPIError",
+    "StudioAPIErrorTypedDict",
     "Target",
     "TargetAddPayload",
     "TargetAddPayloadSpec",

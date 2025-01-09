@@ -10,8 +10,8 @@ from .usertags import UserTags, UserTagsTypedDict
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Dict, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Dict, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class StreamPatchPayloadTypedDict(TypedDict):
@@ -30,6 +30,7 @@ class StreamPatchPayloadTypedDict(TypedDict):
     recording_spec: NotRequired[RecordingSpecTypedDict]
     user_tags: NotRequired[Dict[str, UserTagsTypedDict]]
     r"""User input tags associated with the stream"""
+    name: NotRequired[str]
 
 
 class StreamPatchPayload(BaseModel):
@@ -64,6 +65,8 @@ class StreamPatchPayload(BaseModel):
     ] = None
     r"""User input tags associated with the stream"""
 
+    name: Optional[str] = None
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -75,6 +78,7 @@ class StreamPatchPayload(BaseModel):
             "profiles",
             "recordingSpec",
             "userTags",
+            "name",
         ]
         nullable_fields = ["playbackPolicy", "profiles"]
         null_default_fields = []
