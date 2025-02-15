@@ -10,6 +10,11 @@ For full documentation and examples, please visit [docs.livepeer.org](https://do
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
 
+> [!NOTE]
+> **Python version upgrade policy**
+>
+> Once a Python version reaches its [official end of life date](https://devguide.python.org/versions/), a 3-month grace period is provided for users to upgrade. Following this grace period, the minimum python version supported in the SDK will be updated.
+
 The SDK can be installed with either *pip* or *poetry* package managers.
 
 ### PIP
@@ -27,6 +32,37 @@ pip install livepeer
 ```bash
 poetry add livepeer
 ```
+
+### Shell and script usage with `uv`
+
+You can use this SDK in a Python shell with [uv](https://docs.astral.sh/uv/) and the `uvx` command that comes with it like so:
+
+```shell
+uvx --from livepeer python
+```
+
+It's also possible to write a standalone Python script without needing to set up a whole project like so:
+
+```python
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "livepeer",
+# ]
+# ///
+
+from livepeer import Livepeer
+
+sdk = Livepeer(
+  # SDK arguments
+)
+
+# Rest of script here...
+```
+
+Once that is saved to a file, you can run it with `uv run script.py` where
+`script.py` can be replaced with the actual file name.
 <!-- End SDK Installation [installation] -->
 
 <!-- No SDK Example Usage [usage] -->
@@ -85,6 +121,7 @@ if res.stream is not None:
 * [upscale](docs/sdks/generate/README.md#upscale) - Upscale
 * [audio_to_text](docs/sdks/generate/README.md#audio_to_text) - Audio To Text
 * [segment_anything2](docs/sdks/generate/README.md#segment_anything2) - Segment Anything 2
+* [llm](docs/sdks/generate/README.md#llm) - LLM
 
 
 ### [metrics](docs/sdks/metrics/README.md)
@@ -176,21 +213,22 @@ Certain SDK methods accept file objects as part of a request body or multi-part 
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.generate.image_to_image(request={
-    "prompt": "<value>",
-    "image": {
-        "file_name": "example.file",
-        "content": open("example.file", "rb"),
-    },
-})
+    res = l_client.generate.image_to_image(request={
+        "prompt": "<value>",
+        "image": {
+            "file_name": "example.file",
+            "content": open("example.file", "rb"),
+        },
+    })
 
-if res.image_response is not None:
-    # handle response
-    pass
+    assert res.image_response is not None
+
+    # Handle response
+    print(res.image_response)
 
 ```
 <!-- End File uploads [file-upload] -->
@@ -206,79 +244,102 @@ from livepeer import Livepeer
 from livepeer.models import components
 from livepeer.utils import BackoffStrategy, RetryConfig
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.create(request={
-    "name": "test_stream",
-    "pull": {
-        "source": "https://myservice.com/live/stream.flv",
-        "headers": {
-            "Authorization": "Bearer 123",
+    res = l_client.stream.create(request={
+        "name": "test_stream",
+        "pull": {
+            "source": "https://myservice.com/live/stream.flv",
+            "headers": {
+                "Authorization": "Bearer 123",
+            },
+            "location": {
+                "lat": 39.739,
+                "lon": -104.988,
+            },
         },
-        "location": {
-            "lat": 39.739,
-            "lon": -104.988,
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
+            },
+            "refresh_interval": 600,
         },
-    },
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
-        },
-        "refresh_interval": 600,
-    },
-    "profiles": [
-        {
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "bitrate": 3000000,
-            "fps": 30,
-            "fps_den": 1,
-            "quality": 23,
-            "gop": "2",
-            "profile": components.Profile.H264_BASELINE,
-        },
-    ],
-    "record": False,
-    "recording_spec": {
         "profiles": [
             {
-                "bitrate": 3000000,
                 "width": 1280,
                 "name": "720p",
                 "height": 720,
-                "quality": 23,
+                "bitrate": 3000000,
                 "fps": 30,
                 "fps_den": 1,
+                "quality": 23,
                 "gop": "2",
-                "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                "encoder": components.TranscodeProfileEncoder.H_264,
+                "profile": components.Profile.H264_BASELINE,
             },
-        ],
-    },
-    "multistream": {
-        "targets": [
             {
-                "profile": "720p",
-                "video_only": False,
-                "id": "PUSH123",
-                "spec": {
-                    "url": "rtmps://live.my-service.tv/channel/secretKey",
-                    "name": "My target",
-                },
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "fps": 30,
+                "fps_den": 1,
+                "quality": 23,
+                "gop": "2",
+                "profile": components.Profile.H264_BASELINE,
             },
         ],
+        "record": False,
+        "recording_spec": {
+            "profiles": [
+                {
+                    "bitrate": 3000000,
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+                {
+                    "bitrate": 3000000,
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+            ],
+        },
+        "multistream": {
+            "targets": [
+                {
+                    "profile": "720p0",
+                    "id": "PUSH123",
+                    "spec": {
+                        "url": "rtmps://live.my-service.tv/channel/secretKey",
+                        "name": "My target",
+                    },
+                },
+            ],
+        },
     },
-},
-    RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
+        RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
-if res.stream is not None:
-    # handle response
-    pass
+    assert res.stream is not None
+
+    # Handle response
+    print(res.stream)
 
 ```
 
@@ -288,79 +349,102 @@ from livepeer import Livepeer
 from livepeer.models import components
 from livepeer.utils import BackoffStrategy, RetryConfig
 
-s = Livepeer(
+with Livepeer(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.create(request={
-    "name": "test_stream",
-    "pull": {
-        "source": "https://myservice.com/live/stream.flv",
-        "headers": {
-            "Authorization": "Bearer 123",
+    res = l_client.stream.create(request={
+        "name": "test_stream",
+        "pull": {
+            "source": "https://myservice.com/live/stream.flv",
+            "headers": {
+                "Authorization": "Bearer 123",
+            },
+            "location": {
+                "lat": 39.739,
+                "lon": -104.988,
+            },
         },
-        "location": {
-            "lat": 39.739,
-            "lon": -104.988,
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
+            },
+            "refresh_interval": 600,
         },
-    },
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
-        },
-        "refresh_interval": 600,
-    },
-    "profiles": [
-        {
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "bitrate": 3000000,
-            "fps": 30,
-            "fps_den": 1,
-            "quality": 23,
-            "gop": "2",
-            "profile": components.Profile.H264_BASELINE,
-        },
-    ],
-    "record": False,
-    "recording_spec": {
         "profiles": [
             {
-                "bitrate": 3000000,
                 "width": 1280,
                 "name": "720p",
                 "height": 720,
-                "quality": 23,
+                "bitrate": 3000000,
                 "fps": 30,
                 "fps_den": 1,
+                "quality": 23,
                 "gop": "2",
-                "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                "encoder": components.TranscodeProfileEncoder.H_264,
+                "profile": components.Profile.H264_BASELINE,
             },
-        ],
-    },
-    "multistream": {
-        "targets": [
             {
-                "profile": "720p",
-                "video_only": False,
-                "id": "PUSH123",
-                "spec": {
-                    "url": "rtmps://live.my-service.tv/channel/secretKey",
-                    "name": "My target",
-                },
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "fps": 30,
+                "fps_den": 1,
+                "quality": 23,
+                "gop": "2",
+                "profile": components.Profile.H264_BASELINE,
             },
         ],
-    },
-})
+        "record": False,
+        "recording_spec": {
+            "profiles": [
+                {
+                    "bitrate": 3000000,
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+                {
+                    "bitrate": 3000000,
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+            ],
+        },
+        "multistream": {
+            "targets": [
+                {
+                    "profile": "720p0",
+                    "id": "PUSH123",
+                    "spec": {
+                        "url": "rtmps://live.my-service.tv/channel/secretKey",
+                        "name": "My target",
+                    },
+                },
+            ],
+        },
+    })
 
-if res.stream is not None:
-    # handle response
-    pass
+    assert res.stream is not None
+
+    # Handle response
+    print(res.stream)
 
 ```
 <!-- End Retries [retries] -->
@@ -368,12 +452,23 @@ if res.stream is not None:
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
-Handling errors in this SDK should largely match your expectations.  All operations return a response object or raise an error.  If Error objects are specified in your OpenAPI Spec, the SDK will raise the appropriate Error type.
+Handling errors in this SDK should largely match your expectations. All operations return a response object or raise an exception.
 
-| Error Object     | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 404              | application/json |
-| errors.SDKError  | 4xx-5xx          | */*              |
+By default, an API error will raise a errors.SDKError exception, which has the following properties:
+
+| Property        | Type             | Description           |
+|-----------------|------------------|-----------------------|
+| `.status_code`  | *int*            | The HTTP status code  |
+| `.message`      | *str*            | The error message     |
+| `.raw_response` | *httpx.Response* | The raw HTTP response |
+| `.body`         | *str*            | The response content  |
+
+When custom error responses are specified for an operation, the SDK may also raise their associated exceptions. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `get_async` method may raise the following exceptions:
+
+| Error Type      | Status Code | Content Type     |
+| --------------- | ----------- | ---------------- |
+| errors.Error    | 404         | application/json |
+| errors.SDKError | 4XX, 5XX    | \*/\*            |
 
 ### Example
 
@@ -381,24 +476,25 @@ Handling errors in this SDK should largely match your expectations.  All operati
 from livepeer import Livepeer
 from livepeer.models import errors
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
+    res = None
+    try:
 
-res = None
-try:
-    res = s.playback.get(id="<id>")
+        res = l_client.playback.get(id="<id>")
 
-    if res.playback_info is not None:
-        # handle response
-        pass
+        assert res.playback_info is not None
 
-except errors.Error as e:
-    # handle e.data: errors.ErrorData
-    raise(e)
-except errors.SDKError as e:
-    # handle exception
-    raise(e)
+        # Handle response
+        print(res.playback_info)
+
+    except errors.Error as e:
+        # handle e.data: errors.ErrorData
+        raise(e)
+    except errors.SDKError as e:
+        # handle exception
+        raise(e)
 ```
 <!-- End Error Handling [errors] -->
 
@@ -492,87 +588,110 @@ s = Livepeer(async_client=CustomClient(httpx.AsyncClient()))
 
 This SDK supports the following security scheme globally:
 
-| Name        | Type        | Scheme      |
-| ----------- | ----------- | ----------- |
-| `api_key`   | http        | HTTP Bearer |
+| Name      | Type | Scheme      |
+| --------- | ---- | ----------- |
+| `api_key` | http | HTTP Bearer |
 
 To authenticate with the API the `api_key` parameter must be set when initializing the SDK client instance. For example:
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.create(request={
-    "name": "test_stream",
-    "pull": {
-        "source": "https://myservice.com/live/stream.flv",
-        "headers": {
-            "Authorization": "Bearer 123",
+    res = l_client.stream.create(request={
+        "name": "test_stream",
+        "pull": {
+            "source": "https://myservice.com/live/stream.flv",
+            "headers": {
+                "Authorization": "Bearer 123",
+            },
+            "location": {
+                "lat": 39.739,
+                "lon": -104.988,
+            },
         },
-        "location": {
-            "lat": 39.739,
-            "lon": -104.988,
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
+            },
+            "refresh_interval": 600,
         },
-    },
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
-        },
-        "refresh_interval": 600,
-    },
-    "profiles": [
-        {
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "bitrate": 3000000,
-            "fps": 30,
-            "fps_den": 1,
-            "quality": 23,
-            "gop": "2",
-            "profile": components.Profile.H264_BASELINE,
-        },
-    ],
-    "record": False,
-    "recording_spec": {
         "profiles": [
             {
-                "bitrate": 3000000,
                 "width": 1280,
                 "name": "720p",
                 "height": 720,
-                "quality": 23,
+                "bitrate": 3000000,
                 "fps": 30,
                 "fps_den": 1,
+                "quality": 23,
                 "gop": "2",
-                "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                "encoder": components.TranscodeProfileEncoder.H_264,
+                "profile": components.Profile.H264_BASELINE,
             },
-        ],
-    },
-    "multistream": {
-        "targets": [
             {
-                "profile": "720p",
-                "video_only": False,
-                "id": "PUSH123",
-                "spec": {
-                    "url": "rtmps://live.my-service.tv/channel/secretKey",
-                    "name": "My target",
-                },
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "fps": 30,
+                "fps_den": 1,
+                "quality": 23,
+                "gop": "2",
+                "profile": components.Profile.H264_BASELINE,
             },
         ],
-    },
-})
+        "record": False,
+        "recording_spec": {
+            "profiles": [
+                {
+                    "bitrate": 3000000,
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+                {
+                    "bitrate": 3000000,
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+            ],
+        },
+        "multistream": {
+            "targets": [
+                {
+                    "profile": "720p0",
+                    "id": "PUSH123",
+                    "spec": {
+                        "url": "rtmps://live.my-service.tv/channel/secretKey",
+                        "name": "My target",
+                    },
+                },
+            ],
+        },
+    })
 
-if res.stream is not None:
-    # handle response
-    pass
+    assert res.stream is not None
+
+    # Handle response
+    print(res.stream)
 
 ```
 <!-- End Authentication [security] -->
@@ -587,18 +706,21 @@ what they return.
 
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
+<!-- $toc-max-depth=2 -->
+* [Livepeer Python Library](#livepeer-python-library)
+  * [Documentation](#documentation)
+  * [SDK Installation](#sdk-installation)
+  * [SDK Example Usage](#sdk-example-usage)
+  * [Available Resources and Operations](#available-resources-and-operations)
+  * [File uploads](#file-uploads)
+  * [Retries](#retries)
+  * [Error Handling](#error-handling)
+  * [Custom HTTP Client](#custom-http-client)
+  * [Authentication](#authentication)
+  * [IDE Support](#ide-support)
+  * [Resource Management](#resource-management)
+  * [Debugging](#debugging)
 
-* [SDK Installation](#sdk-installation)
-* [IDE Support](#ide-support)
-* [SDK Example Usage](#sdk-example-usage)
-* [Available Resources and Operations](#available-resources-and-operations)
-* [File uploads](#file-uploads)
-* [Retries](#retries)
-* [Error Handling](#error-handling)
-* [Server Selection](#server-selection)
-* [Custom HTTP Client](#custom-http-client)
-* [Authentication](#authentication)
-* [Debugging](#debugging)
 <!-- End Table of Contents [toc] -->
 
 <!-- Start IDE Support [idesupport] -->
@@ -610,6 +732,31 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 - [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
 <!-- End IDE Support [idesupport] -->
+
+<!-- Start Resource Management [resource-management] -->
+## Resource Management
+
+The `Livepeer` class implements the context manager protocol and registers a finalizer function to close the underlying sync and async HTTPX clients it uses under the hood. This will close HTTP connections, release memory and free up other resources held by the SDK. In short-lived Python programs and notebooks that make a few SDK method calls, resource management may not be a concern. However, in longer-lived programs, it is beneficial to create a single SDK instance via a [context manager][context-manager] and reuse it across the application.
+
+[context-manager]: https://docs.python.org/3/reference/datamodel.html#context-managers
+
+```python
+from livepeer import Livepeer
+def main():
+    with Livepeer(
+        api_key="<YOUR_BEARER_TOKEN_HERE>",
+    ) as l_client:
+        # Rest of application here...
+
+
+# Or when using async:
+async def amain():
+    async with Livepeer(
+        api_key="<YOUR_BEARER_TOKEN_HERE>",
+    ) as l_client:
+        # Rest of application here...
+```
+<!-- End Resource Management [resource-management] -->
 
 <!-- Start Debugging [debug] -->
 ## Debugging

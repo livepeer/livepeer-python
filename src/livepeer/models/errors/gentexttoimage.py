@@ -6,11 +6,13 @@ from .httpvalidationerror import HTTPValidationErrorData
 from .studio_api_error import StudioAPIErrorData
 from livepeer import utils
 from typing import Union
+from typing_extensions import TypeAliasType
 
 
-GenTextToImageGenerateResponse500ResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenTextToImageGenerateResponse500ResponseBodyUnion = TypeAliasType(
+    "GenTextToImageGenerateResponse500ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Internal Server Error"""
 
 
@@ -28,9 +30,10 @@ class GenTextToImageGenerateResponse500ResponseBody(Exception):
         )
 
 
-GenTextToImageGenerateResponseResponseBodyUnion = Union[
-    HTTPValidationErrorData, StudioAPIErrorData
-]
+GenTextToImageGenerateResponseResponseBodyUnion = TypeAliasType(
+    "GenTextToImageGenerateResponseResponseBodyUnion",
+    Union[HTTPValidationErrorData, StudioAPIErrorData],
+)
 r"""Validation Error"""
 
 
@@ -48,7 +51,9 @@ class GenTextToImageGenerateResponseResponseBody(Exception):
         )
 
 
-GenTextToImageGenerateResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenTextToImageGenerateResponseBodyUnion = TypeAliasType(
+    "GenTextToImageGenerateResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Unauthorized"""
 
 
@@ -64,7 +69,9 @@ class GenTextToImageGenerateResponseBody(Exception):
         return utils.marshal_json(self.data, GenTextToImageGenerateResponseBodyUnion)
 
 
-GenTextToImageResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenTextToImageResponseBodyUnion = TypeAliasType(
+    "GenTextToImageResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Bad Request"""
 
 

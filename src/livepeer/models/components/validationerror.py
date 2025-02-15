@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 from livepeer.types import BaseModel
-from typing import List, TypedDict, Union
+from typing import List, Union
+from typing_extensions import TypeAliasType, TypedDict
 
 
-LocTypedDict = Union[str, int]
+LocTypedDict = TypeAliasType("LocTypedDict", Union[str, int])
 
 
-Loc = Union[str, int]
+Loc = TypeAliasType("Loc", Union[str, int])
 
 
 class ValidationErrorTypedDict(TypedDict):

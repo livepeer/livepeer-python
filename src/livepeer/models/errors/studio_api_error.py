@@ -14,108 +14,10 @@ class StudioAPIErrorData(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    http_meta1: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta2: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta3: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta4: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta5: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta6: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta7: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta8: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta9: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta10: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta11: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta12: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta13: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta14: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta15: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta16: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta17: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta18: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta19: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta20: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta21: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta22: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta23: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
-    http_meta24: Annotated[
-        Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
-    ] = None
-
     errors: Optional[List[str]] = None
 
 
 class StudioAPIError(Exception):
-    r"""Error"""
-
     data: StudioAPIErrorData
 
     def __init__(self, data: StudioAPIErrorData):

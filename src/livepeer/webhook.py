@@ -5,7 +5,7 @@ from livepeer import utils
 from livepeer._hooks import HookContext
 from livepeer.models import components, errors, operations
 from livepeer.types import BaseModel, OptionalNullable, UNSET
-from typing import List, Optional, Union, cast
+from typing import List, Mapping, Optional, Union, cast
 
 
 class Webhook(BaseSDK):
@@ -17,12 +17,14 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhooksResponse:
         r"""Retrieve a Webhook
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -31,7 +33,7 @@ class Webhook(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/webhook",
             base_url=base_url,
@@ -42,6 +44,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -56,6 +59,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhooks",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -72,21 +76,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhooksResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -96,12 +107,14 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhooksResponse:
         r"""Retrieve a Webhook
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -110,7 +123,7 @@ class Webhook(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/webhook",
             base_url=base_url,
@@ -121,6 +134,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -135,6 +149,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhooks",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -151,21 +166,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhooksResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -176,6 +198,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CreateWebhookResponse:
         r"""Create a webhook
 
@@ -186,6 +209,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -199,7 +223,7 @@ class Webhook(BaseSDK):
             request = utils.unmarshal(request, components.WebhookInput)
         request = cast(components.WebhookInput, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/webhook",
             base_url=base_url,
@@ -210,6 +234,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.WebhookInput
@@ -227,6 +252,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="createWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -243,21 +269,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CreateWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -268,6 +301,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.CreateWebhookResponse:
         r"""Create a webhook
 
@@ -278,6 +312,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -291,7 +326,7 @@ class Webhook(BaseSDK):
             request = utils.unmarshal(request, components.WebhookInput)
         request = cast(components.WebhookInput, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/webhook",
             base_url=base_url,
@@ -302,6 +337,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", components.WebhookInput
@@ -319,6 +355,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="createWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -335,21 +372,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.CreateWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -360,6 +404,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhookResponse:
         r"""Retrieve a webhook
 
@@ -367,6 +412,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -380,7 +426,7 @@ class Webhook(BaseSDK):
             id=id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/webhook/{id}",
             base_url=base_url,
@@ -391,6 +437,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -405,6 +452,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -421,21 +469,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -446,6 +501,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhookResponse:
         r"""Retrieve a webhook
 
@@ -453,6 +509,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -466,7 +523,7 @@ class Webhook(BaseSDK):
             id=id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/webhook/{id}",
             base_url=base_url,
@@ -477,6 +534,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -491,6 +549,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -507,21 +566,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -533,6 +599,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.UpdateWebhookResponse:
         r"""Update a webhook
 
@@ -541,6 +608,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -555,7 +623,7 @@ class Webhook(BaseSDK):
             webhook=utils.get_pydantic_model(webhook, components.WebhookInput),
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="PUT",
             path="/webhook/{id}",
             base_url=base_url,
@@ -566,6 +634,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.webhook, False, False, "json", components.WebhookInput
@@ -583,6 +652,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="updateWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -599,21 +669,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.UpdateWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -625,6 +702,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.UpdateWebhookResponse:
         r"""Update a webhook
 
@@ -633,6 +711,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -647,7 +726,7 @@ class Webhook(BaseSDK):
             webhook=utils.get_pydantic_model(webhook, components.WebhookInput),
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="PUT",
             path="/webhook/{id}",
             base_url=base_url,
@@ -658,6 +737,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request.webhook, False, False, "json", components.WebhookInput
@@ -675,6 +755,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="updateWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -691,21 +772,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.UpdateWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -716,6 +804,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.DeleteWebhookResponse:
         r"""Delete a webhook
 
@@ -723,6 +812,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -736,7 +826,7 @@ class Webhook(BaseSDK):
             id=id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="DELETE",
             path="/webhook/{id}",
             base_url=base_url,
@@ -747,6 +837,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -761,6 +852,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="deleteWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -777,21 +869,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.DeleteWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -802,6 +901,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.DeleteWebhookResponse:
         r"""Delete a webhook
 
@@ -809,6 +909,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -822,7 +923,7 @@ class Webhook(BaseSDK):
             id=id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="DELETE",
             path="/webhook/{id}",
             base_url=base_url,
@@ -833,6 +934,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -847,6 +949,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="deleteWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -863,21 +966,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.DeleteWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -888,6 +998,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhookLogsResponse:
         r"""Retrieve webhook logs
 
@@ -895,6 +1006,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -908,7 +1020,7 @@ class Webhook(BaseSDK):
             id=id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/webhook/{id}/log",
             base_url=base_url,
@@ -919,6 +1031,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -933,6 +1046,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhookLogs",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -949,21 +1063,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhookLogsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -974,6 +1095,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhookLogsResponse:
         r"""Retrieve webhook logs
 
@@ -981,6 +1103,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -994,7 +1117,7 @@ class Webhook(BaseSDK):
             id=id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/webhook/{id}/log",
             base_url=base_url,
@@ -1005,6 +1128,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1019,6 +1143,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhookLogs",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1035,21 +1160,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhookLogsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1061,6 +1193,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhookLogResponse:
         r"""Retrieve a webhook log
 
@@ -1069,6 +1202,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1083,7 +1217,7 @@ class Webhook(BaseSDK):
             log_id=log_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/webhook/{id}/log/{logId}",
             base_url=base_url,
@@ -1094,6 +1228,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1108,6 +1243,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhookLog",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1124,21 +1260,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhookLogResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1150,6 +1293,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetWebhookLogResponse:
         r"""Retrieve a webhook log
 
@@ -1158,6 +1302,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1172,7 +1317,7 @@ class Webhook(BaseSDK):
             log_id=log_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/webhook/{id}/log/{logId}",
             base_url=base_url,
@@ -1183,6 +1328,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1197,6 +1343,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getWebhookLog",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1213,21 +1360,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetWebhookLogResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1239,6 +1393,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.ResendWebhookResponse:
         r"""Resend a webhook
 
@@ -1252,6 +1407,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1266,7 +1422,7 @@ class Webhook(BaseSDK):
             log_id=log_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/webhook/{id}/log/{logId}/resend",
             base_url=base_url,
@@ -1277,6 +1433,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1291,6 +1448,7 @@ class Webhook(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="resendWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1307,21 +1465,28 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.ResendWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -1333,6 +1498,7 @@ class Webhook(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.ResendWebhookResponse:
         r"""Resend a webhook
 
@@ -1346,6 +1512,7 @@ class Webhook(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1360,7 +1527,7 @@ class Webhook(BaseSDK):
             log_id=log_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/webhook/{id}/log/{logId}/resend",
             base_url=base_url,
@@ -1371,6 +1538,7 @@ class Webhook(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -1385,6 +1553,7 @@ class Webhook(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="resendWebhook",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -1401,20 +1570,27 @@ class Webhook(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.ResendWebhookResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )

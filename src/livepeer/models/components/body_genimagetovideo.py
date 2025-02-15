@@ -5,8 +5,8 @@ import io
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, MultipartFormMetadata
 import pydantic
-from typing import IO, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import IO, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class BodyGenImageToVideoImageTypedDict(TypedDict):
@@ -17,7 +17,7 @@ class BodyGenImageToVideoImageTypedDict(TypedDict):
 
 class BodyGenImageToVideoImage(BaseModel):
     file_name: Annotated[
-        str, pydantic.Field(alias="image"), FieldMetadata(multipart=True)
+        str, pydantic.Field(alias="fileName"), FieldMetadata(multipart=True)
     ]
 
     content: Annotated[
@@ -59,7 +59,6 @@ class BodyGenImageToVideoTypedDict(TypedDict):
 class BodyGenImageToVideo(BaseModel):
     image: Annotated[
         BodyGenImageToVideoImage,
-        pydantic.Field(alias=""),
         FieldMetadata(multipart=MultipartFormMetadata(file=True)),
     ]
     r"""Uploaded image to generate a video from."""

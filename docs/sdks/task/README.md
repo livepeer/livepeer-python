@@ -19,15 +19,16 @@ Retrieve Tasks
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.task.get_all()
+    res = l_client.task.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -43,10 +44,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -57,15 +57,16 @@ Retrieve a Task
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.task.get(task_id="<value>")
+    res = l_client.task.get(task_id="<id>")
 
-if res.task is not None:
-    # handle response
-    pass
+    assert res.task is not None
+
+    # Handle response
+    print(res.task)
 
 ```
 
@@ -82,6 +83,6 @@ if res.task is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

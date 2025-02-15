@@ -11,8 +11,8 @@ from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
 from pydantic import ConfigDict
-from typing import Any, Dict, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Any, Dict, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TaskType(str, Enum):

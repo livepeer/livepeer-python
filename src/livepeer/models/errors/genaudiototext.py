@@ -6,11 +6,13 @@ from .httpvalidationerror import HTTPValidationErrorData
 from .studio_api_error import StudioAPIErrorData
 from livepeer import utils
 from typing import Union
+from typing_extensions import TypeAliasType
 
 
-GenAudioToTextGenerateResponse500ResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenAudioToTextGenerateResponse500ResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponse500ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Internal Server Error"""
 
 
@@ -28,9 +30,10 @@ class GenAudioToTextGenerateResponse500ResponseBody(Exception):
         )
 
 
-GenAudioToTextGenerateResponse422ResponseBodyUnion = Union[
-    HTTPValidationErrorData, StudioAPIErrorData
-]
+GenAudioToTextGenerateResponse422ResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponse422ResponseBodyUnion",
+    Union[HTTPValidationErrorData, StudioAPIErrorData],
+)
 r"""Validation Error"""
 
 
@@ -48,9 +51,31 @@ class GenAudioToTextGenerateResponse422ResponseBody(Exception):
         )
 
 
-GenAudioToTextGenerateResponseResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenAudioToTextGenerateResponse415ResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponse415ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
+r"""Unsupported Media Type"""
+
+
+class GenAudioToTextGenerateResponse415ResponseBody(Exception):
+    r"""Unsupported Media Type"""
+
+    data: GenAudioToTextGenerateResponse415ResponseBodyUnion
+
+    def __init__(self, data: GenAudioToTextGenerateResponse415ResponseBodyUnion):
+        self.data = data
+
+    def __str__(self) -> str:
+        return utils.marshal_json(
+            self.data, GenAudioToTextGenerateResponse415ResponseBodyUnion
+        )
+
+
+GenAudioToTextGenerateResponseResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponseResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Request Entity Too Large"""
 
 
@@ -68,7 +93,9 @@ class GenAudioToTextGenerateResponseResponseBody(Exception):
         )
 
 
-GenAudioToTextGenerateResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenAudioToTextGenerateResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Unauthorized"""
 
 
@@ -84,7 +111,9 @@ class GenAudioToTextGenerateResponseBody(Exception):
         return utils.marshal_json(self.data, GenAudioToTextGenerateResponseBodyUnion)
 
 
-GenAudioToTextResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenAudioToTextResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Bad Request"""
 
 

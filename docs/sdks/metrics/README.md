@@ -23,15 +23,16 @@ Requires a private (non-CORS) API key to be used.
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_realtime_viewership()
+    res = l_client.metrics.get_realtime_viewership()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -50,10 +51,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_viewership
 
@@ -65,15 +65,16 @@ Requires a private (non-CORS) API key to be used.
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_viewership(request={})
+    res = l_client.metrics.get_viewership(request={})
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -90,10 +91,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_creator_viewership
 
@@ -105,15 +105,16 @@ Requires a proof of ownership to be sent in the request, which for now is just t
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_creator_viewership(request={})
+    res = l_client.metrics.get_creator_viewership(request={})
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -130,10 +131,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_public_viewership
 
@@ -147,15 +147,16 @@ unauthenticated.
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_public_viewership(playback_id="<value>")
+    res = l_client.metrics.get_public_viewership(playback_id="<id>")
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -172,10 +173,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_usage
 
@@ -186,15 +186,16 @@ Query usage metrics
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_usage(request={})
+    res = l_client.metrics.get_usage(request={})
 
-if res.usage_metric is not None:
-    # handle response
-    pass
+    assert res.usage_metric is not None
+
+    # Handle response
+    print(res.usage_metric)
 
 ```
 
@@ -211,6 +212,6 @@ if res.usage_metric is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

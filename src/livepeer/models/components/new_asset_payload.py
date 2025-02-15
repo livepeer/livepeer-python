@@ -8,8 +8,8 @@ from .transcode_profile import TranscodeProfile, TranscodeProfileTypedDict
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class NewAssetPayloadIpfs1TypedDict(TypedDict):
@@ -50,7 +50,9 @@ class NewAssetPayloadIpfs1(BaseModel):
         return m
 
 
-NewAssetPayloadIpfsTypedDict = Union[NewAssetPayloadIpfs1TypedDict, bool]
+NewAssetPayloadIpfsTypedDict = TypeAliasType(
+    "NewAssetPayloadIpfsTypedDict", Union[NewAssetPayloadIpfs1TypedDict, bool]
+)
 r"""Set to true to make default export to IPFS. To customize the
 pinned files, specify an object with a spec field. False or null
 means to unpin from IPFS, but it's unsupported right now.
@@ -58,7 +60,9 @@ means to unpin from IPFS, but it's unsupported right now.
 """
 
 
-NewAssetPayloadIpfs = Union[NewAssetPayloadIpfs1, bool]
+NewAssetPayloadIpfs = TypeAliasType(
+    "NewAssetPayloadIpfs", Union[NewAssetPayloadIpfs1, bool]
+)
 r"""Set to true to make default export to IPFS. To customize the
 pinned files, specify an object with a spec field. False or null
 means to unpin from IPFS, but it's unsupported right now.
