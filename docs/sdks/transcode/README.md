@@ -140,53 +140,64 @@ This endpoint currently supports the following output types:
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.transcode.create(request={
-    "input": {
-        "url": "https://s3.amazonaws.com/bucket/file.mp4",
-    },
-    "storage": {
-        "type": components.StorageType.S3,
-        "endpoint": "https://gateway.storjshare.io",
-        "bucket": "outputbucket",
-        "credentials": {
-            "access_key_id": "AKIAIOSFODNN7EXAMPLE",
-            "secret_access_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+    res = l_client.transcode.create(request={
+        "input": {
+            "url": "https://s3.amazonaws.com/bucket/file.mp4",
         },
-    },
-    "outputs": {
-        "hls": {
-            "path": "/samplevideo/hls",
+        "storage": {
+            "type": components.TranscodePayloadStorageType.WEB3_STORAGE,
+            "credentials": {
+                "proof": "EaJlcm9vdHOAZ3ZlcnNpb24BmgIBcRIg2uxHpcPYSWNtifMKFkPC7IEDvFDCxCd3ADViv0coV7SnYXNYRO2hA0AnblHEW38s3lSlcwaDjPn",
+            },
         },
-        "mp4": {
-            "path": "/samplevideo/mp4",
+        "outputs": {
+            "hls": {
+                "path": "/samplevideo/hls",
+            },
+            "mp4": {
+                "path": "/samplevideo/mp4",
+            },
+            "fmp4": {
+                "path": "/samplevideo/fmp4",
+            },
         },
-        "fmp4": {
-            "path": "/samplevideo/fmp4",
-        },
-    },
-    "profiles": [
-        {
-            "bitrate": 3000000,
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "quality": 23,
-            "fps": 30,
-            "fps_den": 1,
-            "gop": "2",
-            "profile": components.TranscodeProfileProfile.H264_BASELINE,
-            "encoder": components.TranscodeProfileEncoder.H_264,
-        },
-    ],
-})
+        "profiles": [
+            {
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
+            {
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
+        ],
+    })
 
-if res.task is not None:
-    # handle response
-    pass
+    assert res.task is not None
+
+    # Handle response
+    print(res.task)
 
 ```
 
@@ -203,6 +214,6 @@ if res.task is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

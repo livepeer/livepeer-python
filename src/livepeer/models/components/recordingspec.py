@@ -4,8 +4,8 @@ from __future__ import annotations
 from .transcode_profile import TranscodeProfile, TranscodeProfileTypedDict
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from pydantic import model_serializer
-from typing import List, TypedDict
-from typing_extensions import NotRequired
+from typing import List
+from typing_extensions import NotRequired, TypedDict
 
 
 class RecordingSpecTypedDict(TypedDict):
@@ -25,7 +25,7 @@ class RecordingSpec(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

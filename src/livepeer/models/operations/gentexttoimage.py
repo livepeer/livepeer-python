@@ -4,19 +4,19 @@ from __future__ import annotations
 from livepeer.models.components import (
     httpmetadata as components_httpmetadata,
     imageresponse as components_imageresponse,
+    studio_api_error as components_studio_api_error,
 )
-from livepeer.models.errors import studio_api_error as errors_studio_api_error
 from livepeer.types import BaseModel
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GenTextToImageResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     image_response: NotRequired[components_imageresponse.ImageResponseTypedDict]
     r"""Successful Response"""
-    studio_api_error: NotRequired[errors_studio_api_error.StudioAPIError]
+    studio_api_error: NotRequired[components_studio_api_error.StudioAPIErrorTypedDict]
     r"""Error"""
 
 
@@ -28,5 +28,5 @@ class GenTextToImageResponse(BaseModel):
     image_response: Optional[components_imageresponse.ImageResponse] = None
     r"""Successful Response"""
 
-    studio_api_error: Optional[errors_studio_api_error.StudioAPIError] = None
+    studio_api_error: Optional[components_studio_api_error.StudioAPIError] = None
     r"""Error"""

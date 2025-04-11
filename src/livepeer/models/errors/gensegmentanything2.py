@@ -6,11 +6,13 @@ from .httpvalidationerror import HTTPValidationErrorData
 from .studio_api_error import StudioAPIErrorData
 from livepeer import utils
 from typing import Union
+from typing_extensions import TypeAliasType
 
 
-GenSegmentAnything2GenerateResponse500ResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenSegmentAnything2GenerateResponse500ResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2GenerateResponse500ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Internal Server Error"""
 
 
@@ -28,9 +30,10 @@ class GenSegmentAnything2GenerateResponse500ResponseBody(Exception):
         )
 
 
-GenSegmentAnything2GenerateResponseResponseBodyUnion = Union[
-    HTTPValidationErrorData, StudioAPIErrorData
-]
+GenSegmentAnything2GenerateResponseResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2GenerateResponseResponseBodyUnion",
+    Union[HTTPValidationErrorData, StudioAPIErrorData],
+)
 r"""Validation Error"""
 
 
@@ -48,7 +51,10 @@ class GenSegmentAnything2GenerateResponseResponseBody(Exception):
         )
 
 
-GenSegmentAnything2GenerateResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenSegmentAnything2GenerateResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2GenerateResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Unauthorized"""
 
 
@@ -66,7 +72,9 @@ class GenSegmentAnything2GenerateResponseBody(Exception):
         )
 
 
-GenSegmentAnything2ResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenSegmentAnything2ResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2ResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Bad Request"""
 
 

@@ -4,8 +4,8 @@ from __future__ import annotations
 from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
-from typing import List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Events(str, Enum):
@@ -29,6 +29,35 @@ class Events(str, Enum):
     TASK_UPDATED = "task.updated"
     TASK_COMPLETED = "task.completed"
     TASK_FAILED = "task.failed"
+
+
+class WebhookInputTypedDict(TypedDict):
+    name: str
+    url: str
+    project_id: NotRequired[str]
+    r"""The ID of the project"""
+    events: NotRequired[List[Events]]
+    shared_secret: NotRequired[str]
+    r"""shared secret used to sign the webhook payload"""
+    stream_id: NotRequired[str]
+    r"""streamId of the stream on which the webhook is applied"""
+
+
+class WebhookInput(BaseModel):
+    name: str
+
+    url: str
+
+    project_id: Annotated[Optional[str], pydantic.Field(alias="projectId")] = None
+    r"""The ID of the project"""
+
+    events: Optional[List[Events]] = None
+
+    shared_secret: Annotated[Optional[str], pydantic.Field(alias="sharedSecret")] = None
+    r"""shared secret used to sign the webhook payload"""
+
+    stream_id: Annotated[Optional[str], pydantic.Field(alias="streamId")] = None
+    r"""streamId of the stream on which the webhook is applied"""
 
 
 class LastFailureTypedDict(TypedDict):
@@ -141,32 +170,3 @@ class Webhook(BaseModel):
 
     status: Optional[Status] = None
     r"""status of webhook"""
-
-
-class WebhookInputTypedDict(TypedDict):
-    name: str
-    url: str
-    project_id: NotRequired[str]
-    r"""The ID of the project"""
-    events: NotRequired[List[Events]]
-    shared_secret: NotRequired[str]
-    r"""shared secret used to sign the webhook payload"""
-    stream_id: NotRequired[str]
-    r"""streamId of the stream on which the webhook is applied"""
-
-
-class WebhookInput(BaseModel):
-    name: str
-
-    url: str
-
-    project_id: Annotated[Optional[str], pydantic.Field(alias="projectId")] = None
-    r"""The ID of the project"""
-
-    events: Optional[List[Events]] = None
-
-    shared_secret: Annotated[Optional[str], pydantic.Field(alias="sharedSecret")] = None
-    r"""shared secret used to sign the webhook payload"""
-
-    stream_id: Annotated[Optional[str], pydantic.Field(alias="streamId")] = None
-    r"""streamId of the stream on which the webhook is applied"""

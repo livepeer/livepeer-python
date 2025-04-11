@@ -7,12 +7,15 @@ generation:
   useClassNamesForArrayFields: true
   fixes:
     nameResolutionDec2023: true
+    nameResolutionFeb2025: false
     parameterOrderingFeb2024: true
     requestResponseComponentNamesFeb2024: true
+    securityFeb2025: false
   auth:
     oAuth2ClientCredentialsEnabled: true
+    oAuth2PasswordEnabled: false
 python:
-  version: 0.3.0
+  version: 0.4.0
   additionalDependencies:
     dev: {}
     main: {}
@@ -20,10 +23,15 @@ python:
   authors:
     - Speakeasy
   clientServerStatusCodesAsErrors: true
+  defaultErrorName: SDKError
   description: Python Client SDK for Livepeer Studio
+  enableCustomCodeRegions: false
   enumFormat: enum
+  fixFlags:
+    responseRequiredSep2024: false
   flattenGlobalSecurity: true
   flattenRequests: false
+  flatteningOrder: parameters-first
   imports:
     option: openapi
     paths:
@@ -38,5 +46,6 @@ python:
   outputModelSuffix: output
   packageName: livepeer
   projectUrls: {}
+  pytestTimeout: 0
   responseFormat: envelope-http
   templateVersion: v2

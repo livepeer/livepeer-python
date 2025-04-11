@@ -6,8 +6,8 @@ from .transcode_profile import TranscodeProfile, TranscodeProfileTypedDict
 from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
-from typing import List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputType(str, Enum):
@@ -92,10 +92,12 @@ class Input1(BaseModel):
     r"""URL of the video to transcode"""
 
 
-InputTypedDict = Union[Input1TypedDict, Input2TypedDict]
+InputTypedDict = TypeAliasType(
+    "InputTypedDict", Union[Input1TypedDict, Input2TypedDict]
+)
 
 
-Input = Union[Input1, Input2]
+Input = TypeAliasType("Input", Union[Input1, Input2])
 
 
 class TranscodePayloadStorageType(str, Enum):
@@ -203,10 +205,14 @@ class Storage1(BaseModel):
     r"""Credentials for the output video storage"""
 
 
-TranscodePayloadStorageTypedDict = Union[Storage2TypedDict, Storage1TypedDict]
+TranscodePayloadStorageTypedDict = TypeAliasType(
+    "TranscodePayloadStorageTypedDict", Union[Storage2TypedDict, Storage1TypedDict]
+)
 
 
-TranscodePayloadStorage = Union[Storage2, Storage1]
+TranscodePayloadStorage = TypeAliasType(
+    "TranscodePayloadStorage", Union[Storage2, Storage1]
+)
 
 
 class HlsTypedDict(TypedDict):

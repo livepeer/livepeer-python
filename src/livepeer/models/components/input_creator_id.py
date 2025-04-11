@@ -3,7 +3,8 @@
 from __future__ import annotations
 from enum import Enum
 from livepeer.types import BaseModel
-from typing import TypedDict, Union
+from typing import Union
+from typing_extensions import TypeAliasType, TypedDict
 
 
 class InputCreatorIDType(str, Enum):
@@ -21,7 +22,9 @@ class InputCreatorID1(BaseModel):
     value: str
 
 
-InputCreatorIDTypedDict = Union[InputCreatorID1TypedDict, str]
+InputCreatorIDTypedDict = TypeAliasType(
+    "InputCreatorIDTypedDict", Union[InputCreatorID1TypedDict, str]
+)
 
 
-InputCreatorID = Union[InputCreatorID1, str]
+InputCreatorID = TypeAliasType("InputCreatorID", Union[InputCreatorID1, str])

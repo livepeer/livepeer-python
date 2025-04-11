@@ -7,14 +7,15 @@ import httpx
 from typing_extensions import get_origin
 from pydantic import ConfigDict, create_model
 from pydantic_core import from_json
-from typing_inspect import is_optional_type
+from typing_inspection.typing_objects import is_union
 
 from ..types.basemodel import BaseModel, Nullable, OptionalNullable, Unset
 
 
 def serialize_decimal(as_str: bool):
     def serialize(d):
-        if is_optional_type(type(d)) and d is None:
+        # Optional[T] is a Union[T, None]
+        if is_union(type(d)) and type(None) in get_args(type(d)) and d is None:
             return None
         if isinstance(d, Unset):
             return d
@@ -42,7 +43,8 @@ def validate_decimal(d):
 
 def serialize_float(as_str: bool):
     def serialize(f):
-        if is_optional_type(type(f)) and f is None:
+        # Optional[T] is a Union[T, None]
+        if is_union(type(f)) and type(None) in get_args(type(f)) and f is None:
             return None
         if isinstance(f, Unset):
             return f
@@ -70,7 +72,8 @@ def validate_float(f):
 
 def serialize_int(as_str: bool):
     def serialize(i):
-        if is_optional_type(type(i)) and i is None:
+        # Optional[T] is a Union[T, None]
+        if is_union(type(i)) and type(None) in get_args(type(i)) and i is None:
             return None
         if isinstance(i, Unset):
             return i
@@ -116,6 +119,20 @@ def validate_open_enum(is_int: bool):
     return validate
 
 
+def validate_const(v):
+    def validate(c):
+        # Optional[T] is a Union[T, None]
+        if is_union(type(c)) and type(None) in get_args(type(c)) and c is None:
+            return None
+
+        if v != c:
+            raise ValueError(f"Expected {v}")
+
+        return c
+
+    return validate
+
+
 def unmarshal_json(raw, typ: Any) -> Any:
     return unmarshal(from_json(raw), typ)
 
@@ -150,7 +167,7 @@ def marshal_json(val, typ):
     if len(d) == 0:
         return ""
 
-    return json.dumps(d[next(iter(d))], separators=(",", ":"), sort_keys=True)
+    return json.dumps(d[next(iter(d))], separators=(",", ":"))
 
 
 def is_nullable(field):
@@ -170,6 +187,18 @@ def is_nullable(field):
 
 def stream_to_text(stream: httpx.Response) -> str:
     return "".join(stream.iter_text())
+
+
+async def stream_to_text_async(stream: httpx.Response) -> str:
+    return "".join([chunk async for chunk in stream.aiter_text()])
+
+
+def stream_to_bytes(stream: httpx.Response) -> bytes:
+    return stream.content
+
+
+async def stream_to_bytes_async(stream: httpx.Response) -> bytes:
+    return await stream.aread()
 
 
 def get_pydantic_model(data: Any, typ: Any) -> Any:
