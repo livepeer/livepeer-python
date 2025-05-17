@@ -5,8 +5,8 @@ from .storage_status import StorageStatus, StorageStatusTypedDict
 from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
-from typing import Any, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Any, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PrimaryType(str, Enum):

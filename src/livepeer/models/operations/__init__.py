@@ -76,6 +76,7 @@ from .deletewebhook import (
 from .genaudiototext import GenAudioToTextResponse, GenAudioToTextResponseTypedDict
 from .genimagetoimage import GenImageToImageResponse, GenImageToImageResponseTypedDict
 from .genimagetovideo import GenImageToVideoResponse, GenImageToVideoResponseTypedDict
+from .genllm import GenLLMResponse, GenLLMResponseTypedDict
 from .gensegmentanything2 import (
     GenSegmentAnything2Response,
     GenSegmentAnything2ResponseTypedDict,
@@ -332,6 +333,7 @@ from .uploadasset import (
     UploadAssetTaskTypedDict,
 )
 
+
 __all__ = [
     "AddMultistreamTargetRequest",
     "AddMultistreamTargetRequestTypedDict",
@@ -394,6 +396,8 @@ __all__ = [
     "GenImageToImageResponseTypedDict",
     "GenImageToVideoResponse",
     "GenImageToVideoResponseTypedDict",
+    "GenLLMResponse",
+    "GenLLMResponseTypedDict",
     "GenSegmentAnything2Response",
     "GenSegmentAnything2ResponseTypedDict",
     "GenTextToImageResponse",

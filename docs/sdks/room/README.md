@@ -29,15 +29,17 @@ Create a multiparticipant livestreaming room.
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.create()
+    res = l_client.room.create()
 
-if res.create_room_response is not None:
-    # handle response
-    pass
+    assert res.create_room_response is not None
+
+    # Handle response
+    print(res.create_room_response)
 
 ```
 
@@ -53,10 +55,9 @@ if res.create_room_response is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~get~~
 
@@ -69,15 +70,17 @@ Retrieve a room
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.get(id="<id>")
+    res = l_client.room.get(id="<id>")
 
-if res.room is not None:
-    # handle response
-    pass
+    assert res.room is not None
+
+    # Handle response
+    print(res.room)
 
 ```
 
@@ -94,10 +97,9 @@ if res.room is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~delete~~
 
@@ -110,15 +112,17 @@ Delete a room
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.delete(id="<id>")
+    res = l_client.room.delete(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -135,10 +139,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~start_egress~~
 
@@ -153,17 +156,19 @@ This allows you to leverage livestreaming features like recording and HLS output
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.start_egress(id="<id>", room_egress_payload={
-    "stream_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
-})
+    res = l_client.room.start_egress(id="<id>", room_egress_payload={
+        "stream_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -181,10 +186,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~stop_egress~~
 
@@ -197,15 +201,17 @@ Stop room RTMP egress
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.stop_egress(id="<id>")
+    res = l_client.room.stop_egress(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -222,10 +228,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~create_user~~
 
@@ -241,19 +246,21 @@ Alternatively the joining token can be used with a custom app.
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.create_user(id="<id>", room_user_payload={
-    "name": "name",
-    "can_publish": True,
-    "can_publish_data": True,
-})
+    res = l_client.room.create_user(id="<id>", room_user_payload={
+        "name": "name",
+        "can_publish": True,
+        "can_publish_data": True,
+    })
 
-if res.room_user_response is not None:
-    # handle response
-    pass
+    assert res.room_user_response is not None
+
+    # Handle response
+    print(res.room_user_response)
 
 ```
 
@@ -271,10 +278,9 @@ if res.room_user_response is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~get_user~~
 
@@ -287,15 +293,17 @@ Get user details
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.get_user(id="<id>", user_id="<value>")
+    res = l_client.room.get_user(id="<id>", user_id="<id>")
 
-if res.get_room_user_response is not None:
-    # handle response
-    pass
+    assert res.get_room_user_response is not None
+
+    # Handle response
+    print(res.get_room_user_response)
 
 ```
 
@@ -313,10 +321,9 @@ if res.get_room_user_response is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~update_user~~
 
@@ -329,18 +336,17 @@ Update properties for a user.
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.update_user(id="<id>", user_id="<value>", room_user_update_payload={
-    "can_publish": True,
-    "can_publish_data": True,
-})
+    res = l_client.room.update_user(id="<id>", user_id="<id>", room_user_update_payload={})
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -359,10 +365,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## ~~delete_user~~
 
@@ -375,15 +380,17 @@ Remove a user from the room
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.room.delete_user(id="<id>", user_id="<value>")
+    res = l_client.room.delete_user(id="<id>", user_id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -401,6 +408,6 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

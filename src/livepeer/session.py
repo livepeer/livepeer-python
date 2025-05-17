@@ -5,7 +5,7 @@ from livepeer import utils
 from livepeer._hooks import HookContext
 from livepeer.models import components, errors, operations
 from livepeer.types import OptionalNullable, UNSET
-from typing import List, Optional, Union
+from typing import List, Mapping, Optional, Union
 
 
 class Session(BaseSDK):
@@ -18,6 +18,7 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetSessionClipsResponse:
         r"""Retrieve clips of a session
 
@@ -25,6 +26,7 @@ class Session(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -33,12 +35,14 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.GetSessionClipsRequest(
             id=id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/session/{id}/clips",
             base_url=base_url,
@@ -49,6 +53,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -63,6 +68,7 @@ class Session(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getSessionClips",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -79,21 +85,28 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetSessionClipsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -104,6 +117,7 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetSessionClipsResponse:
         r"""Retrieve clips of a session
 
@@ -111,6 +125,7 @@ class Session(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -119,12 +134,14 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.GetSessionClipsRequest(
             id=id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/session/{id}/clips",
             base_url=base_url,
@@ -135,6 +152,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -149,6 +167,7 @@ class Session(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getSessionClips",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -165,21 +184,28 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetSessionClipsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -189,12 +215,14 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetSessionsResponse:
         r"""Retrieve sessions
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -203,7 +231,9 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
-        req = self.build_request(
+        else:
+            base_url = self._get_url(base_url, url_variables)
+        req = self._build_request(
             method="GET",
             path="/session",
             base_url=base_url,
@@ -214,6 +244,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -228,6 +259,7 @@ class Session(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getSessions",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -244,21 +276,28 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetSessionsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -268,12 +307,14 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetSessionsResponse:
         r"""Retrieve sessions
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -282,7 +323,9 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
-        req = self.build_request_async(
+        else:
+            base_url = self._get_url(base_url, url_variables)
+        req = self._build_request_async(
             method="GET",
             path="/session",
             base_url=base_url,
@@ -293,6 +336,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -307,6 +351,7 @@ class Session(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getSessions",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -323,21 +368,28 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetSessionsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -348,6 +400,7 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetSessionResponse:
         r"""Retrieve a session
 
@@ -355,6 +408,7 @@ class Session(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -363,12 +417,14 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.GetSessionRequest(
             id=id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/session/{id}",
             base_url=base_url,
@@ -379,6 +435,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -393,6 +450,7 @@ class Session(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getSession",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -409,21 +467,28 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetSessionResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -434,6 +499,7 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetSessionResponse:
         r"""Retrieve a session
 
@@ -441,6 +507,7 @@ class Session(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -449,12 +516,14 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.GetSessionRequest(
             id=id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/session/{id}",
             base_url=base_url,
@@ -465,6 +534,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -479,6 +549,7 @@ class Session(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getSession",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -495,21 +566,28 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetSessionResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -521,6 +599,7 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetRecordedSessionsResponse:
         r"""Retrieve Recorded Sessions
 
@@ -529,6 +608,7 @@ class Session(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -537,13 +617,15 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.GetRecordedSessionsRequest(
             parent_id=parent_id,
             record=record,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/stream/{parentId}/sessions",
             base_url=base_url,
@@ -554,6 +636,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -568,6 +651,7 @@ class Session(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getRecordedSessions",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -584,21 +668,28 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetRecordedSessionsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = utils.stream_to_text(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )
 
@@ -610,6 +701,7 @@ class Session(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> operations.GetRecordedSessionsResponse:
         r"""Retrieve Recorded Sessions
 
@@ -618,6 +710,7 @@ class Session(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -626,13 +719,15 @@ class Session(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = operations.GetRecordedSessionsRequest(
             parent_id=parent_id,
             record=record,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/stream/{parentId}/sessions",
             base_url=base_url,
@@ -643,6 +738,7 @@ class Session(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -657,6 +753,7 @@ class Session(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getRecordedSessions",
                 oauth2_scopes=[],
                 security_source=self.sdk_configuration.security,
@@ -673,20 +770,27 @@ class Session(BaseSDK):
                 ),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.SDKError(
-                "API error occurred", http_res.status_code, http_res.text, http_res
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
             )
         if utils.match_response(http_res, "default", "application/json"):
             return operations.GetRecordedSessionsResponse(
-                error=utils.unmarshal_json(http_res.text, Optional[errors.Error]),
+                error=utils.unmarshal_json(http_res.text, Optional[components.Error]),
                 http_meta=components.HTTPMetadata(request=req, response=http_res),
             )
 
         content_type = http_res.headers.get("Content-Type")
+        http_res_text = await utils.stream_to_text_async(http_res)
         raise errors.SDKError(
             f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
             http_res.status_code,
-            http_res.text,
+            http_res_text,
             http_res,
         )

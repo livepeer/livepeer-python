@@ -2,21 +2,23 @@
 
 from __future__ import annotations
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
-    multistream_target_patch_payload as components_multistream_target_patch_payload,
+    multistream_target_input as components_multistream_target_input,
 )
-from livepeer.models.errors import error as errors_error
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class UpdateMultistreamTargetRequestTypedDict(TypedDict):
     id: str
     r"""ID of the multistream target"""
-    multistream_target_patch_payload: components_multistream_target_patch_payload.MultistreamTargetPatchPayloadTypedDict
+    multistream_target: (
+        components_multistream_target_input.MultistreamTargetInputTypedDict
+    )
 
 
 class UpdateMultistreamTargetRequest(BaseModel):
@@ -25,15 +27,15 @@ class UpdateMultistreamTargetRequest(BaseModel):
     ]
     r"""ID of the multistream target"""
 
-    multistream_target_patch_payload: Annotated[
-        components_multistream_target_patch_payload.MultistreamTargetPatchPayload,
+    multistream_target: Annotated[
+        components_multistream_target_input.MultistreamTargetInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
 
 
 class UpdateMultistreamTargetResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -42,5 +44,5 @@ class UpdateMultistreamTargetResponse(BaseModel):
         Optional[components_httpmetadata.HTTPMetadata], pydantic.Field(exclude=True)
     ] = None
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""

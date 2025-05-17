@@ -3,8 +3,8 @@
 from __future__ import annotations
 from .ipfs_export_params import IpfsExportParams, IpfsExportParamsTypedDict
 from livepeer.types import BaseModel
-from typing import Dict, Optional, TypedDict, Union
-from typing_extensions import NotRequired
+from typing import Dict, Optional, Union
+from typing_extensions import NotRequired, TypeAliasType, TypedDict
 
 
 class ExportTaskParams2TypedDict(TypedDict):
@@ -49,11 +49,14 @@ class ExportTaskParams1(BaseModel):
     r"""custom URL parameters for the export task"""
 
 
-ExportTaskParamsTypedDict = Union[
-    ExportTaskParams1TypedDict, ExportTaskParams2TypedDict
-]
+ExportTaskParamsTypedDict = TypeAliasType(
+    "ExportTaskParamsTypedDict",
+    Union[ExportTaskParams1TypedDict, ExportTaskParams2TypedDict],
+)
 r"""Parameters for the export task"""
 
 
-ExportTaskParams = Union[ExportTaskParams1, ExportTaskParams2]
+ExportTaskParams = TypeAliasType(
+    "ExportTaskParams", Union[ExportTaskParams1, ExportTaskParams2]
+)
 r"""Parameters for the export task"""

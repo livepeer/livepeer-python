@@ -4,8 +4,8 @@ from __future__ import annotations
 from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
-from typing import Dict, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import Dict, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class One(int, Enum):
@@ -16,11 +16,11 @@ class One(int, Enum):
     TWO = 2
 
 
-IsMobileTypedDict = Union[One, bool]
+IsMobileTypedDict = TypeAliasType("IsMobileTypedDict", Union[One, bool])
 r"""Indicates whether the stream will be pulled from a mobile source."""
 
 
-IsMobile = Union[One, bool]
+IsMobile = TypeAliasType("IsMobile", Union[One, bool])
 r"""Indicates whether the stream will be pulled from a mobile source."""
 
 
