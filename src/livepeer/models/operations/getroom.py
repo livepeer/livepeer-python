@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     room as components_room,
 )
-from livepeer.models.errors import error as errors_error
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, PathParamMetadata
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetRoomRequestTypedDict(TypedDict):
@@ -27,7 +27,7 @@ class GetRoomResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     room: NotRequired[components_room.RoomTypedDict]
     r"""Success"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -39,5 +39,5 @@ class GetRoomResponse(BaseModel):
     room: Optional[components_room.Room] = None
     r"""Success"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""

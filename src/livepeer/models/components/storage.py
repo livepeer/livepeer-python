@@ -4,8 +4,8 @@ from __future__ import annotations
 from .spec import Spec, SpecTypedDict
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from pydantic import model_serializer
-from typing import TypedDict, Union
-from typing_extensions import NotRequired
+from typing import Union
+from typing_extensions import NotRequired, TypeAliasType, TypedDict
 
 
 class Ipfs1TypedDict(TypedDict):
@@ -25,7 +25,7 @@ class Ipfs1(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -46,7 +46,7 @@ class Ipfs1(BaseModel):
         return m
 
 
-IpfsTypedDict = Union[Ipfs1TypedDict, bool]
+IpfsTypedDict = TypeAliasType("IpfsTypedDict", Union[Ipfs1TypedDict, bool])
 r"""Set to true to make default export to IPFS. To customize the
 pinned files, specify an object with a spec field. False or null
 means to unpin from IPFS, but it's unsupported right now.
@@ -54,7 +54,7 @@ means to unpin from IPFS, but it's unsupported right now.
 """
 
 
-Ipfs = Union[Ipfs1, bool]
+Ipfs = TypeAliasType("Ipfs", Union[Ipfs1, bool])
 r"""Set to true to make default export to IPFS. To customize the
 pinned files, specify an object with a spec field. False or null
 means to unpin from IPFS, but it's unsupported right now.
@@ -89,7 +89,7 @@ class Storage(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

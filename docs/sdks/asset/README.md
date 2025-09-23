@@ -20,18 +20,21 @@ Retrieve assets
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getAssets" method="get" path="/asset" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.asset.get_all()
+    res = l_client.asset.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -47,10 +50,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## create
 
@@ -129,44 +131,47 @@ definition above.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="requestUpload" method="post" path="/asset/request-upload" -->
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.asset.create(request={
-    "name": "filename.mp4",
-    "static_mp4": True,
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
+    res = l_client.asset.create(request={
+        "name": "filename.mp4",
+        "static_mp4": True,
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
+            },
+            "refresh_interval": 600,
         },
-        "refresh_interval": 600,
-    },
-    "profiles": [
-        {
-            "bitrate": 3000000,
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "quality": 23,
-            "fps": 30,
-            "fps_den": 1,
-            "gop": "2",
-            "profile": components.TranscodeProfileProfile.H264_BASELINE,
-            "encoder": components.TranscodeProfileEncoder.H_264,
-        },
-    ],
-})
+        "profiles": [
+            {
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
+        ],
+    })
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -183,10 +188,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## create_via_url
 
@@ -194,45 +198,41 @@ Upload asset via URL
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="uploadAsset" method="post" path="/asset/upload/url" -->
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.asset.create_via_url(request={
-    "name": "filename.mp4",
-    "url": "https://s3.amazonaws.com/my-bucket/path/filename.mp4",
-    "static_mp4": True,
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
-        },
-        "refresh_interval": 600,
-    },
-    "profiles": [
-        {
-            "bitrate": 3000000,
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "quality": 23,
-            "fps": 30,
-            "fps_den": 1,
-            "gop": "2",
-            "profile": components.TranscodeProfileProfile.H264_BASELINE,
-            "encoder": components.TranscodeProfileEncoder.H_264,
-        },
-    ],
-})
+    res = l_client.asset.create_via_url(request={
+        "name": "filename.mp4",
+        "static_mp4": True,
+        "playback_policy": None,
+        "url": "https://s3.amazonaws.com/my-bucket/path/filename.mp4",
+        "profiles": [
+            {
+                "width": 1280,
+                "name": "720p",
+                "height": 720,
+                "bitrate": 3000000,
+                "quality": 23,
+                "fps": 30,
+                "fps_den": 1,
+                "gop": "2",
+                "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                "encoder": components.TranscodeProfileEncoder.H_264,
+            },
+        ],
+    })
 
-if res.two_hundred_application_json_data is not None:
-    # handle response
-    pass
+    assert res.two_hundred_application_json_data is not None
+
+    # Handle response
+    print(res.two_hundred_application_json_data)
 
 ```
 
@@ -249,10 +249,9 @@ if res.two_hundred_application_json_data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -260,18 +259,21 @@ Retrieves an asset
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getAsset" method="get" path="/asset/{assetId}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.asset.get(asset_id="<value>")
+    res = l_client.asset.get(asset_id="<id>")
 
-if res.asset is not None:
-    # handle response
-    pass
+    assert res.asset is not None
+
+    # Handle response
+    print(res.asset)
 
 ```
 
@@ -288,10 +290,9 @@ if res.asset is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## update
 
@@ -299,29 +300,32 @@ Patch an asset
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateAsset" method="patch" path="/asset/{assetId}" -->
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.asset.update(asset_id="<value>", asset_patch_payload={
-    "name": "filename.mp4",
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
+    res = l_client.asset.update(asset_id="<id>", asset_patch_payload={
+        "name": "filename.mp4",
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
+            },
+            "refresh_interval": 600,
         },
-        "refresh_interval": 600,
-    },
-})
+    })
 
-if res.asset is not None:
-    # handle response
-    pass
+    assert res.asset is not None
+
+    # Handle response
+    print(res.asset)
 
 ```
 
@@ -339,10 +343,9 @@ if res.asset is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## delete
 
@@ -350,18 +353,21 @@ Delete an asset
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteAsset" method="delete" path="/asset/{assetId}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.asset.delete(asset_id="<value>")
+    res = l_client.asset.delete(asset_id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -378,6 +384,6 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

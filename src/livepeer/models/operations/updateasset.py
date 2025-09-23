@@ -4,14 +4,14 @@ from __future__ import annotations
 from livepeer.models.components import (
     asset as components_asset,
     asset_patch_payload as components_asset_patch_payload,
+    error as components_error,
     httpmetadata as components_httpmetadata,
 )
-from livepeer.models.errors import error as errors_error
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class UpdateAssetRequestTypedDict(TypedDict):
@@ -38,7 +38,7 @@ class UpdateAssetResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     asset: NotRequired[components_asset.AssetTypedDict]
     r"""Success"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -50,5 +50,5 @@ class UpdateAssetResponse(BaseModel):
     asset: Optional[components_asset.Asset] = None
     r"""Success"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""

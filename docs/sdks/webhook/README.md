@@ -22,18 +22,21 @@ Retrieve a Webhook
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getWebhooks" method="get" path="/webhook" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.get_all()
+    res = l_client.webhook.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -49,10 +52,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## create
 
@@ -61,29 +63,32 @@ To create a new webhook, you need to make an API call with the events you want t
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createWebhook" method="post" path="/webhook" -->
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.create(request={
-    "name": "test_webhook",
-    "url": "https://my-service.com/webhook",
-    "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
-    "events": [
-        components.Events.STREAM_STARTED,
-        components.Events.STREAM_IDLE,
-    ],
-    "shared_secret": "my-secret",
-    "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
-})
+    res = l_client.webhook.create(request={
+        "name": "test_webhook",
+        "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+        "events": [
+            components.Events.STREAM_STARTED,
+            components.Events.STREAM_IDLE,
+        ],
+        "url": "https://my-service.com/webhook",
+        "shared_secret": "my-secret",
+        "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+    })
 
-if res.webhook is not None:
-    # handle response
-    pass
+    assert res.webhook is not None
+
+    # Handle response
+    print(res.webhook)
 
 ```
 
@@ -100,10 +105,9 @@ if res.webhook is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -111,18 +115,21 @@ Retrieve a webhook
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getWebhook" method="get" path="/webhook/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.get(id="<id>")
+    res = l_client.webhook.get(id="<id>")
 
-if res.webhook is not None:
-    # handle response
-    pass
+    assert res.webhook is not None
+
+    # Handle response
+    print(res.webhook)
 
 ```
 
@@ -139,10 +146,9 @@ if res.webhook is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## update
 
@@ -150,29 +156,32 @@ Update a webhook
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateWebhook" method="put" path="/webhook/{id}" -->
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.update(id="<id>", webhook={
-    "name": "test_webhook",
-    "url": "https://my-service.com/webhook",
-    "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
-    "events": [
-        components.Events.STREAM_STARTED,
-        components.Events.STREAM_IDLE,
-    ],
-    "shared_secret": "my-secret",
-    "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
-})
+    res = l_client.webhook.update(id="<id>", webhook={
+        "name": "test_webhook",
+        "project_id": "aac12556-4d65-4d34-9fb6-d1f0985eb0a9",
+        "events": [
+            components.Events.STREAM_STARTED,
+            components.Events.STREAM_IDLE,
+        ],
+        "url": "https://my-service.com/webhook",
+        "shared_secret": "my-secret",
+        "stream_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+    })
 
-if res.webhook is not None:
-    # handle response
-    pass
+    assert res.webhook is not None
+
+    # Handle response
+    print(res.webhook)
 
 ```
 
@@ -190,10 +199,9 @@ if res.webhook is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## delete
 
@@ -201,18 +209,21 @@ Delete a webhook
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteWebhook" method="delete" path="/webhook/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.delete(id="<id>")
+    res = l_client.webhook.delete(id="<id>")
 
-if res.webhook is not None:
-    # handle response
-    pass
+    assert res.webhook is not None
+
+    # Handle response
+    print(res.webhook)
 
 ```
 
@@ -229,10 +240,9 @@ if res.webhook is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_logs
 
@@ -240,18 +250,21 @@ Retrieve webhook logs
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getWebhookLogs" method="get" path="/webhook/{id}/log" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.get_logs(id="<id>")
+    res = l_client.webhook.get_logs(id="<id>")
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -268,10 +281,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_log
 
@@ -279,18 +291,21 @@ Retrieve a webhook log
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getWebhookLog" method="get" path="/webhook/{id}/log/{logId}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.get_log(id="<id>", log_id="<value>")
+    res = l_client.webhook.get_log(id="<id>", log_id="<id>")
 
-if res.webhook_log is not None:
-    # handle response
-    pass
+    assert res.webhook_log is not None
+
+    # Handle response
+    print(res.webhook_log)
 
 ```
 
@@ -308,10 +323,9 @@ if res.webhook_log is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## resend_log
 
@@ -322,18 +336,21 @@ to check or fix the behaviour in your handler.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="resendWebhook" method="post" path="/webhook/{id}/log/{logId}/resend" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.webhook.resend_log(id="<id>", log_id="<value>")
+    res = l_client.webhook.resend_log(id="<id>", log_id="<id>")
 
-if res.webhook_log is not None:
-    # handle response
-    pass
+    assert res.webhook_log is not None
+
+    # Handle response
+    print(res.webhook_log)
 
 ```
 
@@ -351,6 +368,6 @@ if res.webhook_log is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

@@ -4,30 +4,30 @@ from __future__ import annotations
 from datetime import datetime
 from enum import Enum
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     viewership_metric as components_viewership_metric,
 )
-from livepeer.models.errors import error as errors_error
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-FromTypedDict = Union[datetime, int]
+FromTypedDict = TypeAliasType("FromTypedDict", Union[datetime, int])
 r"""Start timestamp for the query range (inclusive)"""
 
 
-From = Union[datetime, int]
+From = TypeAliasType("From", Union[datetime, int])
 r"""Start timestamp for the query range (inclusive)"""
 
 
-ToTypedDict = Union[datetime, int]
+ToTypedDict = TypeAliasType("ToTypedDict", Union[datetime, int])
 r"""End timestamp for the query range (exclusive)"""
 
 
-To = Union[datetime, int]
+To = TypeAliasType("To", Union[datetime, int])
 r"""End timestamp for the query range (exclusive)"""
 
 
@@ -152,7 +152,7 @@ class GetViewershipMetricsResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     data: NotRequired[List[components_viewership_metric.ViewershipMetricTypedDict]]
     r"""A list of Metric objects"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -164,5 +164,5 @@ class GetViewershipMetricsResponse(BaseModel):
     data: Optional[List[components_viewership_metric.ViewershipMetric]] = None
     r"""A list of Metric objects"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""

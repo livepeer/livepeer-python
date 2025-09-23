@@ -19,18 +19,21 @@ Retrieve Multistream Targets
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getMultistreamTargets" method="get" path="/multistream/target" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.get_all()
+    res = l_client.multistream.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -46,10 +49,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## create
 
@@ -57,20 +59,23 @@ Create a multistream target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createMultistreamTarget" method="post" path="/multistream/target" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.create(request={
-    "url": "rtmps://live.my-service.tv/channel/secretKey",
-})
+    res = l_client.multistream.create(request={
+        "url": "rtmps://live.my-service.tv/channel/secretKey",
+    })
 
-if res.multistream_target is not None:
-    # handle response
-    pass
+    assert res.multistream_target is not None
+
+    # Handle response
+    print(res.multistream_target)
 
 ```
 
@@ -87,10 +92,9 @@ if res.multistream_target is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -98,18 +102,21 @@ Retrieve a multistream target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getMultistreamTarget" method="get" path="/multistream/target/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.get(id="<id>")
+    res = l_client.multistream.get(id="<id>")
 
-if res.multistream_target is not None:
-    # handle response
-    pass
+    assert res.multistream_target is not None
+
+    # Handle response
+    print(res.multistream_target)
 
 ```
 
@@ -126,10 +133,9 @@ if res.multistream_target is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## update
 
@@ -137,30 +143,33 @@ Update Multistream Target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateMultistreamTarget" method="patch" path="/multistream/target/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.update(id="<id>", multistream_target_patch_payload={
-    "url": "rtmps://live.my-service.tv/channel/secretKey",
-})
+    res = l_client.multistream.update(id="<id>", multistream_target={
+        "url": "rtmps://live.my-service.tv/channel/secretKey",
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
 ### Parameters
 
-| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                 | *str*                                                                                                | :heavy_check_mark:                                                                                   | ID of the multistream target                                                                         |
-| `multistream_target_patch_payload`                                                                   | [components.MultistreamTargetPatchPayload](../../models/components/multistreamtargetpatchpayload.md) | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
-| `retries`                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                     | :heavy_minus_sign:                                                                                   | Configuration to override the default retry behavior of the client.                                  |
+| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `id`                                                                                   | *str*                                                                                  | :heavy_check_mark:                                                                     | ID of the multistream target                                                           |
+| `multistream_target`                                                                   | [components.MultistreamTargetInput](../../models/components/multistreamtargetinput.md) | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `retries`                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                       | :heavy_minus_sign:                                                                     | Configuration to override the default retry behavior of the client.                    |
 
 ### Response
 
@@ -168,10 +177,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## delete
 
@@ -181,18 +189,21 @@ streams before actually deleting it from the API.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteMultistreamTarget" method="delete" path="/multistream/target/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.delete(id="<id>")
+    res = l_client.multistream.delete(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res is not None
+
+    # Handle response
+    print(res)
 
 ```
 
@@ -209,6 +220,6 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

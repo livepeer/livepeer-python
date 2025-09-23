@@ -10,20 +10,22 @@ from enum import Enum
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Dict, List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import Dict, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-ThreeTypedDict = Union[str, float]
+ThreeTypedDict = TypeAliasType("ThreeTypedDict", Union[str, float])
 
 
-Three = Union[str, float]
+Three = TypeAliasType("Three", Union[str, float])
 
 
-StreamUserTagsTypedDict = Union[str, float, List[ThreeTypedDict]]
+StreamUserTagsTypedDict = TypeAliasType(
+    "StreamUserTagsTypedDict", Union[str, float, List[ThreeTypedDict]]
+)
 
 
-StreamUserTags = Union[str, float, List[Three]]
+StreamUserTags = TypeAliasType("StreamUserTags", Union[str, float, List[Three]])
 
 
 class IsMobile1(int, Enum):
@@ -34,11 +36,13 @@ class IsMobile1(int, Enum):
     TWO = 2
 
 
-StreamIsMobileTypedDict = Union[IsMobile1, bool]
+StreamIsMobileTypedDict = TypeAliasType(
+    "StreamIsMobileTypedDict", Union[IsMobile1, bool]
+)
 r"""Indicates whether the stream will be pulled from a mobile source."""
 
 
-StreamIsMobile = Union[IsMobile1, bool]
+StreamIsMobile = TypeAliasType("StreamIsMobile", Union[IsMobile1, bool])
 r"""Indicates whether the stream will be pulled from a mobile source."""
 
 
@@ -415,7 +419,7 @@ class Stream(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

@@ -4,79 +4,103 @@ from __future__ import annotations
 from .httperror import HTTPErrorData
 from .httpvalidationerror import HTTPValidationErrorData
 from .studio_api_error import StudioAPIErrorData
-from livepeer import utils
-from typing import Union
+from dataclasses import dataclass, field
+import httpx
+from livepeer.models.errors import LivepeerError
+from typing import Optional, Union
+from typing_extensions import TypeAliasType
 
 
-GenSegmentAnything2GenerateResponse500ResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenSegmentAnything2GenerateResponse500ResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2GenerateResponse500ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Internal Server Error"""
 
 
-class GenSegmentAnything2GenerateResponse500ResponseBody(Exception):
+@dataclass(frozen=True)
+class GenSegmentAnything2GenerateResponse500ResponseBody(LivepeerError):
     r"""Internal Server Error"""
 
-    data: GenSegmentAnything2GenerateResponse500ResponseBodyUnion
+    data: GenSegmentAnything2GenerateResponse500ResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenSegmentAnything2GenerateResponse500ResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenSegmentAnything2GenerateResponse500ResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenSegmentAnything2GenerateResponse500ResponseBodyUnion
-        )
 
-
-GenSegmentAnything2GenerateResponseResponseBodyUnion = Union[
-    HTTPValidationErrorData, StudioAPIErrorData
-]
+GenSegmentAnything2GenerateResponseResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2GenerateResponseResponseBodyUnion",
+    Union[HTTPValidationErrorData, StudioAPIErrorData],
+)
 r"""Validation Error"""
 
 
-class GenSegmentAnything2GenerateResponseResponseBody(Exception):
+@dataclass(frozen=True)
+class GenSegmentAnything2GenerateResponseResponseBody(LivepeerError):
     r"""Validation Error"""
 
-    data: GenSegmentAnything2GenerateResponseResponseBodyUnion
+    data: GenSegmentAnything2GenerateResponseResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenSegmentAnything2GenerateResponseResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenSegmentAnything2GenerateResponseResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenSegmentAnything2GenerateResponseResponseBodyUnion
-        )
 
-
-GenSegmentAnything2GenerateResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenSegmentAnything2GenerateResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2GenerateResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Unauthorized"""
 
 
-class GenSegmentAnything2GenerateResponseBody(Exception):
+@dataclass(frozen=True)
+class GenSegmentAnything2GenerateResponseBody(LivepeerError):
     r"""Unauthorized"""
 
-    data: GenSegmentAnything2GenerateResponseBodyUnion
+    data: GenSegmentAnything2GenerateResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenSegmentAnything2GenerateResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenSegmentAnything2GenerateResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenSegmentAnything2GenerateResponseBodyUnion
-        )
 
-
-GenSegmentAnything2ResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenSegmentAnything2ResponseBodyUnion = TypeAliasType(
+    "GenSegmentAnything2ResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Bad Request"""
 
 
-class GenSegmentAnything2ResponseBody(Exception):
+@dataclass(frozen=True)
+class GenSegmentAnything2ResponseBody(LivepeerError):
     r"""Bad Request"""
 
-    data: GenSegmentAnything2ResponseBodyUnion
+    data: GenSegmentAnything2ResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenSegmentAnything2ResponseBodyUnion):
-        self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GenSegmentAnything2ResponseBodyUnion)
+    def __init__(
+        self,
+        data: GenSegmentAnything2ResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)

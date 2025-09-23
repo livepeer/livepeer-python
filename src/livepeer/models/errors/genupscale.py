@@ -4,77 +4,102 @@ from __future__ import annotations
 from .httperror import HTTPErrorData
 from .httpvalidationerror import HTTPValidationErrorData
 from .studio_api_error import StudioAPIErrorData
-from livepeer import utils
-from typing import Union
+from dataclasses import dataclass, field
+import httpx
+from livepeer.models.errors import LivepeerError
+from typing import Optional, Union
+from typing_extensions import TypeAliasType
 
 
-GenUpscaleGenerateResponse500ResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenUpscaleGenerateResponse500ResponseBodyUnion = TypeAliasType(
+    "GenUpscaleGenerateResponse500ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Internal Server Error"""
 
 
-class GenUpscaleGenerateResponse500ResponseBody(Exception):
+@dataclass(frozen=True)
+class GenUpscaleGenerateResponse500ResponseBody(LivepeerError):
     r"""Internal Server Error"""
 
-    data: GenUpscaleGenerateResponse500ResponseBodyUnion
+    data: GenUpscaleGenerateResponse500ResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenUpscaleGenerateResponse500ResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenUpscaleGenerateResponse500ResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenUpscaleGenerateResponse500ResponseBodyUnion
-        )
 
-
-GenUpscaleGenerateResponseResponseBodyUnion = Union[
-    HTTPValidationErrorData, StudioAPIErrorData
-]
+GenUpscaleGenerateResponseResponseBodyUnion = TypeAliasType(
+    "GenUpscaleGenerateResponseResponseBodyUnion",
+    Union[HTTPValidationErrorData, StudioAPIErrorData],
+)
 r"""Validation Error"""
 
 
-class GenUpscaleGenerateResponseResponseBody(Exception):
+@dataclass(frozen=True)
+class GenUpscaleGenerateResponseResponseBody(LivepeerError):
     r"""Validation Error"""
 
-    data: GenUpscaleGenerateResponseResponseBodyUnion
+    data: GenUpscaleGenerateResponseResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenUpscaleGenerateResponseResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenUpscaleGenerateResponseResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenUpscaleGenerateResponseResponseBodyUnion
-        )
 
-
-GenUpscaleGenerateResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenUpscaleGenerateResponseBodyUnion = TypeAliasType(
+    "GenUpscaleGenerateResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Unauthorized"""
 
 
-class GenUpscaleGenerateResponseBody(Exception):
+@dataclass(frozen=True)
+class GenUpscaleGenerateResponseBody(LivepeerError):
     r"""Unauthorized"""
 
-    data: GenUpscaleGenerateResponseBodyUnion
+    data: GenUpscaleGenerateResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenUpscaleGenerateResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenUpscaleGenerateResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GenUpscaleGenerateResponseBodyUnion)
 
-
-GenUpscaleResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenUpscaleResponseBodyUnion = TypeAliasType(
+    "GenUpscaleResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Bad Request"""
 
 
-class GenUpscaleResponseBody(Exception):
+@dataclass(frozen=True)
+class GenUpscaleResponseBody(LivepeerError):
     r"""Bad Request"""
 
-    data: GenUpscaleResponseBodyUnion
+    data: GenUpscaleResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenUpscaleResponseBodyUnion):
-        self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GenUpscaleResponseBodyUnion)
+    def __init__(
+        self,
+        data: GenUpscaleResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)

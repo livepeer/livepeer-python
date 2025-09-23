@@ -11,8 +11,8 @@ from .usertags import UserTags, UserTagsTypedDict
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Dict, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Dict, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class NewStreamPayloadRecordingSpecTypedDict(TypedDict):
@@ -32,7 +32,7 @@ class NewStreamPayloadRecordingSpec(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -131,7 +131,7 @@ class NewStreamPayload(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

@@ -3,8 +3,7 @@
 from __future__ import annotations
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, SecurityMetadata
-from typing import TypedDict
-from typing_extensions import Annotated
+from typing_extensions import Annotated, TypedDict
 
 
 class SecurityTypedDict(TypedDict):
