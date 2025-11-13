@@ -3,7 +3,7 @@
 from __future__ import annotations
 from enum import Enum
 from livepeer.types import BaseModel
-from typing import TypedDict
+from typing_extensions import TypedDict
 
 
 class CreatorIDType(str, Enum):

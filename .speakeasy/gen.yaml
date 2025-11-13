@@ -4,26 +4,50 @@ generation:
   maintainOpenAPIOrder: true
   usageSnippets:
     optionalPropertyRendering: withExample
+    sdkInitStyle: constructor
   useClassNamesForArrayFields: true
   fixes:
     nameResolutionDec2023: true
+    nameResolutionFeb2025: false
     parameterOrderingFeb2024: true
     requestResponseComponentNamesFeb2024: true
+    securityFeb2025: false
+    sharedErrorComponentsApr2025: false
   auth:
     oAuth2ClientCredentialsEnabled: true
+    oAuth2PasswordEnabled: false
+    hoistGlobalSecurity: true
+  schemas:
+    allOfMergeStrategy: shallowMerge
+  requestBodyFieldName: ""
+  tests:
+    generateTests: true
+    generateNewTests: false
+    skipResponseBodyAssertions: false
 python:
-  version: 0.3.0
+  version: 0.4.0
   additionalDependencies:
     dev: {}
     main: {}
+  allowedRedefinedBuiltins:
+    - id
+    - object
+  asyncMode: both
   author: Livepeer
   authors:
     - Speakeasy
+  baseErrorName: LivepeerError
   clientServerStatusCodesAsErrors: true
+  defaultErrorName: SDKError
   description: Python Client SDK for Livepeer Studio
+  enableCustomCodeRegions: false
   enumFormat: enum
+  fixFlags:
+    asyncPaginationSep2025: false
+    responseRequiredSep2024: false
   flattenGlobalSecurity: true
   flattenRequests: false
+  flatteningOrder: parameters-first
   imports:
     option: openapi
     paths:
@@ -33,10 +57,16 @@ python:
       shared: models/components
       webhooks: models/webhooks
   inputModelSuffix: input
+  legacyPyright: true
   maxMethodParams: 4
   methodArguments: require-security-and-request
+  moduleName: ""
   outputModelSuffix: output
+  packageManager: poetry
   packageName: livepeer
   projectUrls: {}
+  pytestFilterWarnings: []
+  pytestTimeout: 0
   responseFormat: envelope-http
+  sseFlatResponse: false
   templateVersion: v2

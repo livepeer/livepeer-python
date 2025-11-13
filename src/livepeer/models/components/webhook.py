@@ -4,8 +4,8 @@ from __future__ import annotations
 from enum import Enum
 from livepeer.types import BaseModel
 import pydantic
-from typing import List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Events(str, Enum):

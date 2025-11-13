@@ -1,0 +1,10 @@
+# GenLiveVideoToVideoResponse
+
+
+## Fields
+
+| Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `http_meta`                                                                                          | [components.HTTPMetadata](../../models/components/httpmetadata.md)                                   | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
+| `live_video_to_video_response`                                                                       | [Optional[components.LiveVideoToVideoResponse]](../../models/components/livevideotovideoresponse.md) | :heavy_minus_sign:                                                                                   | Successful Response                                                                                  |
+| `studio_api_error`                                                                                   | *Optional[errors.StudioAPIError]*                                                                    | :heavy_minus_sign:                                                                                   | Error                                                                                                |

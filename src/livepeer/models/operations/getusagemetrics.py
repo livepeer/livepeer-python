@@ -3,15 +3,15 @@
 from __future__ import annotations
 from enum import Enum
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     usage_metric as components_usage_metric,
 )
-from livepeer.models.errors import error as errors_error
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetUsageMetricsQueryParamTimeStep(str, Enum):
@@ -100,7 +100,7 @@ class GetUsageMetricsResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     usage_metric: NotRequired[components_usage_metric.UsageMetricTypedDict]
     r"""A Usage Metric object"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -112,5 +112,5 @@ class GetUsageMetricsResponse(BaseModel):
     usage_metric: Optional[components_usage_metric.UsageMetric] = None
     r"""A Usage Metric object"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""

@@ -3,7 +3,8 @@
 from __future__ import annotations
 from .chunk import Chunk, ChunkTypedDict
 from livepeer.types import BaseModel
-from typing import List, TypedDict
+from typing import List
+from typing_extensions import TypedDict
 
 
 class TextResponseTypedDict(TypedDict):

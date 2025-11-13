@@ -3,8 +3,8 @@
 from __future__ import annotations
 from livepeer.types import BaseModel
 import pydantic
-from typing import Any, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import Any, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class Pinata2TypedDict(TypedDict):
@@ -25,14 +25,16 @@ class Pinata1(BaseModel):
     pass
 
 
-PinataTypedDict = Union[Pinata1TypedDict, Pinata2TypedDict]
+PinataTypedDict = TypeAliasType(
+    "PinataTypedDict", Union[Pinata1TypedDict, Pinata2TypedDict]
+)
 r"""Custom credentials for the Piñata service. Must have either
 a JWT or an API key and an API secret.
 
 """
 
 
-Pinata = Union[Pinata1, Pinata2]
+Pinata = TypeAliasType("Pinata", Union[Pinata1, Pinata2])
 r"""Custom credentials for the Piñata service. Must have either
 a JWT or an API key and an API secret.
 

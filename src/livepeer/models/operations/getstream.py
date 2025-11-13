@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     stream as components_stream,
 )
-from livepeer.models.errors import error as errors_error
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, PathParamMetadata
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetStreamRequestTypedDict(TypedDict):
@@ -29,7 +29,7 @@ class GetStreamResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     stream: NotRequired[components_stream.StreamTypedDict]
     r"""Success"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -41,5 +41,5 @@ class GetStreamResponse(BaseModel):
     stream: Optional[components_stream.Stream] = None
     r"""Success"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""

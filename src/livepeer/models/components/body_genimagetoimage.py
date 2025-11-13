@@ -5,8 +5,8 @@ import io
 from livepeer.types import BaseModel
 from livepeer.utils import FieldMetadata, MultipartFormMetadata
 import pydantic
-from typing import IO, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from typing import IO, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ImageTypedDict(TypedDict):
@@ -17,7 +17,7 @@ class ImageTypedDict(TypedDict):
 
 class Image(BaseModel):
     file_name: Annotated[
-        str, pydantic.Field(alias="image"), FieldMetadata(multipart=True)
+        str, pydantic.Field(alias="fileName"), FieldMetadata(multipart=True)
     ]
 
     content: Annotated[
@@ -40,6 +40,8 @@ class BodyGenImageToImageTypedDict(TypedDict):
     r"""Uploaded image to modify with the pipeline."""
     model_id: NotRequired[str]
     r"""Hugging Face model ID used for image generation."""
+    loras: NotRequired[str]
+    r"""A LoRA (Low-Rank Adaptation) model and its corresponding weight for image generation. Example: { \"latent-consistency/lcm-lora-sdxl\": 1.0, \"nerijs/pixel-art-xl\": 1.2}."""
     strength: NotRequired[float]
     r"""Degree of transformation applied to the reference image (0 to 1)."""
     guidance_scale: NotRequired[float]
@@ -62,17 +64,16 @@ class BodyGenImageToImage(BaseModel):
     prompt: Annotated[str, FieldMetadata(multipart=True)]
     r"""Text prompt(s) to guide image generation."""
 
-    image: Annotated[
-        Image,
-        pydantic.Field(alias=""),
-        FieldMetadata(multipart=MultipartFormMetadata(file=True)),
-    ]
+    image: Annotated[Image, FieldMetadata(multipart=MultipartFormMetadata(file=True))]
     r"""Uploaded image to modify with the pipeline."""
 
     model_id: Annotated[Optional[str], FieldMetadata(multipart=True)] = (
         "timbrooks/instruct-pix2pix"
     )
     r"""Hugging Face model ID used for image generation."""
+
+    loras: Annotated[Optional[str], FieldMetadata(multipart=True)] = ""
+    r"""A LoRA (Low-Rank Adaptation) model and its corresponding weight for image generation. Example: { \"latent-consistency/lcm-lora-sdxl\": 1.0, \"nerijs/pixel-art-xl\": 1.2}."""
 
     strength: Annotated[Optional[float], FieldMetadata(multipart=True)] = 0.8
     r"""Degree of transformation applied to the reference image (0 to 1)."""
