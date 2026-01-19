@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 import io
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 from livepeer.utils import FieldMetadata, MultipartFormMetadata
 import pydantic
-from typing import IO, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import IO, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class AudioTypedDict(TypedDict):
@@ -17,7 +18,7 @@ class AudioTypedDict(TypedDict):
 
 class Audio(BaseModel):
     file_name: Annotated[
-        str, pydantic.Field(alias="audio"), FieldMetadata(multipart=True)
+        str, pydantic.Field(alias="fileName"), FieldMetadata(multipart=True)
     ]
 
     content: Annotated[
@@ -32,23 +33,56 @@ class Audio(BaseModel):
         FieldMetadata(multipart=True),
     ] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["contentType"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class BodyGenAudioToTextTypedDict(TypedDict):
     audio: AudioTypedDict
     r"""Uploaded audio file to be transcribed."""
     model_id: NotRequired[str]
     r"""Hugging Face model ID used for transcription."""
+    return_timestamps: NotRequired[str]
+    r"""Return timestamps for the transcribed text. Supported values: 'sentence', 'word', or a string boolean ('true' or 'false'). Default is 'true' ('sentence'). 'false' means no timestamps. 'word' means word-based timestamps."""
 
 
 class BodyGenAudioToText(BaseModel):
-    audio: Annotated[
-        Audio,
-        pydantic.Field(alias=""),
-        FieldMetadata(multipart=MultipartFormMetadata(file=True)),
-    ]
+    audio: Annotated[Audio, FieldMetadata(multipart=MultipartFormMetadata(file=True))]
     r"""Uploaded audio file to be transcribed."""
 
     model_id: Annotated[Optional[str], FieldMetadata(multipart=True)] = (
         "openai/whisper-large-v3"
     )
     r"""Hugging Face model ID used for transcription."""
+
+    return_timestamps: Annotated[Optional[str], FieldMetadata(multipart=True)] = "true"
+    r"""Return timestamps for the transcribed text. Supported values: 'sentence', 'word', or a string boolean ('true' or 'false'). Default is 'true' ('sentence'). 'false' means no timestamps. 'word' means word-based timestamps."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["model_id", "return_timestamps"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

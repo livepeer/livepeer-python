@@ -4,10 +4,12 @@ from __future__ import annotations
 from .input_creator_id import InputCreatorID, InputCreatorIDTypedDict
 from .transcode_profile import TranscodeProfile, TranscodeProfileTypedDict
 from enum import Enum
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
+from livepeer.utils import get_discriminator
 import pydantic
-from typing import List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from pydantic import Discriminator, Tag, model_serializer
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputType(str, Enum):
@@ -92,10 +94,12 @@ class Input1(BaseModel):
     r"""URL of the video to transcode"""
 
 
-InputTypedDict = Union[Input1TypedDict, Input2TypedDict]
+InputTypedDict = TypeAliasType(
+    "InputTypedDict", Union[Input1TypedDict, Input2TypedDict]
+)
 
 
-Input = Union[Input1, Input2]
+Input = TypeAliasType("Input", Union[Input1, Input2])
 
 
 class TranscodePayloadStorageType(str, Enum):
@@ -203,10 +207,15 @@ class Storage1(BaseModel):
     r"""Credentials for the output video storage"""
 
 
-TranscodePayloadStorageTypedDict = Union[Storage2TypedDict, Storage1TypedDict]
+TranscodePayloadStorageTypedDict = TypeAliasType(
+    "TranscodePayloadStorageTypedDict", Union[Storage2TypedDict, Storage1TypedDict]
+)
 
 
-TranscodePayloadStorage = Union[Storage2, Storage1]
+TranscodePayloadStorage = Annotated[
+    Union[Annotated[Storage1, Tag("s3")], Annotated[Storage2, Tag("web3.storage")]],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HlsTypedDict(TypedDict):
@@ -274,6 +283,22 @@ class Outputs(BaseModel):
     fmp4: Optional[Fmp4] = None
     r"""FMP4 output format"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["hls", "mp4", "fmp4"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class TranscodePayloadTypedDict(TypedDict):
     input: InputTypedDict
@@ -309,3 +334,21 @@ class TranscodePayload(BaseModel):
 
     c2pa: Optional[bool] = None
     r"""Decides if the output video should include C2PA signature"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["profiles", "targetSegmentSizeSecs", "creatorId", "c2pa"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 from .ipfs_export_params import IpfsExportParams, IpfsExportParamsTypedDict
-from livepeer.types import BaseModel
-from typing import Dict, Optional, TypedDict, Union
-from typing_extensions import NotRequired
+from livepeer.types import BaseModel, UNSET_SENTINEL
+from pydantic import model_serializer
+from typing import Dict, Optional, Union
+from typing_extensions import NotRequired, TypeAliasType, TypedDict
 
 
 class ExportTaskParams2TypedDict(TypedDict):
@@ -38,6 +39,22 @@ class Custom(BaseModel):
     headers: Optional[Dict[str, str]] = None
     r"""Headers to add to the export request"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["method", "headers"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class ExportTaskParams1TypedDict(TypedDict):
     custom: CustomTypedDict
@@ -49,11 +66,14 @@ class ExportTaskParams1(BaseModel):
     r"""custom URL parameters for the export task"""
 
 
-ExportTaskParamsTypedDict = Union[
-    ExportTaskParams1TypedDict, ExportTaskParams2TypedDict
-]
+ExportTaskParamsTypedDict = TypeAliasType(
+    "ExportTaskParamsTypedDict",
+    Union[ExportTaskParams1TypedDict, ExportTaskParams2TypedDict],
+)
 r"""Parameters for the export task"""
 
 
-ExportTaskParams = Union[ExportTaskParams1, ExportTaskParams2]
+ExportTaskParams = TypeAliasType(
+    "ExportTaskParams", Union[ExportTaskParams1, ExportTaskParams2]
+)
 r"""Parameters for the export task"""

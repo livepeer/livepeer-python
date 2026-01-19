@@ -2,15 +2,16 @@
 
 from __future__ import annotations
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     signing_key as components_signing_key,
 )
-from livepeer.models.errors import error as errors_error
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 from livepeer.utils import FieldMetadata, PathParamMetadata
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetSigningKeyRequestTypedDict(TypedDict):
@@ -31,7 +32,7 @@ class GetSigningKeyResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     signing_key: NotRequired[components_signing_key.SigningKeyTypedDict]
     r"""Success"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -43,5 +44,21 @@ class GetSigningKeyResponse(BaseModel):
     signing_key: Optional[components_signing_key.SigningKey] = None
     r"""Success"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["signing-key", "error"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

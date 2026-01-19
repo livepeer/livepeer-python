@@ -1,5 +1,4 @@
 # Playback
-(*playback*)
 
 ## Overview
 
@@ -15,18 +14,21 @@ Retrieve Playback Info
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getPlaybackInfo" method="get" path="/playback/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.playback.get(id="<id>")
+    res = l_client.playback.get(id="<id>")
 
-if res.playback_info is not None:
-    # handle response
-    pass
+    assert res.playback_info is not None
+
+    # Handle response
+    print(res.playback_info)
 
 ```
 
@@ -43,7 +45,7 @@ if res.playback_info is not None:
 
 ### Errors
 
-| Error Object     | Status Code      | Content Type     |
+| Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
 | errors.Error     | 404              | application/json |
-| errors.SDKError  | 4xx-5xx          | */*              |
+| errors.SDKError  | 4XX, 5XX         | \*/\*            |

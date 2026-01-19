@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 from enum import Enum
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from typing import List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Events(str, Enum):
@@ -59,6 +60,22 @@ class LastFailure(BaseModel):
     status_code: Annotated[Optional[float], pydantic.Field(alias="statusCode")] = None
     r"""Webhook failure status code"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["timestamp", "error", "response", "statusCode"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class StatusTypedDict(TypedDict):
     r"""status of webhook"""
@@ -87,6 +104,22 @@ class Status(BaseModel):
     triggered
 
     """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["lastFailure", "lastTriggeredAt"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class WebhookTypedDict(TypedDict):
@@ -142,6 +175,33 @@ class Webhook(BaseModel):
     status: Optional[Status] = None
     r"""status of webhook"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "kind",
+                "userId",
+                "projectId",
+                "createdAt",
+                "events",
+                "streamId",
+                "status",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class WebhookInputTypedDict(TypedDict):
     name: str
@@ -170,3 +230,19 @@ class WebhookInput(BaseModel):
 
     stream_id: Annotated[Optional[str], pydantic.Field(alias="streamId")] = None
     r"""streamId of the stream on which the webhook is applied"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["projectId", "events", "sharedSecret", "streamId"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

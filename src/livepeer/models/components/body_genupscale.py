@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 import io
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 from livepeer.utils import FieldMetadata, MultipartFormMetadata
 import pydantic
-from typing import IO, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import IO, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class BodyGenUpscaleImageTypedDict(TypedDict):
@@ -17,7 +18,7 @@ class BodyGenUpscaleImageTypedDict(TypedDict):
 
 class BodyGenUpscaleImage(BaseModel):
     file_name: Annotated[
-        str, pydantic.Field(alias="image"), FieldMetadata(multipart=True)
+        str, pydantic.Field(alias="fileName"), FieldMetadata(multipart=True)
     ]
 
     content: Annotated[
@@ -31,6 +32,22 @@ class BodyGenUpscaleImage(BaseModel):
         pydantic.Field(alias="Content-Type"),
         FieldMetadata(multipart=True),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["contentType"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class BodyGenUpscaleTypedDict(TypedDict):
@@ -53,9 +70,7 @@ class BodyGenUpscale(BaseModel):
     r"""Text prompt(s) to guide upscaled image generation."""
 
     image: Annotated[
-        BodyGenUpscaleImage,
-        pydantic.Field(alias=""),
-        FieldMetadata(multipart=MultipartFormMetadata(file=True)),
+        BodyGenUpscaleImage, FieldMetadata(multipart=MultipartFormMetadata(file=True))
     ]
     r"""Uploaded image to modify with the pipeline."""
 
@@ -72,3 +87,21 @@ class BodyGenUpscale(BaseModel):
 
     num_inference_steps: Annotated[Optional[int], FieldMetadata(multipart=True)] = 75
     r"""Number of denoising steps. More steps usually lead to higher quality images but slower inference. Modulated by strength."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["model_id", "safety_check", "seed", "num_inference_steps"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

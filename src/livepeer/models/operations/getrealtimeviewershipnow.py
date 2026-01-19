@@ -3,15 +3,16 @@
 from __future__ import annotations
 from enum import Enum
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     realtime_viewership_metric as components_realtime_viewership_metric,
 )
-from livepeer.models.errors import error as errors_error
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 from livepeer.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class BreakdownBy(str, Enum):
@@ -66,6 +67,22 @@ class GetRealtimeViewershipNowRequest(BaseModel):
 
     """
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["playbackId", "creatorId", "breakdownBy[]"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class GetRealtimeViewershipNowResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
@@ -73,7 +90,7 @@ class GetRealtimeViewershipNowResponseTypedDict(TypedDict):
         List[components_realtime_viewership_metric.RealtimeViewershipMetricTypedDict]
     ]
     r"""A list of Metric objects"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -87,5 +104,21 @@ class GetRealtimeViewershipNowResponse(BaseModel):
     ] = None
     r"""A list of Metric objects"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["data", "error"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

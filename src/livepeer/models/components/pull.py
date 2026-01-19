@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 from enum import Enum
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from typing import Dict, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import Dict, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class One(int, Enum):
@@ -16,11 +17,11 @@ class One(int, Enum):
     TWO = 2
 
 
-IsMobileTypedDict = Union[One, bool]
+IsMobileTypedDict = TypeAliasType("IsMobileTypedDict", Union[One, bool])
 r"""Indicates whether the stream will be pulled from a mobile source."""
 
 
-IsMobile = Union[One, bool]
+IsMobile = TypeAliasType("IsMobile", Union[One, bool])
 r"""Indicates whether the stream will be pulled from a mobile source."""
 
 
@@ -92,3 +93,19 @@ class Pull(BaseModel):
     r"""Approximate location of the pull source. The location is used to
     determine the closest Livepeer region to pull the stream from.
     """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["headers", "isMobile", "location"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

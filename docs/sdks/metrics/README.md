@@ -1,5 +1,4 @@
 # Metrics
-(*metrics*)
 
 ## Overview
 
@@ -20,18 +19,21 @@ Requires a private (non-CORS) API key to be used.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getRealtimeViewershipNow" method="get" path="/data/views/now" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_realtime_viewership()
+    res = l_client.metrics.get_realtime_viewership()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -50,10 +52,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_viewership
 
@@ -62,18 +63,21 @@ Requires a private (non-CORS) API key to be used.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getViewershipMetrics" method="get" path="/data/views/query" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_viewership(request={})
+    res = l_client.metrics.get_viewership(request={})
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -90,10 +94,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_creator_viewership
 
@@ -102,18 +105,21 @@ Requires a proof of ownership to be sent in the request, which for now is just t
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getCreatorViewershipMetrics" method="get" path="/data/views/query/creator" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_creator_viewership(request={})
+    res = l_client.metrics.get_creator_viewership(request={})
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -130,10 +136,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_public_viewership
 
@@ -144,18 +149,21 @@ unauthenticated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getPublicViewershipMetrics" method="get" path="/data/views/query/total/{playbackId}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_public_viewership(playback_id="<value>")
+    res = l_client.metrics.get_public_viewership(playback_id="<id>")
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -172,10 +180,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_usage
 
@@ -183,18 +190,21 @@ Query usage metrics
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getUsageMetrics" method="get" path="/data/usage/query" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.metrics.get_usage(request={})
+    res = l_client.metrics.get_usage(request={})
 
-if res.usage_metric is not None:
-    # handle response
-    pass
+    assert res.usage_metric is not None
+
+    # Handle response
+    print(res.usage_metric)
 
 ```
 
@@ -211,6 +221,6 @@ if res.usage_metric is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

@@ -1,5 +1,4 @@
 # Multistream
-(*multistream*)
 
 ## Overview
 
@@ -19,18 +18,21 @@ Retrieve Multistream Targets
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getMultistreamTargets" method="get" path="/multistream/target" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.get_all()
+    res = l_client.multistream.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -46,10 +48,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## create
 
@@ -57,20 +58,23 @@ Create a multistream target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createMultistreamTarget" method="post" path="/multistream/target" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.create(request={
-    "url": "rtmps://live.my-service.tv/channel/secretKey",
-})
+    res = l_client.multistream.create(request={
+        "url": "rtmps://live.my-service.tv/channel/secretKey",
+    })
 
-if res.multistream_target is not None:
-    # handle response
-    pass
+    assert res.multistream_target is not None
+
+    # Handle response
+    print(res.multistream_target)
 
 ```
 
@@ -87,10 +91,9 @@ if res.multistream_target is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -98,18 +101,21 @@ Retrieve a multistream target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getMultistreamTarget" method="get" path="/multistream/target/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.get(id="<id>")
+    res = l_client.multistream.get(id="<id>")
 
-if res.multistream_target is not None:
-    # handle response
-    pass
+    assert res.multistream_target is not None
+
+    # Handle response
+    print(res.multistream_target)
 
 ```
 
@@ -126,10 +132,9 @@ if res.multistream_target is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## update
 
@@ -137,20 +142,23 @@ Update Multistream Target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateMultistreamTarget" method="patch" path="/multistream/target/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.update(id="<id>", multistream_target_patch_payload={
-    "url": "rtmps://live.my-service.tv/channel/secretKey",
-})
+    res = l_client.multistream.update(id="<id>", multistream_target_patch_payload={
+        "url": "rtmps://live.my-service.tv/channel/secretKey",
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -168,10 +176,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## delete
 
@@ -181,18 +188,21 @@ streams before actually deleting it from the API.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteMultistreamTarget" method="delete" path="/multistream/target/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.multistream.delete(id="<id>")
+    res = l_client.multistream.delete(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -209,6 +219,6 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

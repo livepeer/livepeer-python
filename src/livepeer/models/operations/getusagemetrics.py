@@ -3,15 +3,16 @@
 from __future__ import annotations
 from enum import Enum
 from livepeer.models.components import (
+    error as components_error,
     httpmetadata as components_httpmetadata,
     usage_metric as components_usage_metric,
 )
-from livepeer.models.errors import error as errors_error
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 from livepeer.utils import FieldMetadata, QueryParamMetadata
 import pydantic
-from typing import List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetUsageMetricsQueryParamTimeStep(str, Enum):
@@ -95,12 +96,28 @@ class GetUsageMetricsRequest(BaseModel):
 
     """
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["from", "to", "timeStep", "creatorId", "breakdownBy[]"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class GetUsageMetricsResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     usage_metric: NotRequired[components_usage_metric.UsageMetricTypedDict]
     r"""A Usage Metric object"""
-    error: NotRequired[errors_error.Error]
+    error: NotRequired[components_error.ErrorTypedDict]
     r"""Error"""
 
 
@@ -112,5 +129,21 @@ class GetUsageMetricsResponse(BaseModel):
     usage_metric: Optional[components_usage_metric.UsageMetric] = None
     r"""A Usage Metric object"""
 
-    error: Optional[errors_error.Error] = None
+    error: Optional[components_error.Error] = None
     r"""Error"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["usage-metric", "error"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

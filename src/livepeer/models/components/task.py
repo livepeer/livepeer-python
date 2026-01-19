@@ -8,11 +8,11 @@ from .input_creator_id import InputCreatorID, InputCreatorIDTypedDict
 from .ipfs_export_params import IpfsExportParams, IpfsExportParamsTypedDict
 from .transcode_profile import TranscodeProfile, TranscodeProfileTypedDict
 from enum import Enum
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from pydantic import ConfigDict
-from typing import Any, Dict, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import ConfigDict, model_serializer
+from typing import Any, Dict, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TaskType(str, Enum):
@@ -56,6 +56,24 @@ class Upload(BaseModel):
     ] = None
     r"""How many seconds the duration of each output segment should be"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["url", "encryption", "c2pa", "profiles", "targetSegmentSizeSecs"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class ContentTypedDict(TypedDict):
     r"""File content to store into IPFS"""
@@ -91,6 +109,22 @@ class TaskExportData(BaseModel):
     id: Optional[str] = None
     r"""Optional ID of the content"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["ipfs", "type", "id"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class TaskInputTypedDict(TypedDict):
     r"""Input video file to transcode"""
@@ -110,6 +144,22 @@ class TaskInput(BaseModel):
     \"s3+https\" 
 
     """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["url"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class TaskStorageTypedDict(TypedDict):
@@ -131,6 +181,22 @@ class TaskStorage(BaseModel):
 
     """
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["url"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class TaskHlsTypedDict(TypedDict):
     r"""HLS output format"""
@@ -145,6 +211,22 @@ class TaskHls(BaseModel):
     path: Optional[str] = None
     r"""Path for the HLS output"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["path"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class TaskMp4TypedDict(TypedDict):
     r"""MP4 output format"""
@@ -158,6 +240,22 @@ class TaskMp4(BaseModel):
 
     path: Optional[str] = None
     r"""Path for the MP4 output"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["path"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class TaskOutputsTypedDict(TypedDict):
@@ -177,6 +275,22 @@ class TaskOutputs(BaseModel):
 
     mp4: Optional[TaskMp4] = None
     r"""MP4 output format"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["hls", "mp4"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class TranscodeFileTypedDict(TypedDict):
@@ -228,6 +342,32 @@ class TranscodeFile(BaseModel):
     c2pa: Optional[bool] = None
     r"""Decides if the output video should include C2PA signature"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "input",
+                "storage",
+                "outputs",
+                "profiles",
+                "targetSegmentSizeSecs",
+                "creatorId",
+                "c2pa",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class ClipStrategyTypedDict(TypedDict):
     r"""Strategy to use for clipping the asset. If not specified, the default strategy that Catalyst is configured for will be used. This field only available for admin users, and is only used for E2E testing."""
@@ -251,6 +391,22 @@ class ClipStrategy(BaseModel):
 
     playback_id: Annotated[Optional[str], pydantic.Field(alias="playbackId")] = None
     r"""The playback ID of the stream or stream recording to clip. Asset playback IDs are not supported yet."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["startTime", "endTime", "playbackId"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CatalystPipelineStrategy(str, Enum):
@@ -298,6 +454,24 @@ class Clip(BaseModel):
     input_id: Annotated[Optional[str], pydantic.Field(alias="inputId")] = None
     r"""ID of the input asset or stream"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["url", "clipStrategy", "catalystPipelineStrategy", "sessionId", "inputId"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class ParamsTypedDict(TypedDict):
     r"""Parameters of the task"""
@@ -333,6 +507,24 @@ class Params(BaseModel):
     r"""Parameters for the transcode-file task"""
 
     clip: Optional[Clip] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["upload", "export", "exportData", "transcode-file", "clip"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class TaskPhase(str, Enum):
@@ -379,6 +571,22 @@ class TaskStatus(BaseModel):
     retries: Optional[float] = None
     r"""Number of retries done on the task"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["progress", "errorMessage", "retries"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class TaskUploadTypedDict(TypedDict):
     r"""Output of the upload task"""
@@ -403,6 +611,25 @@ class TaskUpload(BaseModel):
     @additional_properties.setter
     def additional_properties(self, value):
         self.__pydantic_extra__ = value  # pyright: ignore[reportIncompatibleVariableOverride]
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["assetSpec"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+        for k, v in serialized.items():
+            m[k] = v
+
+        return m
 
 
 class TaskIpfsTypedDict(TypedDict):
@@ -455,6 +682,30 @@ class TaskIpfs(BaseModel):
 
     """
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "videoFileUrl",
+                "videoFileGatewayUrl",
+                "nftMetadataCid",
+                "nftMetadataUrl",
+                "nftMetadataGatewayUrl",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class ExportTypedDict(TypedDict):
     r"""Output of the export task"""
@@ -466,6 +717,22 @@ class Export(BaseModel):
     r"""Output of the export task"""
 
     ipfs: Optional[TaskIpfs] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["ipfs"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class TaskOutputIpfsTypedDict(TypedDict):
@@ -488,6 +755,22 @@ class ExportData(BaseModel):
     r"""Output of the export data task"""
 
     ipfs: Optional[TaskOutputIpfs] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["ipfs"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class OutputTypedDict(TypedDict):
@@ -514,6 +797,22 @@ class Output(BaseModel):
         None
     )
     r"""Output of the export data task"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["upload", "export", "exportData"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class TaskTypedDict(TypedDict):
@@ -584,3 +883,33 @@ class Task(BaseModel):
 
     output: Optional[Output] = None
     r"""Output of the task"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "type",
+                "createdAt",
+                "scheduledAt",
+                "inputAssetId",
+                "outputAssetId",
+                "projectId",
+                "requesterId",
+                "params",
+                "status",
+                "output",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

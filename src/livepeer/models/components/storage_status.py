@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 from enum import Enum
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Phase(str, Enum):
@@ -49,6 +50,22 @@ class Tasks(BaseModel):
     failed: Optional[str] = None
     r"""ID of the last task to fail execution."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["pending", "last", "failed"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class StorageStatusTypedDict(TypedDict):
     phase: Phase
@@ -71,3 +88,19 @@ class StorageStatus(BaseModel):
 
     error_message: Annotated[Optional[str], pydantic.Field(alias="errorMessage")] = None
     r"""Error message if the last storage changed failed."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["progress", "errorMessage"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

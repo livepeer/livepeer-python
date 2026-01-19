@@ -9,10 +9,11 @@ from .storage_status import StorageStatus, StorageStatusTypedDict
 from .transcode_profile import TranscodeProfile, TranscodeProfileTypedDict
 from enum import Enum
 from livepeer.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from livepeer.utils import get_discriminator
 import pydantic
-from pydantic import model_serializer
-from typing import Any, List, Optional, TypedDict, Union
-from typing_extensions import Annotated, NotRequired
+from pydantic import Discriminator, Tag, model_serializer
+from typing import Any, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class AssetType(str, Enum):
@@ -62,6 +63,31 @@ class Source3(BaseModel):
     asset_id: Annotated[Optional[str], pydantic.Field(alias="assetId")] = None
     r"""ID of the asset from which this asset was created."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "encryption",
+                "sourceId",
+                "sessionId",
+                "playbackId",
+                "requesterId",
+                "assetId",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class AssetSourceType(str, Enum):
     RECORDING = "recording"
@@ -104,11 +130,37 @@ class Source1(BaseModel):
 
     encryption: Optional[EncryptionOutput] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["gatewayUrl", "encryption"])
+        serialized = handler(self)
+        m = {}
 
-SourceTypedDict = Union[TwoTypedDict, Source1TypedDict, Source3TypedDict]
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
-Source = Union[Two, Source1, Source3]
+SourceTypedDict = TypeAliasType(
+    "SourceTypedDict", Union[TwoTypedDict, Source1TypedDict, Source3TypedDict]
+)
+
+
+Source = Annotated[
+    Union[
+        Annotated[Source1, Tag("url")],
+        Annotated[Two, Tag("recording")],
+        Annotated[Source3, Tag("directUpload")],
+        Annotated[Source3, Tag("clip")],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class AssetNftMetadataTemplate(str, Enum):
@@ -172,6 +224,22 @@ class AssetSpec(BaseModel):
 
     """
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["nftMetadataTemplate", "nftMetadata"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class AssetIpfsTypedDict(TypedDict):
     spec: NotRequired[AssetSpecTypedDict]
@@ -199,6 +267,22 @@ class AssetIpfs(BaseModel):
 
     """
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["spec", "$ref", "nftMetadata", "updatedAt"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class AssetStorageTypedDict(TypedDict):
     ipfs: NotRequired[AssetIpfsTypedDict]
@@ -209,6 +293,22 @@ class AssetStorage(BaseModel):
     ipfs: Optional[AssetIpfs] = None
 
     status: Optional[StorageStatus] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["ipfs", "status"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class AssetPhase(str, Enum):
@@ -251,6 +351,22 @@ class AssetStatus(BaseModel):
     error_message: Annotated[Optional[str], pydantic.Field(alias="errorMessage")] = None
     r"""Error message if the asset creation failed."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["progress", "errorMessage"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class HashTypedDict(TypedDict):
     hash: NotRequired[str]
@@ -265,6 +381,22 @@ class Hash(BaseModel):
 
     algorithm: Optional[str] = None
     r"""Hash algorithm used to compute the hash"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["hash", "algorithm"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class AssetVideoSpecType(str, Enum):
@@ -344,11 +476,40 @@ class Tracks(BaseModel):
     bit_depth: Annotated[Optional[float], pydantic.Field(alias="bitDepth")] = None
     r"""Bit depth of the track - only for audio tracks"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "startTime",
+                "duration",
+                "bitrate",
+                "width",
+                "height",
+                "pixelFormat",
+                "fps",
+                "channels",
+                "sampleRate",
+                "bitDepth",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class VideoSpecTypedDict(TypedDict):
     r"""Video metadata"""
 
-    format: NotRequired[str]
+    format_: NotRequired[str]
     r"""Format of the asset"""
     duration: NotRequired[float]
     r"""Duration of the asset in seconds (float)"""
@@ -364,7 +525,7 @@ class VideoSpecTypedDict(TypedDict):
 class VideoSpec(BaseModel):
     r"""Video metadata"""
 
-    format: Optional[str] = None
+    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
     r"""Format of the asset"""
 
     duration: Optional[float] = None
@@ -378,6 +539,22 @@ class VideoSpec(BaseModel):
     contemplates them (e.g. mp4)
 
     """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["format", "duration", "bitrate", "tracks"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class AssetTypedDict(TypedDict):
@@ -497,47 +674,44 @@ class Asset(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "type",
-            "playbackId",
-            "userId",
-            "playbackUrl",
-            "downloadUrl",
-            "playbackPolicy",
-            "creatorId",
-            "profiles",
-            "storage",
-            "status",
-            "projectId",
-            "createdAt",
-            "createdByTokenName",
-            "size",
-            "hash",
-            "videoSpec",
-        ]
-        nullable_fields = ["playbackPolicy", "hash"]
-        null_default_fields = []
-
+        optional_fields = set(
+            [
+                "type",
+                "playbackId",
+                "userId",
+                "playbackUrl",
+                "downloadUrl",
+                "playbackPolicy",
+                "creatorId",
+                "profiles",
+                "storage",
+                "status",
+                "projectId",
+                "createdAt",
+                "createdByTokenName",
+                "size",
+                "hash",
+                "videoSpec",
+            ]
+        )
+        nullable_fields = set(["playbackPolicy", "hash"])
         serialized = handler(self)
-
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
-            serialized.pop(k, None)
+            is_nullable_and_explicitly_set = (
+                k in nullable_fields
+                and (self.__pydantic_fields_set__.intersection({n}))  # pylint: disable=no-member
+            )
 
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
+            if val != UNSET_SENTINEL:
+                if (
+                    val is not None
+                    or k not in optional_fields
+                    or is_nullable_and_explicitly_set
+                ):
+                    m[k] = val
 
         return m

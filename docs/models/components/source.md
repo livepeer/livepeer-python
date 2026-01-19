@@ -21,3 +21,9 @@ value: components.Two = /* values here */
 value: components.Source3 = /* values here */
 ```
 
+### `components.Source3`
+
+```python
+value: components.Source3 = /* values here */
+```
+

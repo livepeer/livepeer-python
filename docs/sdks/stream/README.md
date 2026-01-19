@@ -1,5 +1,4 @@
 # Stream
-(*stream*)
 
 ## Overview
 
@@ -38,82 +37,80 @@ also be added upon the creation of a new stream by adding
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createStream" method="post" path="/stream" -->
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
-    api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
 
-res = s.stream.create(request={
-    "name": "test_stream",
-    "pull": {
-        "source": "https://myservice.com/live/stream.flv",
-        "headers": {
-            "Authorization": "Bearer 123",
+with Livepeer(
+    api_key="<YOUR_BEARER_TOKEN_HERE>",
+) as l_client:
+
+    res = l_client.stream.create(request={
+        "name": "test_stream",
+        "pull": {
+            "source": "https://myservice.com/live/stream.flv",
+            "headers": {
+                "Authorization": "Bearer 123",
+            },
+            "location": {
+                "lat": 39.739,
+                "lon": -104.988,
+            },
         },
-        "location": {
-            "lat": 39.739,
-            "lon": -104.988,
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
+            },
+            "refresh_interval": 600,
         },
-    },
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
-        },
-        "refresh_interval": 600,
-    },
-    "profiles": [
-        {
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "bitrate": 3000000,
-            "fps": 30,
-            "fps_den": 1,
-            "quality": 23,
-            "gop": "2",
-            "profile": components.Profile.H264_BASELINE,
-        },
-    ],
-    "record": False,
-    "recording_spec": {
         "profiles": [
             {
-                "bitrate": 3000000,
                 "width": 1280,
                 "name": "720p",
                 "height": 720,
-                "quality": 23,
+                "bitrate": 3000000,
                 "fps": 30,
                 "fps_den": 1,
+                "quality": 23,
                 "gop": "2",
-                "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                "encoder": components.TranscodeProfileEncoder.H_264,
+                "profile": components.Profile.H264_BASELINE,
             },
         ],
-    },
-    "multistream": {
-        "targets": [
-            {
-                "profile": "720p",
-                "video_only": False,
-                "id": "PUSH123",
-                "spec": {
-                    "url": "rtmps://live.my-service.tv/channel/secretKey",
-                    "name": "My target",
+        "record": False,
+        "recording_spec": {
+            "profiles": [
+                {
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "bitrate": 3000000,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
                 },
-            },
-        ],
-    },
-})
+            ],
+        },
+        "multistream": {
+            "targets": [
+                {
+                    "profile": "720p",
+                    "id": "PUSH123",
+                },
+            ],
+        },
+    })
 
-if res.stream is not None:
-    # handle response
-    pass
+    assert res.stream is not None
+
+    # Handle response
+    print(res.stream)
 
 ```
 
@@ -130,10 +127,9 @@ if res.stream is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_all
 
@@ -141,18 +137,21 @@ Retrieve streams
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getStreams" method="get" path="/stream" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.get_all()
+    res = l_client.stream.get_all()
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -169,10 +168,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get
 
@@ -180,18 +178,21 @@ Retrieve a stream
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getStream" method="get" path="/stream/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.get(id="<id>")
+    res = l_client.stream.get(id="<id>")
 
-if res.stream is not None:
-    # handle response
-    pass
+    assert res.stream is not None
+
+    # Handle response
+    print(res.stream)
 
 ```
 
@@ -208,10 +209,9 @@ if res.stream is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## update
 
@@ -219,71 +219,58 @@ Update a stream
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="updateStream" method="patch" path="/stream/{id}" -->
 ```python
 from livepeer import Livepeer
 from livepeer.models import components
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.update(id="<id>", stream_patch_payload={
-    "record": False,
-    "multistream": {
-        "targets": [
-            {
-                "profile": "720p",
-                "video_only": False,
-                "id": "PUSH123",
-                "spec": {
-                    "url": "rtmps://live.my-service.tv/channel/secretKey",
-                    "name": "My target",
+    res = l_client.stream.update(id="<id>", stream_patch_payload={
+        "record": False,
+        "multistream": {
+            "targets": [
+                {
+                    "profile": "720p",
+                    "id": "PUSH123",
                 },
-            },
-        ],
-    },
-    "playback_policy": {
-        "type": components.Type.WEBHOOK,
-        "webhook_id": "1bde4o2i6xycudoy",
-        "webhook_context": {
-            "streamerId": "my-custom-id",
+            ],
         },
-        "refresh_interval": 600,
-    },
-    "profiles": [
-        {
-            "width": 1280,
-            "name": "720p",
-            "height": 720,
-            "bitrate": 3000000,
-            "fps": 30,
-            "fps_den": 1,
-            "quality": 23,
-            "gop": "2",
-            "profile": components.Profile.H264_BASELINE,
-        },
-    ],
-    "recording_spec": {
-        "profiles": [
-            {
-                "bitrate": 3000000,
-                "width": 1280,
-                "name": "720p",
-                "height": 720,
-                "quality": 23,
-                "fps": 30,
-                "fps_den": 1,
-                "gop": "2",
-                "profile": components.TranscodeProfileProfile.H264_BASELINE,
-                "encoder": components.TranscodeProfileEncoder.H_264,
+        "playback_policy": {
+            "type": components.Type.WEBHOOK,
+            "webhook_id": "1bde4o2i6xycudoy",
+            "webhook_context": {
+                "streamerId": "my-custom-id",
             },
-        ],
-    },
-})
+            "refresh_interval": 600,
+        },
+        "profiles": None,
+        "recording_spec": {
+            "profiles": [
+                {
+                    "width": 1280,
+                    "name": "720p",
+                    "height": 720,
+                    "bitrate": 3000000,
+                    "quality": 23,
+                    "fps": 30,
+                    "fps_den": 1,
+                    "gop": "2",
+                    "profile": components.TranscodeProfileProfile.H264_BASELINE,
+                    "encoder": components.TranscodeProfileEncoder.H_264,
+                },
+            ],
+        },
+        "name": "test_stream",
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -301,10 +288,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## delete
 
@@ -316,18 +302,21 @@ using the PATCH stream API.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="deleteStream" method="delete" path="/stream/{id}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.delete(id="<id>")
+    res = l_client.stream.delete(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -344,10 +333,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## terminate
 
@@ -363,18 +351,21 @@ terminated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="terminateStream" method="delete" path="/stream/{id}/terminate" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.terminate(id="<id>")
+    res = l_client.stream.terminate(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -391,10 +382,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## start_pull
 
@@ -409,18 +399,21 @@ started.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="startPullStream" method="post" path="/stream/{id}/start-pull" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.start_pull(id="<id>")
+    res = l_client.stream.start_pull(id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -437,10 +430,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## create_clip
 
@@ -448,24 +440,27 @@ Create a clip
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="createClip" method="post" path="/clip" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.create_clip(request={
-    "playback_id": "eaw4nk06ts2d0mzb",
-    "start_time": 1587667174725,
-    "end_time": 1587667174725,
-    "name": "My Clip",
-    "session_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
-})
+    res = l_client.stream.create_clip(request={
+        "playback_id": "eaw4nk06ts2d0mzb",
+        "start_time": 1587667174725,
+        "end_time": 1587667174725,
+        "name": "My Clip",
+        "session_id": "de7818e7-610a-4057-8f6f-b785dc1e6f88",
+    })
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -482,10 +477,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## get_clips
 
@@ -493,18 +487,21 @@ Retrieve clips of a livestream
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="getClips" method="get" path="/stream/{id}/clips" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.get_clips(id="<id>")
+    res = l_client.stream.get_clips(id="<id>")
 
-if res.data is not None:
-    # handle response
-    pass
+    assert res.data is not None
+
+    # Handle response
+    print(res.data)
 
 ```
 
@@ -521,10 +518,9 @@ if res.data is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## add_multistream_target
 
@@ -532,26 +528,28 @@ Add a multistream target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="addMultistreamTarget" method="post" path="/stream/{id}/create-multistream-target" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.add_multistream_target(id="<id>", target_add_payload={
-    "profile": "720p0",
-    "video_only": False,
-    "id": "PUSH123",
-    "spec": {
-        "url": "rtmps://live.my-service.tv/channel/secretKey",
-        "name": "My target",
-    },
-})
+    res = l_client.stream.add_multistream_target(id="<id>", target_add_payload={
+        "profile": "720p0",
+        "id": "PUSH123",
+        "spec": {
+            "name": "My target",
+            "url": "rtmps://live.my-service.tv/channel/secretKey",
+        },
+    })
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -569,10 +567,9 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
-
+| errors.SDKError | 4XX, 5XX        | \*/\*           |
 
 ## remove_multistream_target
 
@@ -580,18 +577,21 @@ Remove a multistream target
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="removeMultistreamTarget" method="delete" path="/stream/{id}/multistream/{targetId}" -->
 ```python
 from livepeer import Livepeer
 
-s = Livepeer(
+
+with Livepeer(
     api_key="<YOUR_BEARER_TOKEN_HERE>",
-)
+) as l_client:
 
-res = s.stream.remove_multistream_target(id="<id>", target_id="<value>")
+    res = l_client.stream.remove_multistream_target(id="<id>", target_id="<id>")
 
-if res is not None:
-    # handle response
-    pass
+    assert res.error is not None
+
+    # Handle response
+    print(res.error)
 
 ```
 
@@ -609,6 +609,6 @@ if res is not None:
 
 ### Errors
 
-| Error Object    | Status Code     | Content Type    |
+| Error Type      | Status Code     | Content Type    |
 | --------------- | --------------- | --------------- |
-| errors.SDKError | 4xx-5xx         | */*             |
+| errors.SDKError | 4XX, 5XX        | \*/\*           |

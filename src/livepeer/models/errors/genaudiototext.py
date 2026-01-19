@@ -4,97 +4,150 @@ from __future__ import annotations
 from .httperror import HTTPErrorData
 from .httpvalidationerror import HTTPValidationErrorData
 from .studio_api_error import StudioAPIErrorData
-from livepeer import utils
-from typing import Union
+from dataclasses import dataclass, field
+import httpx
+from livepeer.models.errors import LivepeerError
+from typing import Optional, Union
+from typing_extensions import TypeAliasType
 
 
-GenAudioToTextGenerateResponse500ResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenAudioToTextGenerateResponse500ResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponse500ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Internal Server Error"""
 
 
-class GenAudioToTextGenerateResponse500ResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenAudioToTextGenerateResponse500ResponseBody(LivepeerError):
     r"""Internal Server Error"""
 
-    data: GenAudioToTextGenerateResponse500ResponseBodyUnion
+    data: GenAudioToTextGenerateResponse500ResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenAudioToTextGenerateResponse500ResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenAudioToTextGenerateResponse500ResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenAudioToTextGenerateResponse500ResponseBodyUnion
-        )
 
-
-GenAudioToTextGenerateResponse422ResponseBodyUnion = Union[
-    HTTPValidationErrorData, StudioAPIErrorData
-]
+GenAudioToTextGenerateResponse422ResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponse422ResponseBodyUnion",
+    Union[HTTPValidationErrorData, StudioAPIErrorData],
+)
 r"""Validation Error"""
 
 
-class GenAudioToTextGenerateResponse422ResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenAudioToTextGenerateResponse422ResponseBody(LivepeerError):
     r"""Validation Error"""
 
-    data: GenAudioToTextGenerateResponse422ResponseBodyUnion
+    data: GenAudioToTextGenerateResponse422ResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenAudioToTextGenerateResponse422ResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenAudioToTextGenerateResponse422ResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenAudioToTextGenerateResponse422ResponseBodyUnion
-        )
+
+GenAudioToTextGenerateResponse415ResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponse415ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
+r"""Unsupported Media Type"""
 
 
-GenAudioToTextGenerateResponseResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+@dataclass(unsafe_hash=True)
+class GenAudioToTextGenerateResponse415ResponseBody(LivepeerError):
+    r"""Unsupported Media Type"""
+
+    data: GenAudioToTextGenerateResponse415ResponseBodyUnion = field(hash=False)
+
+    def __init__(
+        self,
+        data: GenAudioToTextGenerateResponse415ResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
+
+
+GenAudioToTextGenerateResponseResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponseResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Request Entity Too Large"""
 
 
-class GenAudioToTextGenerateResponseResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenAudioToTextGenerateResponseResponseBody(LivepeerError):
     r"""Request Entity Too Large"""
 
-    data: GenAudioToTextGenerateResponseResponseBodyUnion
+    data: GenAudioToTextGenerateResponseResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenAudioToTextGenerateResponseResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenAudioToTextGenerateResponseResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenAudioToTextGenerateResponseResponseBodyUnion
-        )
 
-
-GenAudioToTextGenerateResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenAudioToTextGenerateResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextGenerateResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Unauthorized"""
 
 
-class GenAudioToTextGenerateResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenAudioToTextGenerateResponseBody(LivepeerError):
     r"""Unauthorized"""
 
-    data: GenAudioToTextGenerateResponseBodyUnion
+    data: GenAudioToTextGenerateResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenAudioToTextGenerateResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenAudioToTextGenerateResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GenAudioToTextGenerateResponseBodyUnion)
 
-
-GenAudioToTextResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenAudioToTextResponseBodyUnion = TypeAliasType(
+    "GenAudioToTextResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Bad Request"""
 
 
-class GenAudioToTextResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenAudioToTextResponseBody(LivepeerError):
     r"""Bad Request"""
 
-    data: GenAudioToTextResponseBodyUnion
+    data: GenAudioToTextResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenAudioToTextResponseBodyUnion):
-        self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GenAudioToTextResponseBodyUnion)
+    def __init__(
+        self,
+        data: GenAudioToTextResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)

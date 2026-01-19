@@ -3,10 +3,11 @@
 from __future__ import annotations
 from .storage_status import StorageStatus, StorageStatusTypedDict
 from enum import Enum
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from typing import Any, List, Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import Any, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PrimaryType(str, Enum):
@@ -91,6 +92,22 @@ class AttestationIpfs(BaseModel):
 
     """
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["$ref", "updatedAt"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class AttestationStorageTypedDict(TypedDict):
     ipfs: NotRequired[AttestationIpfsTypedDict]
@@ -101,6 +118,22 @@ class AttestationStorage(BaseModel):
     ipfs: Optional[AttestationIpfs] = None
 
     status: Optional[StorageStatus] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["ipfs", "status"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class AttestationTypedDict(TypedDict):
@@ -142,3 +175,19 @@ class Attestation(BaseModel):
     ] = None
 
     storage: Optional[AttestationStorage] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["id", "createdAt", "signatureType", "storage"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

@@ -4,77 +4,102 @@ from __future__ import annotations
 from .httperror import HTTPErrorData
 from .httpvalidationerror import HTTPValidationErrorData
 from .studio_api_error import StudioAPIErrorData
-from livepeer import utils
-from typing import Union
+from dataclasses import dataclass, field
+import httpx
+from livepeer.models.errors import LivepeerError
+from typing import Optional, Union
+from typing_extensions import TypeAliasType
 
 
-GenImageToVideoGenerateResponse500ResponseBodyUnion = Union[
-    HTTPErrorData, StudioAPIErrorData
-]
+GenImageToVideoGenerateResponse500ResponseBodyUnion = TypeAliasType(
+    "GenImageToVideoGenerateResponse500ResponseBodyUnion",
+    Union[HTTPErrorData, StudioAPIErrorData],
+)
 r"""Internal Server Error"""
 
 
-class GenImageToVideoGenerateResponse500ResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenImageToVideoGenerateResponse500ResponseBody(LivepeerError):
     r"""Internal Server Error"""
 
-    data: GenImageToVideoGenerateResponse500ResponseBodyUnion
+    data: GenImageToVideoGenerateResponse500ResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenImageToVideoGenerateResponse500ResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenImageToVideoGenerateResponse500ResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenImageToVideoGenerateResponse500ResponseBodyUnion
-        )
 
-
-GenImageToVideoGenerateResponseResponseBodyUnion = Union[
-    HTTPValidationErrorData, StudioAPIErrorData
-]
+GenImageToVideoGenerateResponseResponseBodyUnion = TypeAliasType(
+    "GenImageToVideoGenerateResponseResponseBodyUnion",
+    Union[HTTPValidationErrorData, StudioAPIErrorData],
+)
 r"""Validation Error"""
 
 
-class GenImageToVideoGenerateResponseResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenImageToVideoGenerateResponseResponseBody(LivepeerError):
     r"""Validation Error"""
 
-    data: GenImageToVideoGenerateResponseResponseBodyUnion
+    data: GenImageToVideoGenerateResponseResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenImageToVideoGenerateResponseResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenImageToVideoGenerateResponseResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GenImageToVideoGenerateResponseResponseBodyUnion
-        )
 
-
-GenImageToVideoGenerateResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenImageToVideoGenerateResponseBodyUnion = TypeAliasType(
+    "GenImageToVideoGenerateResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Unauthorized"""
 
 
-class GenImageToVideoGenerateResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenImageToVideoGenerateResponseBody(LivepeerError):
     r"""Unauthorized"""
 
-    data: GenImageToVideoGenerateResponseBodyUnion
+    data: GenImageToVideoGenerateResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenImageToVideoGenerateResponseBodyUnion):
-        self.data = data
+    def __init__(
+        self,
+        data: GenImageToVideoGenerateResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GenImageToVideoGenerateResponseBodyUnion)
 
-
-GenImageToVideoResponseBodyUnion = Union[HTTPErrorData, StudioAPIErrorData]
+GenImageToVideoResponseBodyUnion = TypeAliasType(
+    "GenImageToVideoResponseBodyUnion", Union[HTTPErrorData, StudioAPIErrorData]
+)
 r"""Bad Request"""
 
 
-class GenImageToVideoResponseBody(Exception):
+@dataclass(unsafe_hash=True)
+class GenImageToVideoResponseBody(LivepeerError):
     r"""Bad Request"""
 
-    data: GenImageToVideoResponseBodyUnion
+    data: GenImageToVideoResponseBodyUnion = field(hash=False)
 
-    def __init__(self, data: GenImageToVideoResponseBodyUnion):
-        self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GenImageToVideoResponseBodyUnion)
+    def __init__(
+        self,
+        data: GenImageToVideoResponseBodyUnion,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
+        object.__setattr__(self, "data", data)

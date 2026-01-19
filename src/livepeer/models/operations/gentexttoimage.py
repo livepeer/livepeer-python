@@ -4,19 +4,20 @@ from __future__ import annotations
 from livepeer.models.components import (
     httpmetadata as components_httpmetadata,
     imageresponse as components_imageresponse,
+    studio_api_error as components_studio_api_error,
 )
-from livepeer.models.errors import studio_api_error as errors_studio_api_error
-from livepeer.types import BaseModel
+from livepeer.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from typing import Optional, TypedDict
-from typing_extensions import Annotated, NotRequired
+from pydantic import model_serializer
+from typing import Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GenTextToImageResponseTypedDict(TypedDict):
     http_meta: components_httpmetadata.HTTPMetadataTypedDict
     image_response: NotRequired[components_imageresponse.ImageResponseTypedDict]
     r"""Successful Response"""
-    studio_api_error: NotRequired[errors_studio_api_error.StudioAPIError]
+    studio_api_error: NotRequired[components_studio_api_error.StudioAPIErrorTypedDict]
     r"""Error"""
 
 
@@ -28,5 +29,21 @@ class GenTextToImageResponse(BaseModel):
     image_response: Optional[components_imageresponse.ImageResponse] = None
     r"""Successful Response"""
 
-    studio_api_error: Optional[errors_studio_api_error.StudioAPIError] = None
+    studio_api_error: Optional[components_studio_api_error.StudioAPIError] = None
     r"""Error"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["ImageResponse", "studio-api-error"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
